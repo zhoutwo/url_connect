@@ -1,0 +1,24 @@
+{
+  "name": "url_connect",
+  "version": "0.0.0",
+  "description": "A Google Chrome extension that enables users to talk to others who are viewing the same web page",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhoutwo/url_connect.git"
+  },
+  "author": "Zhou Zhou, David Lam, Qinmao Zhang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhoutwo/url_connect/issues"
+  },
+  "homepage": "https://github.com/zhoutwo/url_connect#readme",
+  "devDependencies": {
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-cli": "github:gulpjs/gulp-cli",
+    "tslint": "^5.1.0",
+    "typescript": "^2.2.2"
+  }
+}
