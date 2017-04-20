@@ -16,10 +16,10 @@ before_script:
    - sudo apt-get install -y libappindicator1 fonts-liberation
    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
    - sudo dpkg -i google-chrome*.deb
-   - npm install eslint -g --save
-   - npm install eslint-config-google -g --save
-   - npm install eslint-plugin-react -g --save
+   - yarn install eslint -g --save
+   - yarn install eslint-config-google -g --save
+   - yarn install eslint-plugin-react -g --save
 install:
-  - npm install
+  - yarn install
 script:
-  - npm run lint
+  - yarn run lint
