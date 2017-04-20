@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "description": "A Google Chrome extension that enables users to talk to others who are viewing the same web page",
   "scripts": {
+    "start": "webpack --config webpack.config.js --colors --watch --progress",
+    "lint": "eslint component\\client\\*.jsx component\\*.js",
     "test": "gulp test"
   },
   "repository": {
@@ -16,9 +18,23 @@
   },
   "homepage": "https://github.com/zhoutwo/url_connect#readme",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1",
+    "eslint-plugin-react": "^6.10.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cli": "github:gulpjs/gulp-cli",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-bootstrap": "^0.30.9",
+    "react-dom": "^15.5.4",
     "tslint": "^5.1.0",
-    "typescript": "^2.2.2"
+    "typescript": "^2.2.2",
+    "webpack": "^2.4.1",
+    "yarn": "^0.22.0"
   }
 }

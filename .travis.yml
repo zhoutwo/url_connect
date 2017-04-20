@@ -11,12 +11,16 @@ env:
     - DISPLAY=:99.0
     - CHROME_BIN=/usr/bin/google-chrome
 before_script:
- - sh -e /etc/init.d/xvfb start
- - sudo apt-get update
- - sudo apt-get install -y libappindicator1 fonts-liberation
- - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
- - sudo dpkg -i google-chrome*.deb
+   - sh -e /etc/init.d/xvfb start
+   - sudo apt-get update
+   - sudo apt-get install -y libappindicator1 fonts-liberation
+   - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+   - sudo dpkg -i google-chrome*.deb
+   - npm install eslint -g --save
+   - npm install eslint-config-google -g --save
+   - npm install eslint-plugin-react -g --save
 install:
   - npm install
 script:
+  - npm run lint
   - npm run test
