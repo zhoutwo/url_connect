@@ -7,7 +7,7 @@ class ClientNavbar extends Component {
     super(props);
 
     this.state = {
-      "activeKey": 1
+      "activeKey": this.props.initialKey
     };
 
     this.handleNavigation = this.handleNavigation.bind(this);
@@ -31,7 +31,8 @@ class ClientNavbar extends Component {
 }
 
 ClientNavbar.propTypes = {
-  handleSelection: PropTypes.func.isRequired
+  handleSelection: PropTypes.func.isRequired, // parent callback to handle updating core component.
+  initialKey: PropTypes.func.isRequired // initial active navigation item.
 };
 
 export default ClientNavbar;
