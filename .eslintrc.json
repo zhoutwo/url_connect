@@ -1,0 +1,28 @@
+{
+  "parserOptions": {
+    "jsx": true,
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "extends": [
+    "google",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "linebreak-style": ["off", "unix"],
+    "max-len": ["off"],
+    "operator-linebreak": ["off"],
+    "quotes": ["error", "double"],
+    "comma-dangle": ["error", "never"],
+    "require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": false,
+        "MethodDefinition": false,
+        "ClassDeclaration": false
+      }
+    }]
+  }
+}
