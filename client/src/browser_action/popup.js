@@ -17660,9 +17660,89 @@ exports.default = ClientCore;
 
 /***/ }),
 /* 202 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: D:/lamd/Dropbox/class/CSSE432/url_connect/component/client/ClientNavbar.jsx: Unexpected token, expected , (34:44)\n\n\u001b[0m \u001b[90m 32 | \u001b[39m\n \u001b[90m 33 | \u001b[39m\u001b[33mClientNavbar\u001b[39m\u001b[33m.\u001b[39mpropTypes \u001b[33m=\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 34 | \u001b[39m  handleSelection\u001b[33m:\u001b[39m \u001b[33mPropTypes\u001b[39m\u001b[33m.\u001b[39mfunc\u001b[33m.\u001b[39misRequired\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 35 | \u001b[39m}\u001b[33m;\u001b[39m\n \u001b[90m 36 | \u001b[39m\n \u001b[90m 37 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m \u001b[33mClientNavbar\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(169);
+
+var _propTypes = __webpack_require__(9);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ClientNavbar = function (_Component) {
+  _inherits(ClientNavbar, _Component);
+
+  function ClientNavbar(props) {
+    _classCallCheck(this, ClientNavbar);
+
+    var _this = _possibleConstructorReturn(this, (ClientNavbar.__proto__ || Object.getPrototypeOf(ClientNavbar)).call(this, props));
+
+    _this.state = {
+      "activeKey": 1
+    };
+
+    _this.handleNavigation = _this.handleNavigation.bind(_this);
+    return _this;
+  }
+
+  _createClass(ClientNavbar, [{
+    key: "handleNavigation",
+    value: function handleNavigation(eventKey, isSynthetic) {
+      this.props.handleSelection(eventKey);
+      this.setState({ "activeKey": eventKey });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        _reactBootstrap.Navbar,
+        { fluid: true, fixedTop: true },
+        _react2.default.createElement(
+          _reactBootstrap.Nav,
+          { bsStyle: "pills", activeKey: this.state.activeKey, onSelect: this.handleNavigation },
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: "chat" },
+            " Chat "
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: "setting" },
+            " Settings "
+          )
+        )
+      );
+    }
+  }]);
+
+  return ClientNavbar;
+}(_react.Component);
+
+ClientNavbar.propTypes = {
+  handleSelection: _propTypes2.default.func.isRequired
+};
+
+exports.default = ClientNavbar;
 
 /***/ }),
 /* 203 */
