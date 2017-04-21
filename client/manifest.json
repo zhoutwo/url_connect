@@ -1,9 +1,9 @@
 {
-  "name": "CHANGE THIS : Extension boilerplate",
+  "name": "url_connect",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
-  "homepage_url": "http://extensionizr.com",
+  "description": "A URL based chat-room",
+  "homepage_url": "https://github.com/zhoutwo/url_connect",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -30,14 +30,12 @@
   "omnibox": {
     "keyword": "extensionizr"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://www.google.com/*"
-      ],
-      "js": [
-        "src/inject/inject.js"
-      ]
-    }
-  ]
+  "content_scripts": [{
+    "matches": [
+      "https://www.google.com/*"
+    ],
+    "js": [
+      "src/inject/inject.js"
+    ]
+  }]
 }
