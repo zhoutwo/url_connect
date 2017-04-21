@@ -32,7 +32,7 @@ class ClientNavbar extends Component {
 
 ClientNavbar.propTypes = {
   handleSelection: PropTypes.func.isRequired, // parent callback to handle updating core component.
-  initialKey: PropTypes.func.isRequired // initial active navigation item.
+  initialKey: PropTypes.string.isRequired // initial active navigation item.
 };
 
 export default ClientNavbar;

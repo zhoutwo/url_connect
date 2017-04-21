@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Grid, Row} from "react-bootstrap";
 import ClientNavbar from "./ClientNavbar.jsx";
+import ClientChat from "./ClientChat.jsx";
 
 class ClientCore extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class ClientCore extends Component {
     // TODO: add lifecycle to go properly set state based on persistant use.
     // TODO: create chat and setting components.
     this.components = {
-      "chat": <h1> chat </h1>,
+      "chat": <ClientChat />,
       "setting": <h1> setting </h1>
     };
 
@@ -39,7 +40,7 @@ class ClientCore extends Component {
     return (
       <Grid>
         <Row>
-          <ClientNavbar handleSelection={this.handleSelection} activeKey={this.state.activeKey}/>
+          <ClientNavbar handleSelection={this.handleSelection} initialKey={this.state.activeKey}/>
         </Row>
 
         <Row style={coreStyle}>

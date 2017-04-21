@@ -17587,6 +17587,10 @@ var _ClientNavbar = __webpack_require__(202);
 
 var _ClientNavbar2 = _interopRequireDefault(_ClientNavbar);
 
+var _ClientChat = __webpack_require__(439);
+
+var _ClientChat2 = _interopRequireDefault(_ClientChat);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17601,14 +17605,13 @@ var ClientCore = function (_Component) {
   function ClientCore(props) {
     _classCallCheck(this, ClientCore);
 
+    // setup components map.
+    // TODO: add lifecycle to go properly set state based on persistant use.
+    // TODO: create chat and setting components.
     var _this = _possibleConstructorReturn(this, (ClientCore.__proto__ || Object.getPrototypeOf(ClientCore)).call(this, props));
 
     _this.components = {
-      "chat": _react2.default.createElement(
-        "h1",
-        null,
-        " chat "
-      ),
+      "chat": _react2.default.createElement(_ClientChat2.default, null),
       "setting": _react2.default.createElement(
         "h1",
         null,
@@ -17616,22 +17619,30 @@ var ClientCore = function (_Component) {
       )
     };
 
+    // initialize the activeKey.
     _this.state = {
-      renderingComponent: _this.components.chat
+      activeKey: "chat"
     };
 
+    // bind helper functions.
     _this.handleSelection = _this.handleSelection.bind(_this);
     return _this;
   }
 
+  /*
+    Callback that handles Navbar transitions.
+  */
+
+
   _createClass(ClientCore, [{
     key: "handleSelection",
     value: function handleSelection(eventKey) {
-      this.setState({ "renderingComponent": this.components[eventKey] });
+      this.setState({ "activeKey": eventKey });
     }
   }, {
     key: "render",
     value: function render() {
+      // offset from the top to avoid Navbar hangovers.
       var coreStyle = {
         marginTop: "60px"
       };
@@ -17642,12 +17653,12 @@ var ClientCore = function (_Component) {
         _react2.default.createElement(
           _reactBootstrap.Row,
           null,
-          _react2.default.createElement(_ClientNavbar2.default, { handleSelection: this.handleSelection })
+          _react2.default.createElement(_ClientNavbar2.default, { handleSelection: this.handleSelection, initialKey: this.state.activeKey })
         ),
         _react2.default.createElement(
           _reactBootstrap.Row,
           { style: coreStyle },
-          this.state.renderingComponent
+          this.components[this.state.activeKey]
         )
       );
     }
@@ -17698,7 +17709,7 @@ var ClientNavbar = function (_Component) {
     var _this = _possibleConstructorReturn(this, (ClientNavbar.__proto__ || Object.getPrototypeOf(ClientNavbar)).call(this, props));
 
     _this.state = {
-      "activeKey": 1
+      "activeKey": _this.props.initialKey
     };
 
     _this.handleNavigation = _this.handleNavigation.bind(_this);
@@ -17739,7 +17750,8 @@ var ClientNavbar = function (_Component) {
 }(_react.Component);
 
 ClientNavbar.propTypes = {
-  handleSelection: _propTypes2.default.func.isRequired
+  handleSelection: _propTypes2.default.func.isRequired, // parent callback to handle updating core component.
+  initialKey: _propTypes2.default.string.isRequired // initial active navigation item.
 };
 
 exports.default = ClientNavbar;
@@ -40516,6 +40528,161 @@ function isReactComponent(component) {
   return !!(component && component.prototype && component.prototype.isReactComponent);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 439 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(169);
+
+var _ClientMessenger = __webpack_require__(440);
+
+var _ClientMessenger2 = _interopRequireDefault(_ClientMessenger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ClientChat = function (_Component) {
+  _inherits(ClientChat, _Component);
+
+  function ClientChat(props) {
+    _classCallCheck(this, ClientChat);
+
+    return _possibleConstructorReturn(this, (ClientChat.__proto__ || Object.getPrototypeOf(ClientChat)).call(this, props));
+  }
+
+  _createClass(ClientChat, [{
+    key: "render",
+    value: function render() {
+      var messenger = _react2.default.createElement(_ClientMessenger2.default, null);
+      // Ensure that window is 500x500px
+      var bodyStyle = {
+        "height": "268px",
+        "minHeight": "268px",
+        "maxHeight": "268px"
+      };
+
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Panel,
+          { header: "Chat", bsStyle: "primary", footer: messenger },
+          _react2.default.createElement("div", { style: bodyStyle })
+        )
+      );
+    }
+  }]);
+
+  return ClientChat;
+}(_react.Component);
+
+exports.default = ClientChat;
+
+/***/ }),
+/* 440 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(169);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ClientMessenger = function (_Component) {
+  _inherits(ClientMessenger, _Component);
+
+  function ClientMessenger(props) {
+    _classCallCheck(this, ClientMessenger);
+
+    var _this = _possibleConstructorReturn(this, (ClientMessenger.__proto__ || Object.getPrototypeOf(ClientMessenger)).call(this, props));
+
+    _this.state = {
+      "message": ""
+    };
+
+    _this.handleMessage = _this.handleMessage.bind(_this);
+    _this.handleSend = _this.handleSend.bind(_this);
+    return _this;
+  }
+
+  _createClass(ClientMessenger, [{
+    key: "handleMessage",
+    value: function handleMessage(event) {
+      this.setState({ "message": event.target.value });
+    }
+  }, {
+    key: "handleSend",
+    value: function handleSend(event) {
+      event.preventDefault();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "form",
+        { onSubmit: this.handleSend },
+        _react2.default.createElement(
+          _reactBootstrap.FormGroup,
+          { controlId: "chatMessageBox", validationState: "success" },
+          _react2.default.createElement(
+            _reactBootstrap.InputGroup,
+            null,
+            _react2.default.createElement(_reactBootstrap.FormControl, { type: "text", value: this.state.value, placeholder: "message...", onChange: this.handleMessage }),
+            _react2.default.createElement(
+              _reactBootstrap.InputGroup.Button,
+              null,
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { bsStyle: "info", onClick: this.handleSend },
+                "Send"
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ClientMessenger;
+}(_react.Component);
+
+exports.default = ClientMessenger;
 
 /***/ })
 /******/ ]);
