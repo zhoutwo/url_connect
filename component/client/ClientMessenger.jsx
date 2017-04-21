@@ -13,12 +13,15 @@ class ClientMessenger extends Component {
     this.handleSend = this.handleSend.bind(this);
   }
 
+  /* Handles message updates */
   handleMessage(event) {
     this.setState({"message": event.target.value});
   }
 
+  /* Handles send */
   handleSend(event) {
     event.preventDefault();
+    // TODO: implement.
   }
 
   render() {

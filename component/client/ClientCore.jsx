@@ -9,7 +9,7 @@ class ClientCore extends Component {
 
     // setup components map.
     // TODO: add lifecycle to go properly set state based on persistant use.
-    // TODO: create chat and setting components.
+    // TODO: setting components.
     this.components = {
       "chat": <ClientChat />,
       "setting": <h1> setting </h1>
