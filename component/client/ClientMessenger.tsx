@@ -1,12 +1,17 @@
-import React, {Component} from "react";
+import * as React from "react";
 import {FormGroup, FormControl, Button, InputGroup} from "react-bootstrap";
 
-class ClientMessenger extends Component {
+interface IClientMessengerState {
+  message: string;
+  value?: string;
+}
+
+class ClientMessenger extends React.Component<any, IClientMessengerState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      "message": ""
+      message: ""
     };
 
     this.handleMessage = this.handleMessage.bind(this);
