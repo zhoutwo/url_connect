@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import * as React from "react";
 import {Panel} from "react-bootstrap";
-import ClientMessenger from "./ClientMessenger.jsx";
+import ClientMessenger from "./ClientMessenger";
 
-class ClientChat extends Component {
+class ClientChat extends React.Component<any, any> {
   constructor(props) {
     super(props);
   }

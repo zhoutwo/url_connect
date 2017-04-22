@@ -1,23 +1,33 @@
-import React, {Component} from "react";
+import * as React from "react";
 import {Navbar, Nav, NavItem} from "react-bootstrap";
-import PropTypes from "prop-types";
+import * as PropTypes from "prop-types";
+import IActiveKeyState from "./IActiveKeyState";
 
-class ClientNavbar extends Component {
+interface IClientNavbarProps {
+  initialKey: string;
+  handleSelection: (eventKey: string) => any;
+}
+
+class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
+  static propTypes: any = {
+    handleSelection: PropTypes.func.isRequired, // parent callback to handle updating core component.
+    initialKey: PropTypes.string.isRequired // initial active navigation item.
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
-      "activeKey": this.props.initialKey
+      activeKey: this.props.initialKey
     };
 
     this.handleNavigation = this.handleNavigation.bind(this);
   }
 
-  handleNavigation(eventKey, isSynthetic) {
+  handleNavigation(eventKey) {
     this.props.handleSelection(eventKey);
     this.setState({"activeKey": eventKey});
   }
-  
 
   render() {
     return (
@@ -30,10 +40,5 @@ class ClientNavbar extends Component {
     );
   }
 }
-
-ClientNavbar.propTypes = {
-  handleSelection: PropTypes.func.isRequired, // parent callback to handle updating core component.
-  initialKey: PropTypes.string.isRequired // initial active navigation item.
-};
 
 export default ClientNavbar;

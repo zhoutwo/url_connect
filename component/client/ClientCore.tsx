@@ -1,9 +1,19 @@
-import React, {Component} from "react";
+import * as React from "react";
 import {Grid, Row} from "react-bootstrap";
-import ClientNavbar from "./ClientNavbar.jsx";
-import ClientChat from "./ClientChat.jsx";
+import ClientChat from "./ClientChat";
+import ClientNavbar from "./ClientNavbar";
+import IActiveKeyState from "./IActiveKeyState";
 
-class ClientCore extends Component {
+interface IClientCoreComponents {
+  chat: JSX.Element;
+  setting: JSX.Element;
+}
+
+interface IClientCoreProps {}
+
+class ClientCore extends React.Component<IClientCoreProps, IActiveKeyState> {
+  components: IClientCoreComponents;
+
   constructor(props) {
     super(props);
 
@@ -27,8 +37,8 @@ class ClientCore extends Component {
   /*
     Callback that handles Navbar transitions.
   */
-  handleSelection(eventKey) {
-    this.setState({"activeKey": eventKey});
+  handleSelection(eventKey: string) {
+    this.setState({activeKey: eventKey});
   }
 
   render() {
