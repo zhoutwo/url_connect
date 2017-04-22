@@ -3,13 +3,11 @@
     "typeRoots": [
       "../node_modules/@types"
     ],
-    "outDir": "../dist/",
     "sourceMap": true,
-    "noImplicitAny": false,
+    "strictNullChecks": true,
     "module": "commonjs",
-    "target": "es5",
-    "jsx": "react",
-    "allowJs": true
+    "target": "es2015",
+    "jsx": "react"
   },
   "include": [
     "./**/*"

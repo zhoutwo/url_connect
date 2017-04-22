@@ -13,7 +13,7 @@ interface IClientCoreComponents {
 class ClientCore extends React.Component<any, IActiveKeyState> {
   private components: IClientCoreComponents;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     // setup components map.
