@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Navbar, Nav, NavItem} from "react-bootstrap";
-import * as PropTypes from "prop-types";
+import {Nav, Navbar, NavItem} from "react-bootstrap";
+
 import IActiveKeyState from "./IActiveKeyState";
 
 interface IClientNavbarProps {
@@ -9,11 +9,6 @@ interface IClientNavbarProps {
 }
 
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
-  static propTypes: any = {
-    handleSelection: PropTypes.func.isRequired, // parent callback to handle updating core component.
-    initialKey: PropTypes.string.isRequired // initial active navigation item.
-  };
-
   constructor(props) {
     super(props);
 
@@ -24,14 +19,14 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
     this.handleNavigation = this.handleNavigation.bind(this);
   }
 
-  handleNavigation(eventKey) {
+  public handleNavigation(eventKey) {
     this.props.handleSelection(eventKey);
-    this.setState({"activeKey": eventKey});
+    this.setState({activeKey: eventKey});
   }
 
-  render() {
+  public render() {
     return (
-      <Navbar fluid fixedTop>
+      <Navbar fluid={true} fixedTop={true}>
         <Nav bsStyle="pills" activeKey={this.state.activeKey} onSelect={this.handleNavigation}>
           <NavItem eventKey="chat"> Chat </NavItem>
           <NavItem eventKey="setting"> Settings </NavItem>

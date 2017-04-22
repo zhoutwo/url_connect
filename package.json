@@ -1,10 +1,10 @@
 {
   "name": "url_connect",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Google Chrome extension that enables users to talk to others who are viewing the same web page",
   "scripts": {
     "start": "webpack --config webpack.config.js --colors --watch --progress",
-    "lint": "eslint component\\client\\*.jsx component\\*.js",
+    "lint": "tslint --config tslint.json --project ./component/tsconfig.json --type-check",
     "test": "gulp test"
   },
   "repository": {
@@ -18,22 +18,19 @@
   },
   "homepage": "https://github.com/zhoutwo/url_connect#readme",
   "devDependencies": {
-    "@types/prop-types": "^15.5.1",
     "@types/react": "^15.0.22",
     "@types/react-bootstrap": "0.0.48",
     "@types/react-dom": "^15.5.0",
     "awesome-typescript-loader": "^3.1.2",
-    "eslint": "^3.19.0",
-    "eslint-config-google": "^0.7.1",
-    "eslint-plugin-react": "^6.10.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cli": "github:gulpjs/gulp-cli",
-    "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.10",
     "react-dom": "^15.5.4",
     "source-map-loader": "^0.2.1",
     "tslint": "^5.1.0",
+    "tslint-eslint-rules": "^4.0.0",
+    "tslint-react": "^2.6.0",
     "typescript": "^2.2.2",
     "webpack": "^2.4.1",
     "yarn": "^0.22.0"
