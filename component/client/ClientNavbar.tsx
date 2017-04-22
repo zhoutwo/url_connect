@@ -9,7 +9,7 @@ interface IClientNavbarProps {
 }
 
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
-  constructor(props) {
+  constructor(props: IClientNavbarProps) {
     super(props);
 
     this.state = {
