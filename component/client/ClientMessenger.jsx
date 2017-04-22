@@ -7,7 +7,7 @@ class ClientMessenger extends Component {
 
     this.state = {
       "message": ""
-    }
+    };
 
     this.handleMessage = this.handleMessage.bind(this);
     this.handleSend = this.handleSend.bind(this);

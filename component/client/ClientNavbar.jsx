@@ -17,6 +17,7 @@ class ClientNavbar extends Component {
     this.props.handleSelection(eventKey);
     this.setState({"activeKey": eventKey});
   }
+  
 
   render() {
     return (
