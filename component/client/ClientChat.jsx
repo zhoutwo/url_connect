@@ -21,6 +21,10 @@ class ClientChat extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.room.close();
+  }
+
   render() {
     const messenger = <ClientMessenger sendMessage={(message)=>this.room.pushMessage(message)}/>;
     // Ensure that window is 500x500px
