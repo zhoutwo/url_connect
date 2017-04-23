@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FormGroup, FormControl, Button, InputGroup} from "react-bootstrap";
+import {Button, FormControl, FormGroup, InputGroup} from "react-bootstrap";
 
 interface IClientMessengerState {
   message: string;
@@ -19,17 +19,17 @@ class ClientMessenger extends React.Component<any, IClientMessengerState> {
   }
 
   /* Handles message updates */
-  handleMessage(event) {
-    this.setState({"message": event.target.value});
+  public handleMessage(event) {
+    this.setState({message: event.target.value});
   }
 
   /* Handles send */
-  handleSend(event) {
+  public handleSend(event) {
     event.preventDefault();
     // TODO: implement.
   }
 
-  render() {
+  public render() {
     return (
       <form onSubmit={this.handleSend}>
         <FormGroup controlId="chatMessageBox" validationState="success">
