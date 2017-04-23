@@ -39,8 +39,8 @@ class ClientChat extends Component {
         <Panel header="Chat" bsStyle="primary" footer={messenger}>
           <ul style={bodyStyle}>
             {
-              this.state.history.map((message)=>
-                <li>{message}</li>
+              this.state.history.map((message, index)=>
+                <li key={index}>{message}</li>
               )
             }
           </ul>
