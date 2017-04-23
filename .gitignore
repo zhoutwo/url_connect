@@ -38,3 +38,5 @@ jspm_packages
 
 # Project specific files
 dist/
+
+client/src/browser_action/popup.js
