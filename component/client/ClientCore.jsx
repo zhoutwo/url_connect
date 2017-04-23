@@ -11,7 +11,7 @@ class ClientCore extends Component {
     // TODO: add lifecycle to go properly set state based on persistant use.
     // TODO: setting components.
     this.components = {
-      "chat": <ClientChat />,
+      "chat": <ClientChat url="www.google.com" />,
       "setting": <h1> setting </h1>
     };
 
