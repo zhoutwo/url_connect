@@ -37,6 +37,5 @@ jspm_packages
 .node_repl_history
 
 # Project specific files
-dist/
-
-client/src/browser_action/popup.js
+client/src/browser_action/*.js
+client/src/browser_action/*.js.map
