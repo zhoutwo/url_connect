@@ -1,23 +1,24 @@
 import React, {Component} from "react";
 import {Panel} from "react-bootstrap";
 import ClientMessenger from "./ClientMessenger.jsx";
-// import RoomService from "./RoomService";
+import RoomService from "./RoomService";
 
 class ClientChat extends Component {
 
-  // room: RoomService;
+  room: RoomService;
 
   constructor(props) {
     super(props);
     this.state = {
-      history: [{
-        key: "1",
-        message : "okkk"
-      }]
+      history: []
     };
-    // this.room = new RoomService(props.url, (message) => {
-      // this.state.history.push(message);
-    // });
+    // set up Room Service
+    this.room = new RoomService(props.url, (message) => {
+      this.setState((prevState, props) => {
+        prevState.history.push(message);
+        return prevState;
+      });
+    });
   }
 
   render() {
@@ -36,8 +37,8 @@ class ClientChat extends Component {
         <Panel header="Chat" bsStyle="primary" footer={messenger}>
           <ul style={bodyStyle}>
             {
-              this.state.history.map((data)=>
-                <li key="{data.key}">{data.message}</li>
+              this.state.history.map((message)=>
+                <li>{message}</li>
               )
             }
           </ul>
