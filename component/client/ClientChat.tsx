@@ -7,13 +7,13 @@ class ClientChat extends React.Component<any, any> {
     super(props);
   }
 
-  render() {
+  public render() {
     const messenger = <ClientMessenger />;
     // Ensure that window is 500x500px
     const bodyStyle = {
-      "height": "268px",
-      "minHeight": "268px",
-      "maxHeight": "268px"
+      height: "268px",
+      maxHeight: "268px",
+      minHeight: "268px"
     };
 
     return (
