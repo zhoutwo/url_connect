@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import {Grid, Row, Col, ListGroup, ListGroupItem}
+import {Grid, Row, Col, ListGroupItem} from "react-bootstrap";
 
 class Message extends React.Component {
   constructor(props) {
