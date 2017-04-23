@@ -1,20 +1,23 @@
 import React, {Component} from "react";
 import {Panel} from "react-bootstrap";
 import ClientMessenger from "./ClientMessenger.jsx";
-import RoomService from "./RoomService";
+// import RoomService from "./RoomService";
 
 class ClientChat extends Component {
 
-  room: RoomService;
+  // room: RoomService;
 
   constructor(props) {
     super(props);
     this.state = {
-      history: []
+      history: [{
+        key: "1",
+        message : "okkk"
+      }]
     };
-    this.room = new RoomService(props.url, (message) => {
-      this.state.history.push(message);
-    });
+    // this.room = new RoomService(props.url, (message) => {
+      // this.state.history.push(message);
+    // });
   }
 
   render() {
@@ -26,12 +29,16 @@ class ClientChat extends Component {
       "maxHeight": "268px"
     };
 
+    console.log(this.state);
+    
     return (
       <div>
         <Panel header="Chat" bsStyle="primary" footer={messenger}>
           <ul style={bodyStyle}>
             {
-              states.history.map((message)=><li>message</li>)
+              this.state.history.map((data)=>
+                <li key="{data.key}">{data.message}</li>
+              )
             }
           </ul>
         </Panel>
