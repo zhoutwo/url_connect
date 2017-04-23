@@ -26,7 +26,7 @@ class ClientChat extends Component {
   }
 
   render() {
-    const messenger = <ClientMessenger sendMessage={(message)=>this.room.pushMessage(message)}/>;
+    const messenger = <ClientMessenger sendMessage={this.room.pushMessage.bind(this.room)}/>;
     // Ensure that window is 500x500px
     const bodyStyle = {
       "height": "268px",
