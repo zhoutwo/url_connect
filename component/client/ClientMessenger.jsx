@@ -21,7 +21,10 @@ class ClientMessenger extends Component {
   /* Handles send */
   handleSend(event) {
     event.preventDefault();
-    // TODO: implement.
+    this.props.sendMessage(this.state.message);
+    this.setState({
+      value: ""
+    });
   }
 
   render() {

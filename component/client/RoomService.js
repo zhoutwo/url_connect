@@ -4,9 +4,7 @@ export default class RoomService {
   ref : firebase.database.Reference
 
   constructor(url, onMessagePosted) {
-    console.log(url);
     url = url.replace(/[\\.]/g, ",");
-    console.log(url);
     this.ref = firebase.database().ref(url);
 
     this.ref.on('child_added', (data) => {
@@ -23,6 +21,8 @@ export default class RoomService {
   }
 
   pushMessage(message: string) {
+    if (!message)
+      throw "message is " + message;
     this.ref.push().set(message);
   }
 

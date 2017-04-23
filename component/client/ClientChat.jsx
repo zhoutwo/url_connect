@@ -22,7 +22,7 @@ class ClientChat extends Component {
   }
 
   render() {
-    const messenger = <ClientMessenger />;
+    const messenger = <ClientMessenger sendMessage={(message)=>this.room.pushMessage(message)}/>;
     // Ensure that window is 500x500px
     const bodyStyle = {
       "height": "268px",
@@ -30,8 +30,6 @@ class ClientChat extends Component {
       "maxHeight": "268px"
     };
 
-    console.log(this.state);
-    
     return (
       <div>
         <Panel header="Chat" bsStyle="primary" footer={messenger}>
