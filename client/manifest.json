@@ -31,12 +31,14 @@
   "omnibox": {
     "keyword": "extensionizr"
   },
-  "content_scripts": [{
-    "matches": [
-      "https://www.google.com/*"
-    ],
-    "js": [
-      "src/inject/inject.js"
-    ]
-  }]
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/*"
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
 }
