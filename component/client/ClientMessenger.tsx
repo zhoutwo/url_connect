@@ -26,7 +26,10 @@ class ClientMessenger extends React.Component<any, IClientMessengerState> {
   /* Handles send */
   public handleSend(event) {
     event.preventDefault();
-    // TODO: implement.
+    this.props.sendMessage(this.state.message);
+    this.setState({
+      message: ""
+    });
   }
 
   public render() {
@@ -34,7 +37,7 @@ class ClientMessenger extends React.Component<any, IClientMessengerState> {
       <form onSubmit={this.handleSend}>
         <FormGroup controlId="chatMessageBox" validationState="success">
           <InputGroup>
-            <FormControl type="text" value={this.state.value} placeholder="message..." onChange={this.handleMessage} />
+            <FormControl type="text" value={this.state.message} placeholder="message..." onChange={this.handleMessage} />
             <InputGroup.Button>
               <Button bsStyle="info" onClick={this.handleSend}>
                 Send

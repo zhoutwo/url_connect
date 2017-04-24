@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/chai": "^3.5.1",
     "@types/chai-as-promised": "0.0.30",
+    "@types/firebase": "^2.4.31",
     "@types/mocha": "^2.2.41",
     "@types/react": "^15.0.22",
     "@types/react-bootstrap": "0.0.48",
@@ -52,5 +53,8 @@
     "typescript": "^2.2.2",
     "webpack": "^2.4.1",
     "yarn": "^0.22.0"
+  },
+  "dependencies": {
+    "firebase": "^3.8.0"
   }
 }
