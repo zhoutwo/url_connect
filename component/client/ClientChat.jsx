@@ -9,6 +9,19 @@ class ClientChat extends Component {
 
   constructor(props) {
     super(props);
+    this.instantiateRoomService(props);
+  }
+
+  componentWillUnmount() {
+    this.room.close();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.room.close();
+    this.instantiateRoomService(nextProps);
+  }
+
+  instantiateRoomService(props) {
     this.state = {
       history: []
     };
@@ -19,10 +32,6 @@ class ClientChat extends Component {
         return prevState;
       });
     });
-  }
-
-  componentWillUnmount() {
-    this.room.close();
   }
 
   render() {
