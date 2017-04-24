@@ -2,7 +2,7 @@ import * as React from "react";
 import {Panel} from "react-bootstrap";
 
 import ClientMessenger from "./ClientMessenger";
-import RoomService from "./RoomService";
+import RoomService from "./service/RoomService";
 
 class ClientChat extends React.Component<any, any> {
   private room: RoomService;
