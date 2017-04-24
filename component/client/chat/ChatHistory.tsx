@@ -1,5 +1,8 @@
 import * as React from "react";
-import {ListGroup} from "react-bootstrap";
+import {Grid, ListGroup} from "react-bootstrap";
+
+import RoomService from "../service/RoomService";
+import Message from "./Message";
 
 class ChatHistory extends React.Component<any, any> {
   constructor(props: any) {
@@ -46,7 +49,11 @@ class ChatHistory extends React.Component<any, any> {
 
   render() {
     return (
-      null
+      <ListGroup style={{overflow: "auto", height: "150px"}}>
+        <Grid fluid>
+          {this.state.messages}
+        </Grid>
+      </ListGroup>
     );
   }
 }
