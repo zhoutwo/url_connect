@@ -1,14 +1,27 @@
 import React, {Component} from "react";
 import {Panel} from "react-bootstrap";
 import ClientMessenger from "./ClientMessenger.jsx";
-import RoomService from "./RoomService";
+import {RoomService} from "./RoomService";
 
 class ClientChat extends Component {
 
-  room: RoomService;
+  room: RoomService
 
   constructor(props) {
     super(props);
+    this.instantiateRoomService(props);
+  }
+
+  componentWillUnmount() {
+    this.room.close();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.room.close();
+    this.instantiateRoomService(nextProps);
+  }
+
+  instantiateRoomService(props) {
     this.state = {
       history: []
     };
@@ -21,12 +34,8 @@ class ClientChat extends Component {
     });
   }
 
-  componentWillUnmount() {
-    this.room.close();
-  }
-
   render() {
-    const messenger = <ClientMessenger sendMessage={(message)=>this.room.pushMessage(message)}/>;
+    const messenger = <ClientMessenger sendMessage={this.room.pushMessage.bind(this.room)}/>;
     // Ensure that window is 500x500px
     const bodyStyle = {
       "height": "268px",
@@ -39,8 +48,8 @@ class ClientChat extends Component {
         <Panel header="Chat" bsStyle="primary" footer={messenger}>
           <ul style={bodyStyle}>
             {
-              this.state.history.map((message)=>
-                <li>{message}</li>
+              this.state.history.map((message, index)=>
+                <li key={index}>{message}</li>
               )
             }
           </ul>
