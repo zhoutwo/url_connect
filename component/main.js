@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ClientCore from "./client/ClientCore.jsx";
-import * as firebase from "firebase";
+import {initializeApp}  from "firebase";
 
 // Initialize Firebase
 var config = {
@@ -12,6 +12,6 @@ var config = {
   storageBucket: "url-connet.appspot.com",
   messagingSenderId: "1089725560944"
 };
-firebase.initializeApp(config);
+initializeApp(config);
 
 ReactDOM.render(<ClientCore />, document.getElementById("root"));
