@@ -5,6 +5,8 @@ import RoomService from "../service/RoomService";
 import Message from "./Message";
 
 class ChatHistory extends React.Component<any, any> {
+  private roomService: RoomService;
+
   constructor(props: any) {
     super(props);
 
@@ -16,15 +18,25 @@ class ChatHistory extends React.Component<any, any> {
     this.createMessage = this.createMessage.bind(this);
   }
 
-  private componentWillUnmount() {
+  public render() {
+    return (
+      <ListGroup style={{overflow: "auto", height: "150px"}}>
+        <Grid fluid={true}>
+          {this.state.messages}
+        </Grid>
+      </ListGroup>
+    );
+  }
+
+  public componentWillUnmount() {
     if (this.roomService) this.roomService.close();
   }
 
-  private componentDidMount() {
+  public componentDidMount() {
     this.instantiateRoomService(this.props);
   }
 
-  private componentWillReceiveProps(nextProps) {
+  public componentWillReceiveProps(nextProps) {
     console.log(nextProps.pushMessage);
     this.roomService.pushMessage(nextProps.pushMessage);
   }
@@ -45,16 +57,6 @@ class ChatHistory extends React.Component<any, any> {
         return prevState;
       });
     });
-  }
-
-  render() {
-    return (
-      <ListGroup style={{overflow: "auto", height: "150px"}}>
-        <Grid fluid>
-          {this.state.messages}
-        </Grid>
-      </ListGroup>
-    );
   }
 }
 

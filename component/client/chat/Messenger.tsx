@@ -1,12 +1,16 @@
-import React, {Component} from "react";
-import {FormGroup, FormControl, Button, InputGroup} from "react-bootstrap";
+import * as React from "react";
+import {Button, FormControl, FormGroup, InputGroup} from "react-bootstrap";
 
-class Messenger extends Component {
+interface IMessengerState {
+  message: string;
+}
+
+class Messenger extends React.Component<any, IMessengerState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      "message": ""
+      message: ""
     };
 
     this.handleMessage = this.handleMessage.bind(this);
@@ -14,22 +18,24 @@ class Messenger extends Component {
   }
 
   /* Handles message updates */
-  handleMessage(event) {
-    this.setState({"message": event.target.value});
+  public handleMessage(event) {
+    event.preventDefault();
+    this.setState({message: event.target.value});
   }
 
   /* Handles send */
-  handleSend(event) {
+  public handleSend(event) {
     event.preventDefault();
-    // TODO: implement.
+    this.props.handleSend(this.state.message);
+    this.setState({message: ""});
   }
 
-  render() {
+  public render() {
     return (
       <form onSubmit={this.handleSend}>
         <FormGroup controlId="chatMessageBox" validationState="success">
           <InputGroup>
-            <FormControl type="text" value={this.state.value} placeholder="message..." onChange={this.handleMessage} />
+            <FormControl type="text" value={this.state.message} placeholder="message..." onChange={this.handleMessage} />
             <InputGroup.Button>
               <Button bsStyle="info" onClick={this.handleSend}>
                 Send
