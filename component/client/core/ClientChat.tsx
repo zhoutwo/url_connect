@@ -21,17 +21,10 @@ class ClientChat extends React.Component<any, any> {
   }
 
   public render() {
-    // Ensure that window is 500x500px
-    const bodyStyle = {
-      height: "268px",
-      maxHeight: "268px",
-      minHeight: "268px"
-    };
-
     return (
       <div>
         <Panel header="Chat" bsStyle="primary" footer={this.messenger}>
-          <div style={bodyStyle} >
+          <div style={{overflow: "auto"}}>
             <ChatHistory username={this.props.username} url={this.props.url} pushMessage={this.state.pushMessage} />
           </div>
         </Panel>
