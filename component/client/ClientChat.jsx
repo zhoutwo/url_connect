@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import {Panel} from "react-bootstrap";
-import ClientMessenger from "./ClientMessenger.jsx";
-import RoomService from "./RoomService";
+import {ClientMessenger} from "./ClientMessenger.jsx";
+import {RoomService} from "./RoomService";
 
 class ClientChat extends Component {
 
-  room: RoomService;
+  room: RoomService
 
   constructor(props) {
     super(props);

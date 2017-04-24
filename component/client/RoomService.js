@@ -1,6 +1,6 @@
 import {database}  from "firebase";
 
-export default class RoomService {
+export class RoomService {
   ref : database.Reference
 
   constructor(url, onMessagePosted) {
