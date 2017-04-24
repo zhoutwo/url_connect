@@ -7,15 +7,20 @@ class Message extends React.Component {
     super(props);
   }
 
-  render() {
+  public render() {
+    const messageStyle = {
+      marginTop: "10px",
+      marginBottom: "10px"
+    };
+
     return (
-      <ListGroupItem bsStyle="info">
+      <ListGroupItem bsStyle="info" style={messageStyle}>
         <Grid>
           <Row>
-            <Col sm={4} md={4} >
+            <Col sm={4} md={4}>
               {this.props.username}
             </Col>
-            <Col sm={8} md={8} >
+            <Col sm={8} md={8}>
               {this.props.message}
             </Col>
           </Row>
