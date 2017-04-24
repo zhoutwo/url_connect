@@ -47,14 +47,18 @@ class ChatHistory extends React.Component<any, any> {
 
   private createMessage(message) {
     const index = this.state.messages.length + 1;
+
+    // Fix the top and bottom padding to distinguish between message but
+    // be conservative with spacing.
     const listGroupStyle = {
-      marginTop: "3px",
-      marginBottom: "3px"
+      paddingTop: "3px",
+      paddingBottom: "3px"
     };
 
     return (
       <ListGroup style={listGroupStyle}>
-        <Message key={index + message} username={this.props.username} message={message} />
+        <Message key={index + message} username={this.props.username}
+          message={message} />
       </ListGroup>
     );
   }
