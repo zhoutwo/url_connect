@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {FormGroup, FormControl, Button, InputGroup} from "react-bootstrap";
 
-class ClientMessenger extends Component {
+export class ClientMessenger extends Component {
   constructor(props) {
     super(props);
 
@@ -45,4 +45,3 @@ class ClientMessenger extends Component {
   }
 }
 
-export default ClientMessenger;
