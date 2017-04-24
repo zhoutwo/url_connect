@@ -27,7 +27,8 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
   public render() {
     return (
       <Navbar fluid={true} fixedTop={true}>
-        <Nav bsStyle="pills" activeKey={this.state.activeKey} onSelect={this.handleNavigation}>
+        <Nav bsStyle="pills" activeKey={this.state.activeKey}
+        onSelect={this.handleNavigation}>
           <NavItem eventKey="chat"> Chat </NavItem>
           <NavItem eventKey="setting"> Settings </NavItem>
         </Nav>

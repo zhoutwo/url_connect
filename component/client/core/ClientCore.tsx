@@ -50,7 +50,8 @@ class ClientCore extends React.Component<any, IActiveKeyState> {
     return (
       <Grid>
         <Row>
-          <ClientNavbar handleSelection={this.handleSelection} initialKey={this.state.activeKey}/>
+          <ClientNavbar handleSelection={this.handleSelection}
+           initialKey={this.state.activeKey}/>
         </Row>
 
         <Row style={coreStyle}>
