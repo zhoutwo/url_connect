@@ -21,7 +21,10 @@ class ClientMessenger extends Component {
   /* Handles send */
   handleSend(event) {
     event.preventDefault();
-    // TODO: implement.
+    this.props.sendMessage(this.state.message);
+    this.setState({
+      message: ""
+    });
   }
 
   render() {
@@ -29,7 +32,7 @@ class ClientMessenger extends Component {
       <form onSubmit={this.handleSend}>
         <FormGroup controlId="chatMessageBox" validationState="success">
           <InputGroup>
-            <FormControl type="text" value={this.state.value} placeholder="message..." onChange={this.handleMessage} />
+            <FormControl type="text" value={this.state.message} placeholder="message..." onChange={this.handleMessage} />
             <InputGroup.Button>
               <Button bsStyle="info" onClick={this.handleSend}>
                 Send
