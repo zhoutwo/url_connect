@@ -1,18 +1,28 @@
-import React, {Component} from "react";
+import * as React from "react";
 import {Grid, Row} from "react-bootstrap";
-import ClientNavbar from "./ClientNavbar.jsx";
-import ClientChat from "./ClientChat.jsx";
 
-class ClientCore extends Component {
-  constructor(props) {
+import ClientChat from "./ClientChat";
+import ClientNavbar from "./ClientNavbar";
+import IActiveKeyState from "./IActiveKeyState";
+
+interface IClientCoreComponents {
+  chat: JSX.Element;
+  setting: JSX.Element;
+}
+
+class ClientCore extends React.Component<any, IActiveKeyState> {
+  private components: IClientCoreComponents;
+
+  constructor(props: any) {
     super(props);
 
     // setup components map.
     // TODO: add lifecycle to go properly set state based on persistant use.
     // TODO: setting components.
+    // TODO: replace with real username.
     this.components = {
-      "chat": <ClientChat />,
-      "setting": <h1> setting </h1>
+      chat: <ClientChat username="dummy" url="www.google.com"/>,
+      setting: <h1> setting </h1>
     };
 
     // initialize the activeKey.
@@ -27,11 +37,11 @@ class ClientCore extends Component {
   /*
     Callback that handles Navbar transitions.
   */
-  handleSelection(eventKey) {
-    this.setState({"activeKey": eventKey});
+  public handleSelection(eventKey: string) {
+    this.setState({activeKey: eventKey});
   }
 
-  render() {
+  public render() {
     // offset from the top to avoid Navbar hangovers.
     const coreStyle = {
       marginTop: "60px"
