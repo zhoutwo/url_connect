@@ -19,12 +19,17 @@ class ChatHistory extends React.Component<any, any> {
   }
 
   public render() {
+    // Ensure a 500x500 window.
+    const historyStyle = {
+      height: "268px",
+      minHeight: "268px",
+      maxHeight: "268px"
+    }
+
     return (
-      <ListGroup style={{overflow: "auto", height: "150px"}}>
-        <Grid fluid={true}>
-          {this.state.messages}
-        </Grid>
-      </ListGroup>
+      <div style={historyStyle}>
+        {this.state.messages}
+      </div>
     );
   }
 
@@ -37,13 +42,20 @@ class ChatHistory extends React.Component<any, any> {
   }
 
   public componentWillReceiveProps(nextProps) {
-    console.log(nextProps.pushMessage);
     this.roomService.pushMessage(nextProps.pushMessage);
   }
 
   private createMessage(message) {
+    const index = this.state.messages.length + 1;
+    const listGroupStyle = {
+      marginTop: "3px",
+      marginBottom: "3px"
+    };
+
     return (
-      <Message username={this.props.username} message={message} />
+      <ListGroup style={listGroupStyle}>
+        <Message key={index + message} username={this.props.username} message={message} />
+      </ListGroup>
     );
   }
 

@@ -21,7 +21,7 @@ class ClientCore extends React.Component<any, IActiveKeyState> {
     // TODO: setting components.
     // TODO: replace with real username.
     this.components = {
-      chat: <ClientChat username="dummy" url="www.google.com"/>,
+      chat: <ClientChat username="url_connect_dev" url="www.google.com"/>,
       setting: <h1> setting </h1>
     };
 
