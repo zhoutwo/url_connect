@@ -1,16 +1,20 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
-import {Grid, Row, Col, ListGroupItem} from "react-bootstrap";
+import {Col, Grid, ListGroupItem, Row} from "react-bootstrap";
 
-class Message extends React.Component {
+interface IMessageProps {
+  username: string;
+  message: string;
+}
+
+class Message extends React.Component<IMessageProps, any> {
   constructor(props) {
     super(props);
   }
 
   public render() {
     const messageStyle = {
-      marginTop: "10px",
-      marginBottom: "10px"
+      marginBottom: "10px",
+      marginTop: "10px"
     };
 
     return (
@@ -26,13 +30,8 @@ class Message extends React.Component {
           </Row>
         </Grid>
       </ListGroupItem>
-    )
+    );
   }
 }
-
-Message.propTypes = {
-  username: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired
-};
 
 export default Message;
