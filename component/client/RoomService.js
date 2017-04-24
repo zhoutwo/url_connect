@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 
-export default class RoomService {
+class RoomService {
   ref : firebase.database.Reference
 
   constructor(url, onMessagePosted) {
@@ -29,5 +29,6 @@ export default class RoomService {
   close() {
     this.ref.close();
   }
-
 }
+
+export default RoomService;
