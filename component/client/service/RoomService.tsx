@@ -1,36 +1,81 @@
-import {database} from "firebase";
+import * as firebase from "firebase";
 
 class RoomService {
-  private ref: firebase.database.Reference;
+  private rootRef: firebase.database.Reference
+  private messageRef: firebase.database.Reference
+  private userListRef: firebase.database.Reference
+  private myConfRef: firebase.database.Reference
 
-  constructor(url, onMessagePosted) {
+  constructor(url : string, onMessagePosted : (data: any, from: any) => void) {
     url = url.replace(/[\\.]/g, ",");
-    this.ref = database().ref(url);
+    this.rootRef = firebase.database().ref(url);
+    this.messageRef = this.rootRef.child("message");
 
-    this.ref.on("child_added", (data) => {
-      if (!data) {
-        throw new Error("Messages should never be null");
-      } else {
-        onMessagePosted(data.val());
-      }
+    // set up message reference
+    this.messageRef.on("child_added", (data) => {
+      if (!data) throw new Error("Messages should never be null");
+      let val = data.val();
+      this.getUser(val.fromID).then((userFrom) => {
+        onMessagePosted(val.data, userFrom);
+      });
     });
-
-    this.ref.on("child_changed", (data) => {
+    this.messageRef.on("child_changed", (data) => {
       throw new Error("Messages should never changed");
     });
 
-    this.ref.on("child_removed", (data) => {
+    this.messageRef.on("child_removed", (data) => {
       throw new Error("Messages should never be moved");
+    });
+
+    // set up configRef
+    this.userListRef = this.rootRef.child("user");
+    this.myConfRef = this.userListRef.push();
+    this.myConfRef.set({
+      userID : this.myConfRef.key // TODO: we should get a way of persistent this data, like IP address
     });
   }
 
-  public pushMessage(message: string) {
-    if (!message) throw new Error(`message is ${message}`);
-    this.ref.push().set(message);
+  public pushMessage(data: any) {
+    if (!data) throw new Error(`data is ${data}`);
+    this.messageRef.push().set({
+      fromID: this.myConfRef.key,
+      data: data
+    });
+  }
+
+  public getUser(userID: string) : Promise<any> {
+    return this.getDataAtReference(this.userListRef.child(userID));
+  }
+
+  public getMySelf() : Promise<any> {
+    return this.getDataAtReference(this.myConfRef);
+  }
+
+  public updateConf(confData: any) {
+    this.myConfRef.update(confData);
+  }
+
+  public setConf(confData: any) {
+    this.myConfRef.set(confData);
   }
 
   public close() {
-    this.ref.off();
+    this.messageRef.off();
+    this.myConfRef.remove().then(()=>{
+      this.userListRef.once('value', (data)=>{
+        if (!data) {
+          this.rootRef.remove();
+        }
+      });
+    });
+  }
+
+  public getDataAtReference(reference: firebase.database.Reference) : Promise<any> {
+    return new Promise((resolve) => {
+      this.myConfRef.once('value', (data) => {
+        resolve(data.val());
+      });
+    });
   }
 }
 

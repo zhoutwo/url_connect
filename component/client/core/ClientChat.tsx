@@ -24,10 +24,8 @@ class ClientChat extends React.Component<any, any> {
     return (
       <div>
         <Panel header="Chat" bsStyle="primary" footer={this.messenger}>
-          <div style={{overflow: "auto"}}>
-            <ChatHistory username={this.props.username} url={this.props.url}
-            pushMessage={this.state.pushMessage} />
-          </div>
+          <ChatHistory username={this.props.username} url={this.props.url}
+          pushMessage={this.state.pushMessage} />
         </Panel>
       </div>
     );

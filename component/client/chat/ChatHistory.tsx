@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import {Grid, ListGroup} from "react-bootstrap";
 
 import RoomService from "../service/RoomService";
@@ -6,6 +7,9 @@ import Message from "./Message";
 
 class ChatHistory extends React.Component<any, any> {
   private roomService: RoomService;
+  private historyEnd: HTMLElement;
+  private shouldScroll: boolean;
+  private lastPosition: number;
 
   constructor(props: any) {
     super(props);
@@ -13,22 +17,19 @@ class ChatHistory extends React.Component<any, any> {
     this.state = {
       messages: []
     };
+    this.shouldScroll = true;
 
     this.instantiateRoomService = this.instantiateRoomService.bind(this);
     this.createMessage = this.createMessage.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   public render() {
-    // Ensure a 500x500 window.
-    const historyStyle = {
-      height: "268px",
-      minHeight: "268px",
-      maxHeight: "268px"
-    }
-
     return (
-      <div style={historyStyle}>
+      <div style={{overflow: "auto", height: "268px", minHeight: "268px", maxHeight: "268px"}} onScroll={this.handleScroll}>
         {this.state.messages}
+        <div style={{float:"left", clear: "both"}}
+          ref={(historyEnd) => this.historyEnd = historyEnd} />
       </div>
     );
   }
@@ -42,23 +43,30 @@ class ChatHistory extends React.Component<any, any> {
   }
 
   public componentWillReceiveProps(nextProps) {
-    this.roomService.pushMessage(nextProps.pushMessage);
+    // History receives a new message. Send the message and flag to scroll
+    // to the bottom of the component.
+    this.roomService.pushMessage({userFrom: this.props.username, message: nextProps.pushMessage});
+    this.shouldScroll = true;
   }
 
-  private createMessage(message) {
+  public componentDidUpdate(prevProps, prevState) {
+    this.scrollToBottom();
+  }
+
+  private createMessage(data, user) {
     const index = this.state.messages.length + 1;
 
-    // Fix the top and bottom padding to distinguish between message but
+    // Fix the top and bottom margins to distinguish between message but
     // be conservative with spacing.
     const listGroupStyle = {
-      paddingTop: "3px",
-      paddingBottom: "3px"
+      marginTop: "3px",
+      marginBottom: "3px"
     };
 
     return (
-      <ListGroup style={listGroupStyle}>
-        <Message key={index + message} username={this.props.username}
-          message={message} />
+      <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle}>
+        <Message username={data.userFrom}
+          message={data.message} />
       </ListGroup>
     );
   }
@@ -66,13 +74,25 @@ class ChatHistory extends React.Component<any, any> {
   private instantiateRoomService(props) {
     this.setState({messages: []});
 
-    // set up Room Service
-    this.roomService = new RoomService(props.url, (message) => {
+    // Set up RoomService.
+    this.roomService = new RoomService(props.url, (data, user) => {
       this.setState((prevState, nextProps) => {
-        prevState.messages.push(this.createMessage(message));
+        prevState.messages.push(this.createMessage(data, user));
         return prevState;
       });
     });
+  }
+
+  private scrollToBottom() {
+    const historyEndNode = ReactDOM.findDOMNode(this.historyEnd);
+    historyEndNode.scrollIntoView({behavior: "smooth"});
+  }
+
+  private handleScroll(event) {
+    if (this.lastPosition > event.currentTarget.scrollTop) {
+      this.shouldScroll = false;
+    }
+    this.lastPosition = event.currentTarget.scrollTop;
   }
 }
 
