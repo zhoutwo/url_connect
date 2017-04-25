@@ -1,4 +1,4 @@
-import {initializeApp} from "firebase";
+import * as firebase from "firebase";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -13,6 +13,6 @@ const config = {
   projectId: "url-connet",
   storageBucket: "url-connet.appspot.com"
 };
-initializeApp(config);
+firebase.initializeApp(config);
 
 ReactDOM.render(<ClientCore />, document.getElementById("root"));
