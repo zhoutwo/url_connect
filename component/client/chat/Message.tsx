@@ -36,9 +36,9 @@ class Message extends React.Component<IMessageProps, any> {
       return hex.substring(0, 6);
   }
 
-  private invertColor(hexColor) {
-    let color = hexColor;
-    color = color.substring(1);           // remove #
+  // Source: https://stackoverflow.com/questions/9600295/automatically-change-text-color-to-assure-readability
+  private invertColor(hexColor): string {
+    let color = hexColor.substring(1);           // remove #
     color = parseInt(color, 16);          // convert to integer
     color = 0xFFFFFF ^ color;             // invert three bytes
     color = color.toString(16);           // convert to hex
