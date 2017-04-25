@@ -6,7 +6,7 @@ import RoomService from "../service/RoomService";
 import Message from "./Message";
 
 interface IHistoryState {
-  messages: Array<JSX.Element>;
+  messages: JSX.Element[];
 }
 
 interface IHistoryProps {
