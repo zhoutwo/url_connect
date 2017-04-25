@@ -1,6 +1,6 @@
 import * as React from "react";
+import {ListGroup} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
-import {Grid, ListGroup} from "react-bootstrap";
 
 import RoomService from "../service/RoomService";
 import Message from "./Message";
@@ -22,14 +22,15 @@ class ChatHistory extends React.Component<any, any> {
     this.instantiateRoomService = this.instantiateRoomService.bind(this);
     this.createMessage = this.createMessage.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
+    this.setHistoryEnd = this.setHistoryEnd.bind(this);
   }
 
   public render() {
     return (
       <div style={{overflow: "auto", height: "268px", minHeight: "268px", maxHeight: "268px"}} onScroll={this.handleScroll}>
         {this.state.messages}
-        <div style={{float:"left", clear: "both"}}
-          ref={(historyEnd) => this.historyEnd = historyEnd} />
+        <div style={{float: "left", clear: "both"}}
+          ref={this.setHistoryEnd} />
       </div>
     );
   }
@@ -59,8 +60,8 @@ class ChatHistory extends React.Component<any, any> {
     // Fix the top and bottom margins to distinguish between message but
     // be conservative with spacing.
     const listGroupStyle = {
-      marginTop: "3px",
-      marginBottom: "3px"
+      marginBottom: "3px",
+      marginTop: "3px"
     };
 
     return (
@@ -69,6 +70,10 @@ class ChatHistory extends React.Component<any, any> {
           message={data.message} />
       </ListGroup>
     );
+  }
+
+  private setHistoryEnd(historyEnd) {
+    this.historyEnd = historyEnd;
   }
 
   private instantiateRoomService(props) {
