@@ -30,7 +30,7 @@ class RoomService {
   }
 
   public close() {
-    this.ref.remove();
+    this.ref.off();
   }
 }
 
