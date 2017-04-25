@@ -15,7 +15,7 @@ class Message extends React.Component<IMessageProps, any> {
     const backgroundColor = "#" + this.intToARGB(this.hashCode(this.props.username));
     const fontColor = this.invertColor(backgroundColor);
     const messageStyle = {
-      backgroundColor: backgroundColor,
+      backgroundColor: `${backgroundColor}`, // FIXME: I should not need to do this to the linter.
       color: fontColor
     };
 
