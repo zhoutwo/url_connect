@@ -11,6 +11,7 @@ interface IHistoryState {
 
 interface IHistoryProps {
   username: string;
+  url: string;
   pushMessage: string;
 }
 
