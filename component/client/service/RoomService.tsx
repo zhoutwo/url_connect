@@ -63,7 +63,7 @@ class RoomService {
     this.messageRef.off();
     this.myConfRef.remove().then(()=>{
       this.userListRef.once('value', (data)=>{
-        if (!data) {
+        if (!data.val()) {
           this.rootRef.remove();
         }
       });
