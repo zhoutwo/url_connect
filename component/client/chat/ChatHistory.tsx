@@ -5,7 +5,16 @@ import * as ReactDOM from "react-dom";
 import RoomService from "../service/RoomService";
 import Message from "./Message";
 
-class ChatHistory extends React.Component<any, any> {
+interface IHistoryState {
+  messages: Array<JSX.Element>;
+}
+
+interface IHistoryProps {
+  username: string;
+  pushMessage: string;
+}
+
+class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
   private roomService: RoomService;
   private historyEnd: HTMLElement;
   private shouldScroll: boolean;
