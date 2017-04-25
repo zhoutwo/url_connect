@@ -10,7 +10,7 @@ interface IMessengerProps {
 }
 
 class Messenger extends React.Component<IMessengerProps, IMessengerState> {
-  constructor(props) {
+  constructor(props: IMessengerProps) {
     super(props);
 
     this.state = {
@@ -22,13 +22,13 @@ class Messenger extends React.Component<IMessengerProps, IMessengerState> {
   }
 
   /* Handles message updates */
-  public handleMessage(event): void {
+  public handleMessage(event: any): void {
     event.preventDefault();
     this.setState({message: event.target.value});
   }
 
   /* Handles send */
-  public handleSend(event): void {
+  public handleSend(event: any): void {
     event.preventDefault();
     this.props.handleSend(this.state.message);
     this.setState({message: ""});

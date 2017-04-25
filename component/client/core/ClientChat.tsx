@@ -16,7 +16,7 @@ interface IClientChatProps {
 class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   private messenger: JSX.Element;
 
-  constructor(props: any) {
+  constructor(props: IClientChatProps) {
     super(props);
 
     // By react conventions, history should be instantiated in the constructor.
@@ -28,7 +28,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     this.messenger = <Messenger handleSend={this.handleSend}/>;
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div>
         <Panel header="Chat" bsStyle="primary" footer={this.messenger}>
@@ -39,7 +39,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     );
   }
 
-  private handleSend(message: string) {
+  private handleSend(message: string): void {
     this.setState({pushMessage: message});
   }
 }

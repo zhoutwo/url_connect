@@ -5,8 +5,10 @@ import ClientChat from "./ClientChat";
 import ClientNavbar from "./ClientNavbar";
 import IActiveKeyState from "./IActiveKeyState";
 
-class ClientCore extends React.Component<any, IActiveKeyState> {
-  constructor(props: any) {
+interface ICoreProps {}
+
+class ClientCore extends React.Component<ICoreProps, IActiveKeyState> {
+  constructor(props: ICoreProps) {
     super(props);
 
     // setup components map.
@@ -23,7 +25,7 @@ class ClientCore extends React.Component<any, IActiveKeyState> {
     this.handleSelection = this.handleSelection.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     // offset from the top to avoid Navbar hangovers.
     const coreStyle = {
       marginTop: "60px"
@@ -57,7 +59,7 @@ class ClientCore extends React.Component<any, IActiveKeyState> {
   /*
     Callback that handles Navbar transitions.
   */
-  private handleSelection(eventKey: string) {
+  private handleSelection(eventKey: string): void {
     this.setState({activeKey: eventKey});
   }
 }
