@@ -1,12 +1,12 @@
 import * as firebase from "firebase";
 
 class RoomService {
-  private rootRef: firebase.database.Reference
-  private messageRef: firebase.database.Reference
-  private userListRef: firebase.database.Reference
-  private myConfRef: firebase.database.Reference
+  private rootRef: firebase.database.Reference;
+  private messageRef: firebase.database.Reference;
+  private userListRef: firebase.database.Reference;
+  private myConfRef: firebase.database.Reference;
 
-  constructor(url : string, onMessagePosted : (data: any, from: any) => void) {
+  constructor(url: string, onMessagePosted: (data: any, from: any) => void) {
     url = url.replace(/[\\.]/g, ",");
     this.rootRef = firebase.database().ref(url);
     this.messageRef = this.rootRef.child("message");
@@ -14,7 +14,7 @@ class RoomService {
     // set up message reference
     this.messageRef.on("child_added", (data) => {
       if (!data) throw new Error("Messages should never be null");
-      let val = data.val();
+      const val = data.val();
       this.getUser(val.fromID).then((userFrom) => {
         onMessagePosted(val.data, userFrom);
       });
@@ -36,18 +36,18 @@ class RoomService {
   }
 
   public pushMessage(data: any) {
-    if (!data) throw new Error(`data is ${data}`);
+    if (!data) throw new Error(`data is {data}`);
     this.messageRef.push().set({
-      fromID: this.myConfRef.key,
-      data: data
+      data: data,
+      fromID: this.myConfRef.key
     });
   }
 
-  public getUser(userID: string) : Promise<any> {
+  public getUser(userID: string): Promise<any> {
     return this.getDataAtReference(this.userListRef.child(userID));
   }
 
-  public getMySelf() : Promise<any> {
+  public getMySelf(): Promise<any> {
     return this.getDataAtReference(this.myConfRef);
   }
 
@@ -61,8 +61,8 @@ class RoomService {
 
   public close() {
     this.messageRef.off();
-    this.myConfRef.remove().then(()=>{
-      this.userListRef.once('value', (data)=>{
+    this.myConfRef.remove().then(() => {
+      this.userListRef.once("value", (data) => {
         if (!data.val()) {
           this.rootRef.remove();
         }
@@ -70,8 +70,8 @@ class RoomService {
     });
   }
 
-  public getDataAtReference(reference: firebase.database.Reference) : Promise<any> {
-    return new Promise((resolve) => {
+  public getDataAtReference(reference: firebase.database.Reference): Promise<any> {
+    return new Promise<any>((resolve) => {
       this.myConfRef.once('value', (data) => {
         resolve(data.val());
       });
