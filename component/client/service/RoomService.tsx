@@ -38,7 +38,7 @@ class RoomService {
   public pushMessage(data: any) {
     if (!data) throw new Error(`data is {data}`);
     this.messageRef.push().set({
-      data: data,
+      data,
       fromID: this.myConfRef.key
     });
   }
@@ -72,7 +72,7 @@ class RoomService {
 
   public getDataAtReference(reference: firebase.database.Reference): Promise<any> {
     return new Promise<any>((resolve) => {
-      this.myConfRef.once('value', (data) => {
+      this.myConfRef.once("value", (data) => {
         resolve(data.val());
       });
     });
