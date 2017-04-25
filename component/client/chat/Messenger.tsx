@@ -5,7 +5,11 @@ interface IMessengerState {
   message: string;
 }
 
-class Messenger extends React.Component<any, IMessengerState> {
+interface IMessengerProps {
+  handleSend: (string) => void;
+}
+
+class Messenger extends React.Component<IMessengerProps, IMessengerState> {
   constructor(props) {
     super(props);
 
@@ -18,19 +22,19 @@ class Messenger extends React.Component<any, IMessengerState> {
   }
 
   /* Handles message updates */
-  public handleMessage(event) {
+  public handleMessage(event): void {
     event.preventDefault();
     this.setState({message: event.target.value});
   }
 
   /* Handles send */
-  public handleSend(event) {
+  public handleSend(event): void {
     event.preventDefault();
     this.props.handleSend(this.state.message);
     this.setState({message: ""});
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <form onSubmit={this.handleSend}>
         <FormGroup controlId="chatMessageBox" validationState="success">

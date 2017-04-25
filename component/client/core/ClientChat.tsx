@@ -4,7 +4,16 @@ import {Panel} from "react-bootstrap";
 import ChatHistory from "../chat/ChatHistory";
 import Messenger from "../chat/Messenger";
 
-class ClientChat extends React.Component<any, any> {
+interface IClientChatState {
+  pushMessage: string;
+}
+
+interface IClientChatProps {
+  username: string;
+  url: string;
+}
+
+class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   private messenger: JSX.Element;
 
   constructor(props: any) {
@@ -12,7 +21,6 @@ class ClientChat extends React.Component<any, any> {
 
     // By react conventions, history should be instantiated in the constructor.
     this.state = {
-      history: [],
       pushMessage: ""
     };
 
