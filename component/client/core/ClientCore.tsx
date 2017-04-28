@@ -5,10 +5,8 @@ import ClientChat from "./ClientChat";
 import ClientNavbar from "./ClientNavbar";
 import IActiveKeyState from "./IActiveKeyState";
 
-interface ICoreProps {}
-
-class ClientCore extends React.Component<ICoreProps, IActiveKeyState> {
-  constructor(props: ICoreProps) {
+class ClientCore extends React.Component<any, IActiveKeyState> {
+  constructor(props: any) {
     super(props);
 
     // setup components map.
