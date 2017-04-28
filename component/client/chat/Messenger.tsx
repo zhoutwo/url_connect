@@ -1,12 +1,12 @@
 import * as React from "react";
-import {Button, FormControl, FormGroup, InputGroup} from "react-bootstrap";
+import {Button, FormControl, FormControlProps, FormGroup, InputGroup} from "react-bootstrap";
 
 interface IMessengerState {
   message: string;
 }
 
 interface IMessengerProps {
-  handleSend: (string) => void;
+  handleSend(message: string): void;
 }
 
 class Messenger extends React.Component<IMessengerProps, IMessengerState> {
@@ -22,13 +22,13 @@ class Messenger extends React.Component<IMessengerProps, IMessengerState> {
   }
 
   /* Handles message updates */
-  public handleMessage(event: any): void {
+  public handleMessage(event: React.FormEvent<React.Component<FormControlProps, any>>): void {
     event.preventDefault();
-    this.setState({message: event.target.value});
+    this.setState({message: (event.target as HTMLFormElement).value});
   }
 
   /* Handles send */
-  public handleSend(event: any): void {
+  public handleSend(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     this.props.handleSend(this.state.message);
     this.setState({message: ""});
@@ -43,7 +43,7 @@ class Messenger extends React.Component<IMessengerProps, IMessengerState> {
             placeholder="message..." onChange={this.handleMessage}
             autoComplete="off" />
             <InputGroup.Button>
-              <Button bsStyle="info" onClick={this.handleSend}>
+              <Button bsStyle="info" type="submit">
                 Send
               </Button>
             </InputGroup.Button>
