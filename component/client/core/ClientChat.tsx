@@ -19,7 +19,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   constructor(props: IClientChatProps) {
     super(props);
 
-    // By react conventions, history should be instantiated in the constructor.
     this.state = {
       pushMessage: ""
     };

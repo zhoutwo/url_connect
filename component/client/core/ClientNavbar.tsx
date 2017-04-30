@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {LinkContainer} from "react-router-bootstrap";
 
 import IActiveKeyState from "./IActiveKeyState";
 
@@ -29,8 +30,12 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
       <Navbar fluid={true} fixedTop={true}>
         <Nav bsStyle="pills" activeKey={this.state.activeKey}
         onSelect={this.handleNavigation}>
-          <NavItem eventKey="chat"> Chat </NavItem>
-          <NavItem eventKey="setting"> Settings </NavItem>
+          <LinkContainer exact={true} to="/chat">
+            <NavItem eventKey="chat"> Chat </NavItem>
+          </LinkContainer>
+          <LinkContainer exact={true} to="/setting">
+            <NavItem eventKey="setting"> Settings </NavItem>
+          </LinkContainer>
         </Nav>
       </Navbar>
     );
