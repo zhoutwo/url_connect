@@ -1,42 +1,61 @@
 import * as firebase from "firebase";
 import * as React from "react";
-import {render} from "react-dom";
-import {Provider} from "react-redux";
+import * as ReactDOM from "react-dom";
+import {Provider, connect} from "react-redux";
 import {Store} from "react-chrome-redux";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
-import {PORT_NAME} from "./Constants";
+import * as Constants from "./Constants";
+import {SWITCH_ROOM} from "./redux/action/Types";
 import ClientCore from "./client/core/ClientCore";
 import ClientChat from "./client/core/ClientChat";
 import ClientSetting from "./client/core/ClientSetting";
 
 // Initialize Firebase
-// NOTE: move to background.tsx
-// const config = {
-//   apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
-//   authDomain: "url-connet.firebaseapp.com",
-//   databaseURL: "https://url-connet.firebaseio.com",
-//   messagingSenderId: "1089725560944",
-//   projectId: "url-connet",
-//   storageBucket: "url-connet.appspot.com"
-// };
-// firebase.initializeApp(config);
+const config = {
+  apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
+  authDomain: "url-connet.firebaseapp.com",
+  databaseURL: "https://url-connet.firebaseio.com",
+  messagingSenderId: "1089725560944",
+  projectId: "url-connet",
+  storageBucket: "url-connet.appspot.com"
+};
+firebase.initializeApp(config);
 
-// const store = new Store({portName: PORT_NAME});
+// Proxy Store.
+const store = new Store({portName: Constants.PORT_NAME});
 
-// store.ready().then(() => {
-render(
-  // <Provider store={store}>
-  <Router>
-    <ClientCore>
-      <Route path="/chat" component={ClientChat} />
-      <Route path="/setting" component={ClientSetting} />
-    </ClientCore>
-  </Router>,
-  // </Provider>,
-  document.getElementById("root")
-);
-// });
+const mapStateToPropsClientChat = (state) => {
+  console.log("[ INFO ] : Provider url", state.url);
+  return {
+    username: "url_connect_dev", // TODO: hook up with store.
+    url: state.url
+  };
+}
+
+const mapDispatchToPropsClientChat = (dispatch) => {
+  return {
+    switchRoom: () => {dispatch({type: SWITCH_ROOM})}
+  }
+}
+
+const ClientChatConnect = connect(mapStateToPropsClientChat, mapDispatchToPropsClientChat)(ClientChat);
+
+store.ready()
+.then(() => {
+  const App = (
+    <Provider store={store}>
+      <Router>
+        <ClientCore>
+          <Redirect exact path="/" to={Constants.CHAT_LINK} />
+          <Route path={Constants.CHAT_LINK} component={ClientChatConnect} />
+          <Route path={Constants.SETTING_LINK} component={ClientSetting} />
+        </ClientCore>
+      </Router>
+    </Provider>
+  );
+  ReactDOM.render(App, document.getElementById("root"));
+});
 
 const storageService = (chrome.extension.getBackgroundPage() as any).BackgroundStorageService;
 
