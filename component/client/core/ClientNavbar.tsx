@@ -1,12 +1,11 @@
 import * as React from "react";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
-
+import {CHAT_LINK, SETTING_LINK} from "../../Constants";
 import IActiveKeyState from "./IActiveKeyState";
 
 interface IClientNavbarProps {
   initialKey: string;
-  handleSelection: (eventKey: string) => any;
 }
 
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
@@ -21,19 +20,18 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
   }
 
   public handleNavigation(eventKey: any): void {
-    this.props.handleSelection(eventKey);
     this.setState({activeKey: eventKey});
   }
 
   public render(): JSX.Element {
     return (
-      <Navbar fluid={true} fixedTop={true}>
+      <Navbar fluid={true} fixedTop={true} onSubmit={(event) => event.preventDefault()}>
         <Nav bsStyle="pills" activeKey={this.state.activeKey}
         onSelect={this.handleNavigation}>
-          <LinkContainer exact={true} to="/chat">
+          <LinkContainer to={CHAT_LINK}>
             <NavItem eventKey="chat"> Chat </NavItem>
           </LinkContainer>
-          <LinkContainer exact={true} to="/setting">
+          <LinkContainer to={SETTING_LINK}>
             <NavItem eventKey="setting"> Settings </NavItem>
           </LinkContainer>
         </Nav>

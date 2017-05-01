@@ -9,18 +9,11 @@ class ClientCore extends React.Component<any, IActiveKeyState> {
   constructor(props: any) {
     super(props);
 
-    // setup components map.
-    // TODO: add lifecycle to go properly set state based on persistant use.
-    // TODO: setting components.
-    // TODO: replace with real username.
-
+    // TODO: add lifecycle to go properly set state based on persistant use. (See below.)
     // initialize the activeKey.
     this.state = {
-      activeKey: "chat"
+      activeKey: "chat" // TODO: set based on redux store/persistant data?
     };
-
-    // bind helper functions.
-    this.handleSelection = this.handleSelection.bind(this);
   }
 
   public render(): JSX.Element {
@@ -32,33 +25,14 @@ class ClientCore extends React.Component<any, IActiveKeyState> {
     return (
       <Grid>
         <Row>
-          <ClientNavbar handleSelection={this.handleSelection}
-           initialKey={this.state.activeKey}/>
+          <ClientNavbar initialKey={this.state.activeKey}/>
         </Row>
 
         <Row style={coreStyle}>
-          {this.instantiate(this.state.activeKey)}
+          {this.props.children}
         </Row>
       </Grid>
     );
-  }
-
-  private instantiate(key: string): JSX.Element {
-    switch (key) {
-      case "chat":
-        return <ClientChat username="url_connect_dev" url="www.google.com"/>;
-      case "setting":
-        return <h1> setting </h1>;
-      default:
-        return <div />;
-    }
-  }
-
-  /*
-    Callback that handles Navbar transitions.
-  */
-  private handleSelection(eventKey: string): void {
-    this.setState({activeKey: eventKey});
   }
 }
 
