@@ -30,8 +30,11 @@ class Messenger extends React.Component<IMessengerProps, IMessengerState> {
   /* Handles send */
   public handleSend(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    this.props.handleSend(this.state.message);
-    this.setState({message: ""});
+    let message = this.state.message;
+    if (message !== "") {
+      this.props.handleSend(this.state.message);
+      this.setState({message: ""});
+    }
   }
 
   public render(): JSX.Element {
