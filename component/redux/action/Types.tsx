@@ -2,6 +2,7 @@ export const SWITCH_ROOM = "SWITCH_ROOM";
 export const SWITCH_ROOM_PENDING = SWITCH_ROOM + "_PENDING";
 export const SWITCH_ROOM_FAIL = SWITCH_ROOM + "_FAIL";
 export const SWITCH_ROOM_PASS = SWITCH_ROOM + "_PASS";
+export const DEFAULT_ROOM = "chrome";
 
 export const switchRoomPending = () => {
   return {
@@ -29,7 +30,12 @@ export const switchRoom = (action) => {
 
     // Chrome docs does not specify fail case.
     return chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
-      dispatch(switchRoomPass(tabs[0].url));
+      if (tabs[0]) {
+        dispatch(switchRoomPass(tabs[0].url));
+      } else {
+        dispatch(switchRoomPass(action.url));
+      }
+
     });
   };
 };

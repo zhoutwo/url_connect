@@ -35,7 +35,7 @@ const mapStateToPropsClientChat = (state) => {
 
 const mapDispatchToPropsClientChat = (dispatch) => {
   return {
-    switchRoom: () => dispatch({type: SWITCH_ROOM})
+    switchRoom: (url) => dispatch({type: SWITCH_ROOM, url})
   };
 };
 
