@@ -57,8 +57,13 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
   public componentWillReceiveProps(nextProps: IHistoryProps): void {
     // History receives a new message. Send the message and flag to scroll
     // to the bottom of the component.
-    this.roomService.pushMessage({userFrom: this.props.username, message: nextProps.pushMessage});
-    this.shouldScroll = true;
+    if (nextProps.pushMessage) {
+      this.roomService.pushMessage({userFrom: this.props.username, message: nextProps.pushMessage});
+      this.shouldScroll = true;
+    } else if (nextProps.url !== this.props.url) {
+      this.roomService.updateUrl(nextProps.url);
+      this.shouldScroll = true;
+    }
   }
 
   public componentDidUpdate(prevProps: IHistoryProps, prevState: IHistoryState): void {
@@ -93,8 +98,8 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
     // Set up RoomService.
     this.roomService = new RoomService(props.url, (data: IData, user) => {
       this.setState((prevState, nextProps) => {
-        prevState.messages.push(this.createMessage(data, user));
-        return prevState;
+        let updatedMessages = prevState.messages.concat(this.createMessage(data, user));
+        return Object.assign({}, prevState, {messages: updatedMessages});
       });
     });
   }
