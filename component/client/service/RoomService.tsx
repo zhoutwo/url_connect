@@ -6,15 +6,9 @@ class RoomService {
   private messageRef: firebase.database.Reference;
   private userListRef: firebase.database.Reference;
   private myConfRef: firebase.database.Reference;
-  private onMessagePosted: (data: IData, from: any) => void;
 
   constructor(url: string, onMessagePosted: (data: IData, from: any) => void) {
     const cleanUrl = url.replace(/[\\.]/g, ",");
-    this.onMessagePosted = onMessagePosted;
-    this.instantiateRef(cleanUrl);
-  }
-
-  public instantiateRef(cleanUrl: string) {
     this.rootRef = firebase.database().ref(cleanUrl);
     this.messageRef = this.rootRef.child("message");
 
@@ -23,7 +17,7 @@ class RoomService {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
       this.getUser(val.fromID).then((userFrom) => {
-        this.onMessagePosted(val.data, userFrom);
+        onMessagePosted(val.data, userFrom);
       });
     });
     this.messageRef.on("child_changed", (data: any) => {
@@ -50,11 +44,12 @@ class RoomService {
     });
   }
 
-  public updateUrl(url: string): void {
-    const cleanUrl = url.replace(/[\\.]/g, ",");
-    this.close();
-    this.instantiateRef(cleanUrl);
-  }
+  // TODO: figure out how to effectively swap URL without reinstantiation.
+  // public updateUrl(url: string): void {
+  //   const cleanUrl = url.replace(/[\\.]/g, ",");
+  //   this.messageRef.remove();
+  //   this.instantiateRef(cleanUrl);
+  // }
 
   public getUser(userID: string): Promise<any> {
     return this.getDataAtReference(this.userListRef.child(userID));

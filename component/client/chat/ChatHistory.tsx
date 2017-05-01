@@ -61,7 +61,9 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
       this.roomService.pushMessage({userFrom: this.props.username, message: nextProps.pushMessage});
       this.shouldScroll = true;
     } else if (nextProps.url !== this.props.url) {
-      this.roomService.updateUrl(nextProps.url);
+      console.log(`[ INFO ] : ChatHistory switching from ${this.props.url} to ${nextProps.url}`);
+      this.roomService.close();
+      this.instantiateRoomService(nextProps);
       this.shouldScroll = true;
     }
   }
@@ -93,12 +95,14 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
   }
 
   private instantiateRoomService(props: IHistoryProps): void {
+    console.log("[ INFO ] : instantiateRoomService");
     this.setState({messages: []});
 
     // Set up RoomService.
     this.roomService = new RoomService(props.url, (data: IData, user) => {
       this.setState((prevState, nextProps) => {
         const updatedMessages = prevState.messages.concat(this.createMessage(data, user));
+        console.log("[ INFO ] : messages", updatedMessages);
         return Object.assign({}, prevState, {messages: updatedMessages});
       });
     });
