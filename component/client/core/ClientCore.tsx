@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Grid, Row} from "react-bootstrap";
 
-import ClientChat from "./ClientChat";
 import ClientNavbar from "./ClientNavbar";
 import IActiveKeyState from "./IActiveKeyState";
 

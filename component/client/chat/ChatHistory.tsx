@@ -98,7 +98,7 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
     // Set up RoomService.
     this.roomService = new RoomService(props.url, (data: IData, user) => {
       this.setState((prevState, nextProps) => {
-        let updatedMessages = prevState.messages.concat(this.createMessage(data, user));
+        const updatedMessages = prevState.messages.concat(this.createMessage(data, user));
         return Object.assign({}, prevState, {messages: updatedMessages});
       });
     });

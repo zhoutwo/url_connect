@@ -1,11 +1,12 @@
-import * as firebase from "firebase";
 import ClientReducer from "../redux/reducer/ClientReducer";
-import {SWITCH_ROOM, switchRoom} from "../redux/action/Types";
-import {createStore, applyMiddleware} from "redux";
+import * as firebase from "firebase";
 import thunkMiddleware from "redux-thunk";
-import {wrapStore, alias} from 'react-chrome-redux';
+
+import {alias, wrapStore} from "react-chrome-redux";
+import {applyMiddleware, createStore} from "redux";
 import {createLogger} from "redux-logger";
 import {PORT_NAME} from "../Constants";
+import {switchRoom, SWITCH_ROOM} from "../redux/action/Types";
 
 // Initialize Firebase
 const config = {
@@ -22,7 +23,7 @@ firebase.initializeApp(config);
 // forwards the request to the defined function.
 const aliases = {
   [SWITCH_ROOM]: switchRoom
-}
+};
 
 // Create Redux Store.
 const loggerMiddleware = createLogger();

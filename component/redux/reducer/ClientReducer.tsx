@@ -1,6 +1,5 @@
-import RoomService from "../../client/service/RoomService";
 import * as Types from "../action/Types";
-import {UNDEFINED_STATUS} from  "../../Constants";
+import {UNDEFINED_STATUS} from "../../Constants";
 
 const ClientReducer = (state = {url: "http://www.google.com", status: UNDEFINED_STATUS}, action) => {
   switch (action.type) {
@@ -16,6 +15,6 @@ const ClientReducer = (state = {url: "http://www.google.com", status: UNDEFINED_
     default:
       return state;
   }
-}
+};
 
 export default ClientReducer;

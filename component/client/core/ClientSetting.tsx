@@ -5,10 +5,10 @@ class ClientSetting extends React.Component<any, any> {
     super(props);
   }
 
-  render(): JSX.Element {
+  public render(): JSX.Element {
     return(
       <h1> Settings </h1>
-    )
+    );
   }
 }
 
