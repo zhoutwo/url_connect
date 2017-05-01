@@ -24,7 +24,7 @@
       true,
       "spaces"
     ],
-    "linebreak-style": [true, "LF"],
+    // "linebreak-style": [true, "LF"],
     "interface-name": false,
     "jsdoc-format": true,
     "label-position": true,
@@ -40,7 +40,7 @@
     ],
     "no-any": false,
     "no-arg": true,
-    "no-bitwise": true,
+    "no-bitwise": false,
     "no-console": [
       true,
       "debug",
