@@ -54,6 +54,7 @@
     "yarn": "^0.22.0"
   },
   "dependencies": {
+    "@types/chrome": "0.0.46",
     "firebase": "^3.8.0"
   }
 }
