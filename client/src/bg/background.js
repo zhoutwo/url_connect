@@ -19,7 +19,7 @@ const defaults = {
 
 class StorageService {
   constructor() {
-    this.storage = chrome.storage.local;
+    this.storage = chrome.storage.sync;
     this.storage.get(defaults, (items) => {
       this.storage.set(items);
     })
