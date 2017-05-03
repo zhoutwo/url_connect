@@ -1,12 +1,12 @@
-import ClientReducer from "../redux/reducer/ClientReducer";
 import * as firebase from "firebase";
 import thunkMiddleware from "redux-thunk";
+import ClientReducer from "../redux/reducer/ClientReducer";
 
 import {alias, wrapStore} from "react-chrome-redux";
 import {applyMiddleware, createStore} from "redux";
 import {createLogger} from "redux-logger";
 import {PORT_NAME} from "../Constants";
-import {switchRoom, SWITCH_ROOM} from "../redux/action/Types";
+import {SWITCH_ROOM, switchRoom} from "../redux/action/Types";
 
 // Initialize Firebase
 const config = {

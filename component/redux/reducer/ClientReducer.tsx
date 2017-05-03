@@ -1,5 +1,5 @@
-import * as Types from "../action/Types";
 import {UNDEFINED_STATUS} from "../../Constants";
+import * as Types from "../action/Types";
 
 const ClientReducer = (state = {url: "http://www.google.com", status: UNDEFINED_STATUS}, action) => {
   switch (action.type) {

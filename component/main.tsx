@@ -1,15 +1,17 @@
 import * as firebase from "firebase";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {Provider, connect} from "react-redux";
+
 import {Store} from "react-chrome-redux";
-import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import {connect, Provider} from "react-redux";
+import {BrowserRouter as Redirect, Route, Router} from "react-router-dom";
+
+import ClientChat from "./client/core/ClientChat";
+import ClientCore from "./client/core/ClientCore";
+import ClientSetting from "./client/core/ClientSetting";
 
 import * as Constants from "./Constants";
 import {SWITCH_ROOM} from "./redux/action/Types";
-import ClientCore from "./client/core/ClientCore";
-import ClientChat from "./client/core/ClientChat";
-import ClientSetting from "./client/core/ClientSetting";
 
 // Initialize Firebase
 const config = {
