@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 
 import {Store} from "react-chrome-redux";
 import {connect, Provider} from "react-redux";
-import {BrowserRouter as Redirect, Route, Router} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
 
 import ClientChat from "./client/core/ClientChat";
 import ClientCore from "./client/core/ClientCore";
@@ -41,7 +41,7 @@ const mapDispatchToPropsClientChat = (dispatch) => {
   };
 };
 
-const ClientChatConnect = connect(mapStateToPropsClientChat, mapDispatchToPropsClientChat)(ClientChat);
+const ClientChatConnect: React.ComponentClass<any> = connect(mapStateToPropsClientChat, mapDispatchToPropsClientChat)(ClientChat);
 
 store.ready()
   .then(() => {
