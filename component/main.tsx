@@ -16,3 +16,9 @@ const config = {
 firebase.initializeApp(config);
 
 ReactDOM.render(<ClientCore />, document.getElementById("root"));
+
+const storageService = (chrome.extension.getBackgroundPage() as any).BackgroundStorageService;
+
+storageService.get("id").then((item) => {
+  console.log(item);
+});

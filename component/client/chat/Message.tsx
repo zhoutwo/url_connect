@@ -38,26 +38,26 @@ class Message extends React.Component<IMessageProps, any> {
   // Then we'll use the int and convert to hex.
   // Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
   private hashCode(str: string): number {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-          hash = str.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      return hash;
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
   }
 
   // Convert an int to hexadecimal with a max length
   // of six characters.
   // Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
   private intToARGB(i: number): string {
-      let hex = ((i >> 24) & 0xFF).toString(16) +
-              ((i >> 16) & 0xFF).toString(16) +
-              ((i >> 8) & 0xFF).toString(16) +
-              (i & 0xFF).toString(16);
-      // Sometimes the string returned will be too short so we
-      // add zeros to pad it out, which later get removed if
-      // the length is greater than six.
-      hex += "000000";
-      return hex.substring(0, 6);
+    let hex = ((i >> 24) & 0xFF).toString(16) +
+            ((i >> 16) & 0xFF).toString(16) +
+            ((i >> 8) & 0xFF).toString(16) +
+            (i & 0xFF).toString(16);
+    // Sometimes the string returned will be too short so we
+    // add zeros to pad it out, which later get removed if
+    // the length is greater than six.
+    hex += "000000";
+    return hex.substring(0, 6);
   }
 
   // Source: https://stackoverflow.com/questions/9600295/automatically-change-text-color-to-assure-readability
