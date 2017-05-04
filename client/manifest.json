@@ -18,13 +18,14 @@
   "options_page": "src/options_custom/index.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "browser action demo",
+    "default_title": "url_connect",
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
     "background",
     "history",
     "idle",
+    "tabs",
     "notifications",
     "storage",
     "https://*/*",
@@ -33,14 +34,12 @@
   "omnibox": {
     "keyword": "extensionizr"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://www.google.com/*"
-      ],
-      "js": [
-        "src/inject/inject.js"
-      ]
-    }
-  ]
+  "content_scripts": [{
+    "matches": [
+      "https://www.google.com/*"
+    ],
+    "js": [
+      "src/inject/inject.js"
+    ]
+  }]
 }
