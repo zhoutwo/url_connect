@@ -22,9 +22,11 @@
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
+    "background",
     "history",
     "idle",
     "notifications",
+    "storage",
     "https://*/*",
     "http://*/*"
   ],
