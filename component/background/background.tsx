@@ -9,11 +9,11 @@ import * as firebase from "firebase";
 // Code originally authored by broofa on StackOverflow
 // Please see: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#answer-2117523
 function generateUUID() {
-  let id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    let r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    const v = c === "x" ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
-  return id;
 }
 
 const defaults = {
@@ -22,23 +22,23 @@ const defaults = {
 };
 
 class StorageService {
-  storage: chrome.storage.StorageArea
+  private storage: chrome.storage.StorageArea;
 
   constructor() {
     this.storage = chrome.storage.sync;
     this.storage.get(defaults, (items) => {
       this.storage.set(items);
-    })
+    });
   }
 
-  reset() {
+  public reset() {
     this.storage.clear(() => {
       defaults.id = generateUUID();
       this.storage.set(defaults);
     });
   }
 
-  get(key) {
+  public get(key) {
     return new Promise((resolve) => {
       this.storage.get(key, (item) => {
         resolve(item[key]);
@@ -46,18 +46,18 @@ class StorageService {
     });
   }
 
-  set(key, value) {
-    let data = {};
+  public set(key, value) {
+    const data = {};
     data[key] = value;
     this.storage.set(data);
   }
 
-  remove(key) {
+  public remove(key) {
     this.storage.remove(key);
   }
 }
 
-window['BackgroundStorageService'] = new StorageService();
+(window as any).BackgroundStorageService = new StorageService();
 
 // Initialize Firebase
 const config = {
@@ -70,4 +70,4 @@ const config = {
 };
 firebase.initializeApp(config);
 
-window['firebaseDB'] = firebase.database();
+(window as any).firebaseDB = firebase.database();
