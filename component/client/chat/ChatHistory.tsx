@@ -57,8 +57,15 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
   public componentWillReceiveProps(nextProps: IHistoryProps): void {
     // History receives a new message. Send the message and flag to scroll
     // to the bottom of the component.
-    this.roomService.pushMessage({userFrom: this.props.username, message: nextProps.pushMessage});
-    this.shouldScroll = true;
+    if (nextProps.pushMessage) {
+      this.roomService.pushMessage({userFrom: this.props.username, message: nextProps.pushMessage});
+      this.shouldScroll = true;
+    } else if (nextProps.url !== this.props.url) {
+      console.log(`[ INFO ] : ChatHistory switching from ${this.props.url} to ${nextProps.url}`);
+      this.roomService.close();
+      this.instantiateRoomService(nextProps);
+      this.shouldScroll = true;
+    }
   }
 
   public componentDidUpdate(prevProps: IHistoryProps, prevState: IHistoryState): void {
@@ -88,13 +95,15 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
   }
 
   private instantiateRoomService(props: IHistoryProps): void {
+    console.log("[ INFO ] : instantiateRoomService");
     this.setState({messages: []});
 
     // Set up RoomService.
     this.roomService = new RoomService(props.url, (data: IData, user) => {
       this.setState((prevState, nextProps) => {
-        prevState.messages.push(this.createMessage(data, user));
-        return prevState;
+        const updatedMessages = prevState.messages.concat(this.createMessage(data, user));
+        console.log("[ INFO ] : messages", updatedMessages);
+        return Object.assign({}, prevState, {messages: updatedMessages});
       });
     });
   }
