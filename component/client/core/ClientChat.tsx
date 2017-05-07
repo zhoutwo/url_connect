@@ -11,7 +11,6 @@ interface IClientChatState {
 interface IClientChatProps {
   username: string;
   url: string;
-  switchRoom: (url: string) => void;
 }
 
 class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
@@ -27,10 +26,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
 
     this.handleSend = this.handleSend.bind(this);
     this.messenger = <Messenger handleSend={this.handleSend}/>;
-  }
-
-  public componentDidMount() {
-    this.props.switchRoom(this.props.url);
   }
 
   /* flow: messenger receives text and send event trigger -->

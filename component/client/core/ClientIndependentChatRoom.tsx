@@ -25,7 +25,6 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
       username: Constants.NOOP_USERNAME
     };
     this.storage = (chrome.extension.getBackgroundPage() as any).BackgroundStorageService;
-    this.switchRoom = this.switchRoom.bind(this);
     this.storage.get("username").then((username) => {
       if (username) {
         this.setState({
@@ -43,11 +42,7 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
   }
 
   public render() {
-    return <ClientChat url={this.state.currentUrl} username={this.state.username} switchRoom={this.switchRoom}/>;
-  }
-
-  public switchRoom(url: string) {
-    this.setState({currentUrl: url});
+    return <ClientChat url={this.state.currentUrl} username={this.state.username}/>;
   }
 }
 
