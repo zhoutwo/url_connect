@@ -1,25 +1,10 @@
-import * as firebase from "firebase";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
-
-import ClientCore from "./client/core/ClientCore";
-import ClientIndependentChatRoom from "./client/core/ClientIndependentChatRoom";
-import ClientSetting from "./client/core/ClientSetting";
-
+import ClientIndependentChatRoom from "./chat/ClientIndependentChatRoom";
 import * as Constants from "./Constants";
-
-// Initialize Firebase
-const config = {
-  apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
-  authDomain: "url-connet.firebaseapp.com",
-  databaseURL: "https://url-connet.firebaseio.com",
-  messagingSenderId: "1089725560944",
-  projectId: "url-connet",
-  storageBucket: "url-connet.appspot.com"
-};
-firebase.initializeApp(config);
+import ClientCore from "./core/ClientCore";
+import ClientSetting from "./core/ClientSetting";
 
 ReactDOM.render((
   <Router>

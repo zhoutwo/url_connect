@@ -1,10 +1,14 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./component/main.tsx",
+  entry: {
+    "client/src/browser_action/popup": "./component/client/main.tsx",
+    "client/src/bg/background": "./component/background/background.tsx"
+  },
   output: {
-    filename: "popup.js",
-    path: path.resolve(__dirname, "client/src/browser_action")
+    path: __dirname,
+    // path: path.resolve(__dirname, "client/src/browser_action")
+    filename: "[name].js"
   },
 
   // Enable sourcemaps for debugging webpack's output.
