@@ -37,5 +37,6 @@ jspm_packages
 .node_repl_history
 
 # Project specific files
+client/bg/*.js
 client/src/browser_action/*.js
 client/src/browser_action/*.js.map
