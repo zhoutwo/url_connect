@@ -8,8 +8,8 @@ class RoomService {
   private myConfRef: firebase.database.Reference;
 
   constructor(url: string, onMessagePosted: (data: IData, from: any) => void) {
-    url = url.replace(/[\\.]/g, ",");
-    this.rootRef = firebase.database().ref(url);
+    const cleanUrl = url.replace(/[\\.]/g, ",");
+    this.rootRef = firebase.database().ref(cleanUrl);
     this.messageRef = this.rootRef.child("message");
 
     // set up message reference
@@ -43,6 +43,13 @@ class RoomService {
       fromID: this.myConfRef.key
     });
   }
+
+  // TODO: figure out how to effectively swap URL without reinstantiation.
+  // public updateUrl(url: string): void {
+  //   const cleanUrl = url.replace(/[\\.]/g, ",");
+  //   this.messageRef.remove();
+  //   this.instantiateRef(cleanUrl);
+  // }
 
   public getUser(userID: string): Promise<any> {
     return this.getDataAtReference(this.userListRef.child(userID));
