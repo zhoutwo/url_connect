@@ -1,4 +1,6 @@
 import * as firebase from "firebase";
+import {firebaseDB} from "../backgroundContext";
+
 import IData from "./IData";
 
 class RoomService {
@@ -9,7 +11,7 @@ class RoomService {
 
   constructor(url: string, onMessagePosted: (data: IData, from: any) => void) {
     const cleanUrl = url.replace(/[\\.]/g, ",");
-    this.rootRef = firebase.database().ref(cleanUrl);
+    this.rootRef = firebaseDB.ref(cleanUrl);
     this.messageRef = this.rootRef.child("message");
 
     // set up message reference
