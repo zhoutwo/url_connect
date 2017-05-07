@@ -4,14 +4,14 @@ import ClientChat from "./ClientChat";
 
 import * as Constants from "../../Constants";
 
+import {storage} from "../backgroundContext";
+
 interface IClientIndependentChatRoomState {
   username: string;
   currentUrl: string;
 }
 
 class ClientIndependentChatRoom extends React.Component<any, IClientIndependentChatRoomState> {
-  private storage;
-
   private static getCurrentTabUrl(callback) {
     chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
       callback(tabs[0] ? tabs[0].url : undefined);
@@ -24,8 +24,7 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
       currentUrl: Constants.NOOP_URL,
       username: Constants.NOOP_USERNAME
     };
-    this.storage = (chrome.extension.getBackgroundPage() as any).BackgroundStorageService;
-    this.storage.get("username").then((username) => {
+    storage.get("username").then((username) => {
       if (username) {
         this.setState({
           username
