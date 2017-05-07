@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
 
 import ClientCore from "./core/ClientCore";
-import ClientIndependentChatRoom from "./core/ClientIndependentChatRoom";
+import ClientIndependentChatRoom from "./chat/ClientIndependentChatRoom";
 import ClientSetting from "./core/ClientSetting";
 
 import * as Constants from "./Constants";
