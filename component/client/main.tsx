@@ -1,13 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
-
-import ClientCore from "./core/ClientCore";
 import ClientIndependentChatRoom from "./chat/ClientIndependentChatRoom";
-import ClientSetting from "./core/ClientSetting";
-
 import * as Constants from "./Constants";
+import ClientCore from "./core/ClientCore";
+import ClientSetting from "./core/ClientSetting";
 
 ReactDOM.render((
   <Router>
