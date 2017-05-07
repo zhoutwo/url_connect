@@ -20,6 +20,8 @@ const defaults = {
 };
 
 class StorageService {
+  storage: chrome.storage.StorageArea
+
   constructor() {
     this.storage = chrome.storage.sync;
     this.storage.get(defaults, (items) => {
@@ -30,7 +32,7 @@ class StorageService {
   reset() {
     this.storage.clear(() => {
       defaults.id = generateUUID();
-      this.set(defaults);
+      this.storage.set(defaults);
     });
   }
 
@@ -53,4 +55,4 @@ class StorageService {
   }
 }
 
-window.BackgroundStorageService = new StorageService();
+window['BackgroundStorageService'] = new StorageService();
