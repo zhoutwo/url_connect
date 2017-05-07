@@ -2,7 +2,7 @@ import * as React from "react";
 
 import ClientChat from "./ClientChat";
 
-import * as Constants from "../../Constants";
+import * as Constants from "../Constants";
 
 import {storage} from "../backgroundContext";
 

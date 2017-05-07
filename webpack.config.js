@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    "client/src/browser_action/popup": "./component/main.tsx",
+    "client/src/browser_action/popup": "./component/client/main.tsx",
     "client/src/bg/background": "./component/background/background.tsx"
   },
   output: {
