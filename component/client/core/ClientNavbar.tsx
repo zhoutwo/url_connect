@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
-import {CHAT_LINK, SETTING_LINK} from "../../Constants";
+import {CHAT_LINK, SETTING_LINK} from "../Constants";
 import IActiveKeyState from "./IActiveKeyState";
 
 interface IClientNavbarProps {
