@@ -45,14 +45,7 @@ class RoomService {
       fromID: this.myConfRef.key
     });
   }
-
-  // TODO: figure out how to effectively swap URL without reinstantiation.
-  // public updateUrl(url: string): void {
-  //   const cleanUrl = url.replace(/[\\.]/g, ",");
-  //   this.messageRef.remove();
-  //   this.instantiateRef(cleanUrl);
-  // }
-
+  
   public getUser(userID: string): Promise<any> {
     return this.getDataAtReference(this.userListRef.child(userID));
   }

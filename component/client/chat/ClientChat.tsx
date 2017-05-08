@@ -22,7 +22,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   constructor(props: IClientChatProps) {
     super(props);
 
-    // By react conventions, history should be instantiated in the constructor.
     this.handleSend = this.handleSend.bind(this);
     this.messenger = <Messenger handleSend={this.handleSend}/>;
     this.updateRoomService(this.props.url);
@@ -53,14 +52,8 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     });
   }
 
-  /* flow: messenger receives text and send event trigger -->
-           handleSend is triggered and sets state -->
-          setState triggers a rerender  and passes message to ChatHistory
-  */
   public render(): JSX.Element {
-    // TODO: remove once development completes.
-    console.log("[ INFO ] : ClientChat render url", this.props.url);
-    console.log("[ INFO ] : ClientChat render messages", this.state.messages);
+    console.log("[ INFO ] : ClientChat render url and messages", this.props.url, this.state.messages);
     return (
       <div>
         <Panel header="Chat" bsStyle="primary" footer={this.messenger}>
