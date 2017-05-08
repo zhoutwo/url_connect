@@ -19,7 +19,6 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
 
   constructor(props: any) {
     super(props);
-    console.log(this.props.messages);
     this.shouldScroll = true;
     this.handleScroll = this.handleScroll.bind(this);
     this.setHistoryEnd = this.setHistoryEnd.bind(this);
