@@ -45,7 +45,7 @@ class RoomService {
       fromID: this.myConfRef.key
     });
   }
-  
+
   public getUser(userID: string): Promise<any> {
     return this.getDataAtReference(this.userListRef.child(userID));
   }

@@ -5,14 +5,11 @@ import * as ReactDOM from "react-dom";
 import IData from "../service/IData";
 import Message from "./Message";
 
-interface IHistoryState {
-}
-
 interface IHistoryProps {
   messages: IData[];
 }
 
-class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
+class ChatHistory extends React.Component<IHistoryProps, any> {
   private historyEnd: HTMLElement;
   private shouldScroll: boolean;
   private lastPosition: number;
@@ -29,16 +26,14 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
       marginBottom: "3px",
       marginTop: "3px"
     };
-    console.log(this.props.messages);
+
+    const messages = this.props.messages.map((data, index) => (
+        <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle} >
+          <Message username={data.userFrom} message={data.message} />
+        </ListGroup> ));
     return (
       <div style={{overflow: "auto", height: "268px", minHeight: "268px", maxHeight: "268px"}} onScroll={this.handleScroll}>
-        {
-          this.props.messages.map((data, index)=>
-            <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle}>
-              <Message username={data.userFrom} message={data.message} />
-            </ListGroup>
-          )
-        }
+        { messages }
         <div style={{float: "left", clear: "both"}}
           ref={this.setHistoryEnd} />
       </div>
