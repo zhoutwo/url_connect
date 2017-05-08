@@ -1,10 +1,9 @@
 import * as React from "react";
 import {Panel} from "react-bootstrap";
-
-import ChatHistory from "./ChatHistory";
-import Messenger from "./Messenger";
 import IData from "../service/IData";
 import RoomService from "../service/RoomService";
+import ChatHistory from "./ChatHistory";
+import Messenger from "./Messenger";
 
 interface IClientChatState {
   messages: IData[];
@@ -38,6 +37,17 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     if (this.roomService) this.roomService.close();
   }
 
+  public render(): JSX.Element {
+    console.log("[ INFO ] : ClientChat render url and messages", this.props.url, this.state.messages);
+    return (
+      <div>
+        <Panel header="Chat" bsStyle="primary" footer={this.messenger}>
+          <ChatHistory messages={this.state.messages} />
+        </Panel>
+      </div>
+    );
+  }
+
   private updateRoomService(url: string) {
     if (this.roomService)
       this.roomService.close();
@@ -50,17 +60,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
         return Object.assign({}, prevState, {messages: updatedMessages});
       });
     });
-  }
-
-  public render(): JSX.Element {
-    console.log("[ INFO ] : ClientChat render url and messages", this.props.url, this.state.messages);
-    return (
-      <div>
-        <Panel header="Chat" bsStyle="primary" footer={this.messenger}>
-          <ChatHistory messages={this.state.messages} />
-        </Panel>
-      </div>
-    );
   }
 
   private handleSend(message: string): void {
