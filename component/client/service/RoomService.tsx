@@ -34,6 +34,15 @@ class RoomService {
     this.myConfRef.set({
       userID : this.myConfRef.key // TODO: we should get a way of persistent this data, like IP address
     });
+
+    const backgroundPage = chrome.extension.getBackgroundPage();
+    addEventListener("unload", (event) => {
+      if (backgroundPage) {
+        this.close();
+        backgroundPage.console.log(event);
+      }
+    }, true);
+
   }
 
   public pushMessage(data: IData): void {
