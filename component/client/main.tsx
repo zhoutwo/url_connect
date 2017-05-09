@@ -1,3 +1,4 @@
+import * as firebase from "firebase";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
@@ -5,6 +6,17 @@ import ClientIndependentChatRoom from "./chat/ClientIndependentChatRoom";
 import * as Constants from "./Constants";
 import ClientCore from "./core/ClientCore";
 import ClientSetting from "./settings/ClientSetting";
+
+// Initialize Firebase
+const config = {
+  apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
+  authDomain: "url-connet.firebaseapp.com",
+  databaseURL: "https://url-connet.firebaseio.com",
+  messagingSenderId: "1089725560944",
+  projectId: "url-connet",
+  storageBucket: "url-connet.appspot.com"
+};
+firebase.initializeApp(config);
 
 ReactDOM.render((
   <Router>
@@ -14,3 +26,4 @@ ReactDOM.render((
       <Route path={Constants.SETTING_LINK} component={ClientSetting} />
     </ClientCore>
   </Router>),   document.getElementById("root"));
+
