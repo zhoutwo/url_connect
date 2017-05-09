@@ -86,15 +86,3 @@ class StorageService {
 
 (window as any).BackgroundStorageService = new StorageService();
 
-// Initialize Firebase
-const config = {
-  apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
-  authDomain: "url-connet.firebaseapp.com",
-  databaseURL: "https://url-connet.firebaseio.com",
-  messagingSenderId: "1089725560944",
-  projectId: "url-connet",
-  storageBucket: "url-connet.appspot.com"
-};
-firebase.initializeApp(config);
-
-(window as any).firebaseDB = firebase.database();
