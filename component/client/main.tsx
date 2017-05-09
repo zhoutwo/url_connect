@@ -14,9 +14,3 @@ ReactDOM.render((
       <Route path={Constants.SETTING_LINK} component={ClientSetting} />
     </ClientCore>
   </Router>),   document.getElementById("root"));
-
-const storageService = (chrome.extension.getBackgroundPage() as any).BackgroundStorageService;
-
-storageService.get("id").then((item) => {
-  console.log(item);
-});
