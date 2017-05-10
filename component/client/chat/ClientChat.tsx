@@ -23,14 +23,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     this.handleSend = this.handleSend.bind(this);
     this.messenger = <Messenger handleSend={this.handleSend}/>;
     this.updateRoomService(this.props.url);
-
-    addEventListener("unload", (event) => {
-      const backgroundPage = chrome.extension.getBackgroundPage();
-      if (backgroundPage) {
-        room.close();
-        backgroundPage.console.log(event);
-      }
-    }, true);
   }
 
   public componentWillReceiveProps(nextProps: IClientChatProps): void {
