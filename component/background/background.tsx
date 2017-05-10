@@ -82,5 +82,5 @@ class StorageService {
   }
 }
 
-(window as any).BackgroundStorageService = new StorageService();
+(window as any).backgroundStorageService = new StorageService();
 (window as any).room = new RoomService(id);

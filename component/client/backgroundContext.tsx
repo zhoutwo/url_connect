@@ -1,6 +1,6 @@
 const backgroundContext: any = chrome.extension.getBackgroundPage();
 
-export const storage = backgroundContext.BackgroundStorageService;
+export const storage = backgroundContext.backgroundStorageService;
 export const room = backgroundContext.room;
 
 addEventListener("unload", (event) => {
