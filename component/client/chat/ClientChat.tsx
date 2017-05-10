@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Panel} from "react-bootstrap";
 import IData from "../service/IData";
-import RoomService from "../service/RoomService";
+import {room} from "../backgroundContext";
 import ChatHistory from "./ChatHistory";
 import Messenger from "./Messenger";
 
@@ -16,7 +16,6 @@ interface IClientChatProps {
 
 class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   private messenger: JSX.Element;
-  private roomService: RoomService;
 
   constructor(props: IClientChatProps) {
     super(props);
@@ -34,7 +33,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public componentWillUnmount(): void {
-    if (this.roomService) this.roomService.close();
+    room.close();
   }
 
   public render(): JSX.Element {
@@ -49,12 +48,10 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private updateRoomService(url: string) {
-    if (this.roomService)
-      this.roomService.close();
     this.state = {
       messages : []
     };
-    this.roomService = new RoomService(url, (data: IData, user) => {
+    room.setUrl(url, (data: IData, user) => {
       this.setState((prevState, props) => {
         const updatedMessages = prevState.messages.concat(data);
         return Object.assign({}, prevState, {messages: updatedMessages});
@@ -63,7 +60,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private handleSend(message: string): void {
-    this.roomService.pushMessage({userFrom: this.props.username, message});
+    room.pushMessage({userFrom: this.props.username, message});
   }
 }
 

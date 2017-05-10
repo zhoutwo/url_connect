@@ -1,19 +1,36 @@
-import { id } from "../backgroundContext";
 import * as firebase from "firebase";
-import IData from "./IData";
+
+// Initialize Firebase
+const config = {
+  apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
+  authDomain: "url-connet.firebaseapp.com",
+  databaseURL: "https://url-connet.firebaseio.com",
+  messagingSenderId: "1089725560944",
+  projectId: "url-connet",
+  storageBucket: "url-connet.appspot.com"
+};
+firebase.initializeApp(config);
+
 
 class RoomService {
   private rootRef: firebase.database.Reference;
   private messageRef: firebase.database.Reference;
   private userListRef: firebase.database.Reference;
   private myConfRef: firebase.database.Reference;
+  private active: boolean;
 
-  constructor(url: string, onMessagePosted: (data: IData, from: any) => void) {
+  constructor(private id: string) {
+    this.active = false;
+  }
+
+  public setUrl(url: string, onMessagePosted: (data: any, from: any) => void) {
+    this.close();
+
     const cleanUrl = url.replace(/[\\.]/g, ",");
     this.rootRef = firebase.database().ref(cleanUrl);
-    this.messageRef = this.rootRef.child("message");
 
     // set up message reference
+    this.messageRef = this.rootRef.child("message");
     this.messageRef.on("child_added", (data: any) => {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
@@ -24,27 +41,40 @@ class RoomService {
     this.messageRef.on("child_changed", (data: any) => {
       throw new Error("Messages should never changed");
     });
-
     this.messageRef.on("child_removed", (data: any) => {
       throw new Error("Messages should never be moved");
     });
 
     // set up configRef
     this.userListRef = this.rootRef.child("user");
-    this.myConfRef = this.userListRef.child(id);
+    this.myConfRef = this.userListRef.child(this.id);
     this.myConfRef.set(true);
 
-    const backgroundPage = chrome.extension.getBackgroundPage();
-    addEventListener("unload", (event) => {
-      if (backgroundPage) {
-        this.close();
-        backgroundPage.console.log(event);
-      }
-    }, true);
-
+    this.active = true;
+    // addEventListener("unload", (event) => {
+    //   const backgroundPage = chrome.extension.getBackgroundPage();
+    //   if (backgroundPage) {
+    //     this.close();
+    //     backgroundPage.console.log(event);
+    //   }
+    // }, true);
   }
 
-  public pushMessage(data: IData): void {
+  public close(): void {
+    if (this.active) {
+      this.messageRef.off();
+      this.myConfRef.remove().then(() => {
+        this.userListRef.once("value", (data) => {
+          if (!data.val()) {
+            this.rootRef.remove();
+          }
+        });
+      });
+      this.active = false;      
+    }
+  }
+
+  public pushMessage(data: any): void {
     if (!data) throw new Error(`data is {data}`);
     this.messageRef.push().set({
       data,
@@ -66,17 +96,6 @@ class RoomService {
 
   public setConf(confData: any): void {
     this.myConfRef.set(confData);
-  }
-
-  public close(): void {
-    this.messageRef.off();
-    this.myConfRef.remove().then(() => {
-      this.userListRef.once("value", (data) => {
-        if (!data.val()) {
-          this.rootRef.remove();
-        }
-      });
-    });
   }
 
   public getDataAtReference(reference: firebase.database.Reference): Promise<any> {
