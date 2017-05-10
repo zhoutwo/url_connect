@@ -10,6 +10,7 @@ interface ISettingProperty {
 
 interface IClientSettingState {
   username: ISettingProperty;
+  dirty: boolean;
 }
 
 class ClientSetting extends React.Component<any, IClientSettingState> {
@@ -17,6 +18,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     super(props);
 
     this.state = {
+      dirty: false,
       username: {
         original: "",
         updated: ""
@@ -47,7 +49,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
             </label>
           </Row>
           <Row>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" disabled={!this.state.dirty}/>
           </Row>
         </form>
       </Grid>
@@ -90,17 +92,23 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
         }
       });
     }
+    this.setState({
+      dirty: false
+    });
   }
 
   public handleUsernameChange(event) {
     event.preventDefault();
     if (event.target.value) {
-      this.setState({
-        username: {
-          original: this.state.username.original,
-          updated: event.target.value
-        }
-      });
+      if (this.state.username.original !== event.target.value) {
+        this.setState({
+          dirty: true,
+          username: {
+            original: this.state.username.original,
+            updated: event.target.value
+          }
+        });
+      }
     }
   }
 }
