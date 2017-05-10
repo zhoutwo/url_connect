@@ -42,14 +42,14 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     return(
       <Grid>
         <form id="settings" onSubmit={this.handleSubmit}>
-          <Row>
+          <Row className="input-group">
             <label>
               Username:
-              <input type="text" value={this.state.username.updated} onChange={this.handleUsernameChange}/>
+              <input type="text" className="form-control" value={this.state.username.updated} onChange={this.handleUsernameChange}/>
             </label>
           </Row>
-          <Row>
-            <input type="submit" value="Submit" disabled={!this.state.dirty}/>
+          <Row className="input-group">
+            <input type="submit" value="Submit" className="btn btn-info" disabled={!this.state.dirty}/>
           </Row>
         </form>
       </Grid>
@@ -60,26 +60,31 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     event.preventDefault();
     let promise;
     for (const key in this.state) {
-      if (this.state[key].updated !== this.state[key].original) {
-        if (!promise) {
-          promise = new Promise((resolve) => {
-            storage.set(key, this.state[key].updated).then(resolve);
-          });
-        } else {
-          const temp = promise;
-          promise = new Promise((resolve) => {
-            temp.then(() => {
+      if (this.state.hasOwnProperty(key) && key !== "dirty") {
+        if (this.state[key].updated !== this.state[key].original) {
+          if (!promise) {
+            promise = new Promise((resolve) => {
               storage.set(key, this.state[key].updated).then(resolve);
             });
-          });
+          } else {
+            const temp = promise;
+            promise = new Promise((resolve) => {
+              temp.then(() => {
+                storage.set(key, this.state[key].updated).then(resolve);
+              });
+            });
+          }
         }
       }
     }
     if (promise) {
       promise.then(() => {
+        this.setState({
+          dirty: false
+        });
         const temp = this.state;
         for (const key in temp) {
-          if (temp.hasOwnProperty(key)) {
+          if (temp.hasOwnProperty(key) && key !== "dirty") {
             storage.get(key).then((value) => {
               const data: any = {};
               data[key] = {
@@ -91,10 +96,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
           }
         }
       });
+    } else {
+      this.setState({
+        dirty: false
+      });
     }
-    this.setState({
-      dirty: false
-    });
   }
 
   public handleUsernameChange(event) {
