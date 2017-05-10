@@ -1,3 +1,4 @@
+import { id } from "../backgroundContext";
 import * as firebase from "firebase";
 import IData from "./IData";
 
@@ -30,10 +31,8 @@ class RoomService {
 
     // set up configRef
     this.userListRef = this.rootRef.child("user");
-    this.myConfRef = this.userListRef.push();
-    this.myConfRef.set({
-      userID : this.myConfRef.key // TODO: we should get a way of persistent this data, like IP address
-    });
+    this.myConfRef = this.userListRef.child(id);
+    this.myConfRef.set(true);
 
     const backgroundPage = chrome.extension.getBackgroundPage();
     addEventListener("unload", (event) => {
