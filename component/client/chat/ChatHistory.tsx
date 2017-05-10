@@ -69,7 +69,9 @@ class ChatHistory extends React.Component<IHistoryProps, IHistoryState> {
   }
 
   public componentDidUpdate(prevProps: IHistoryProps, prevState: IHistoryState): void {
-    this.scrollToBottom();
+    if (this.shouldScroll) {
+      this.scrollToBottom();
+    }
   }
 
   private createMessage(data: IData, user: any): JSX.Element {
