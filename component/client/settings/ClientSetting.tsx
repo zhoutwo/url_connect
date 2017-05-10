@@ -50,9 +50,9 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
               <input type="text" className="form-control" value={this.state.username.updated} onChange={this.handleUsernameChange}/>
             </label>
           </Row>
-          <Row className="input-group">
+          <Row className="input-group" style={{marginTop: "10px"}}>
             <input type="submit" value="Submit" className="btn btn-info" disabled={!this.state.dirty}/>
-            <button className="btn btn-danger" onClick={this.reset}>Reset</button>
+            <button className="btn btn-danger" style={{marginLeft: "50px"}} onClick={this.reset}>Reset</button>
           </Row>
         </form>
       </Grid>
