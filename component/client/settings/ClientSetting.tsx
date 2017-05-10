@@ -36,6 +36,8 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.reloadSettings = this.reloadSettings.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   public render(): JSX.Element {
@@ -50,6 +52,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
           </Row>
           <Row className="input-group">
             <input type="submit" value="Submit" className="btn btn-info" disabled={!this.state.dirty}/>
+            <button className="btn btn-danger" onClick={this.reset}>Reset</button>
           </Row>
         </form>
       </Grid>
@@ -78,24 +81,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       }
     }
     if (promise) {
-      promise.then(() => {
-        this.setState({
-          dirty: false
-        });
-        const temp = this.state;
-        for (const key in temp) {
-          if (temp.hasOwnProperty(key) && key !== "dirty") {
-            storage.get(key).then((value) => {
-              const data: any = {};
-              data[key] = {
-                original: value,
-                updated: value,
-              };
-              this.setState(data);
-            });
-          }
-        }
-      });
+      promise.then(this.reloadSettings);
     } else {
       this.setState({
         dirty: false
@@ -116,6 +102,29 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
         });
       }
     }
+  }
+
+  public reloadSettings() {
+    this.setState({
+      dirty: false
+    });
+    const temp = this.state;
+    for (const key in temp) {
+      if (temp.hasOwnProperty(key) && key !== "dirty") {
+        storage.get(key).then((value) => {
+          const data: any = {};
+          data[key] = {
+            original: value,
+            updated: value,
+          };
+          this.setState(data);
+        });
+      }
+    }
+  }
+
+  public reset() {
+    storage.reset().then(this.reloadSettings);
   }
 }
 
