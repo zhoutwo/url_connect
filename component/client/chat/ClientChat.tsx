@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Panel} from "react-bootstrap";
-import IData from "../service/IData";
+import IData from "./IData";
 import {room} from "../backgroundContext";
 import ChatHistory from "./ChatHistory";
 import Messenger from "./Messenger";
