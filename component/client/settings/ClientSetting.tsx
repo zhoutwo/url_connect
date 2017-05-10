@@ -55,6 +55,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   public handleSubmit(event) {
+    event.preventDefault();
     let promise;
     for (const key in this.state) {
       if (this.state[key].updated !== this.state[key].original) {
@@ -72,25 +73,27 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
         }
       }
     }
-    promise.then(() => {
-      const temp = this.state;
-      for (const key in temp) {
-        if (temp.hasOwnProperty(key)) {
-          storage.get(key).then((value) => {
-            const data: any = {};
-            data[key] = {
-              original: value,
-              updated: value,
-            };
-            this.setState(data);
-          });
+    if (promise) {
+      promise.then(() => {
+        const temp = this.state;
+        for (const key in temp) {
+          if (temp.hasOwnProperty(key)) {
+            storage.get(key).then((value) => {
+              const data: any = {};
+              data[key] = {
+                original: value,
+                updated: value,
+              };
+              this.setState(data);
+            });
+          }
         }
-      }
-    });
-    event.preventDefault();
+      });
+    }
   }
 
   public handleUsernameChange(event) {
+    event.preventDefault();
     if (event.target.value) {
       this.setState({
         username: {
@@ -99,7 +102,6 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
         }
       });
     }
-    event.preventDefault();
   }
 }
 
