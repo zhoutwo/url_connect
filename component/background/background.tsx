@@ -31,14 +31,16 @@ class StorageService {
     });
   }
 
-  public reset() {
-    this.storage.clear(() => {
-      defaults.id = generateUUID();
-      this.storage.set(defaults);
+  public reset(): Promise<any> {
+    return new Promise((resolve) => {
+      this.storage.clear(() => {
+        defaults.id = generateUUID();
+        this.storage.set(defaults, resolve);
+      });
     });
   }
 
-  public get(key) {
+  public get(key): Promise<string> {
     return new Promise((resolve) => {
       this.storage.get(key, (item) => {
         resolve(item[key]);
@@ -46,14 +48,19 @@ class StorageService {
     });
   }
 
-  public set(key, value) {
+  public set(key, value): Promise<any> {
     const data = {};
     data[key] = value;
-    this.storage.set(data);
+
+    return new Promise((resolve) => {
+      this.storage.set(data, resolve);
+    });
   }
 
-  public remove(key) {
-    this.storage.remove(key);
+  public remove(key): Promise<any> {
+    return new Promise((resolve) => {
+      this.storage.remove(key, resolve);
+    });
   }
 }
 
