@@ -2,10 +2,6 @@ import * as firebase from "firebase";
 
 // if you checked "fancy-settings" in extensionizr.com, uncomment this lines
 
-// var settings = new Store("settings", {
-//     "sample_setting": "This is how you use Store.js to remember values"
-// });
-
 // Code originally authored by broofa on StackOverflow
 // Please see: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#answer-2117523
 function generateUUID() {
@@ -16,8 +12,10 @@ function generateUUID() {
   });
 }
 
+const id = generateUUID();
+
 const defaults = {
-  id: generateUUID(),
+  id,
   username: "test-user",
 };
 
@@ -85,4 +83,5 @@ class StorageService {
 }
 
 (window as any).BackgroundStorageService = new StorageService();
+(window as any).id = id;
 
