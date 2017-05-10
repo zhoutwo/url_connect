@@ -51,13 +51,6 @@ class RoomService {
     this.myConfRef.set(true);
 
     this.active = true;
-    // addEventListener("unload", (event) => {
-    //   const backgroundPage = chrome.extension.getBackgroundPage();
-    //   if (backgroundPage) {
-    //     this.close();
-    //     backgroundPage.console.log(event);
-    //   }
-    // }, true);
   }
 
   public close(): void {
