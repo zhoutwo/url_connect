@@ -2,7 +2,7 @@ import * as React from "react";
 import {ListGroup} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 
-import IData from "../service/IData";
+import IData from "./IData";
 import Message from "./Message";
 
 interface IHistoryProps {
