@@ -7,17 +7,6 @@ import * as Constants from "./Constants";
 import ClientCore from "./core/ClientCore";
 import ClientSetting from "./settings/ClientSetting";
 
-// Initialize Firebase
-const config = {
-  apiKey: "AIzaSyBakHeV8lMlysuBRtIWU9vz_hv6dF_zHxM",
-  authDomain: "url-connet.firebaseapp.com",
-  databaseURL: "https://url-connet.firebaseio.com",
-  messagingSenderId: "1089725560944",
-  projectId: "url-connet",
-  storageBucket: "url-connet.appspot.com"
-};
-firebase.initializeApp(config);
-
 ReactDOM.render((
   <Router>
     <ClientCore>
