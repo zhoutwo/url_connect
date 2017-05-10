@@ -11,7 +11,6 @@ const config = {
 };
 firebase.initializeApp(config);
 
-
 class RoomService {
   private rootRef: firebase.database.Reference;
   private messageRef: firebase.database.Reference;
@@ -63,7 +62,7 @@ class RoomService {
           }
         });
       });
-      this.active = false;      
+      this.active = false;
     }
   }
 

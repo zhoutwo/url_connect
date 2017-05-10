@@ -1,4 +1,3 @@
-import * as firebase from "firebase";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
@@ -15,4 +14,3 @@ ReactDOM.render((
       <Route path={Constants.SETTING_LINK} component={ClientSetting} />
     </ClientCore>
   </Router>),   document.getElementById("root"));
-

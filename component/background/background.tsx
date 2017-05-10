@@ -1,4 +1,3 @@
-import * as firebase from "firebase";
 import RoomService from "./RoomService";
 
 // if you checked "fancy-settings" in extensionizr.com, uncomment this lines
@@ -85,4 +84,3 @@ class StorageService {
 
 (window as any).BackgroundStorageService = new StorageService();
 (window as any).room = new RoomService(id);
-

@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Panel} from "react-bootstrap";
-import IData from "./IData";
 import {room} from "../backgroundContext";
 import ChatHistory from "./ChatHistory";
+import IData from "./IData";
 import Messenger from "./Messenger";
 
 interface IClientChatState {
@@ -40,7 +40,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     console.log("[ INFO ] : ClientChat render url and messages", this.props.url, this.state.messages);
     return (
       <div>
-        <Panel header={"Chat at "+this.props.url} bsStyle="primary" footer={this.messenger}>
+        <Panel header={"Chat at " + this.props.url} bsStyle="primary" footer={this.messenger}>
           <ChatHistory messages={this.state.messages} />
         </Panel>
       </div>
