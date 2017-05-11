@@ -60,5 +60,8 @@
     "typescript": "^2.2.2",
     "webpack": "^2.4.1",
     "yarn": "^0.22.0"
+  },
+  "dependencies": {
+    "react-contextmenu": "^2.5.1"
   }
 }
