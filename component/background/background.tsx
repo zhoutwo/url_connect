@@ -31,14 +31,25 @@ class StorageService {
     });
   }
 
-  public reset() {
-    this.storage.clear(() => {
-      defaults.id = generateUUID();
-      this.storage.set(defaults);
+  /**
+   * Clear the storage space and load with default settings
+   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after defaults are set
+   */
+  public reset(): Promise<{}> {
+    return new Promise((resolve) => {
+      this.storage.clear(() => {
+        defaults.id = generateUUID();
+        this.storage.set(defaults, resolve);
+      });
     });
   }
 
-  public get(key) {
+  /**
+   * Retrieves the stored value for the specified key
+   * @param key The key to look up
+   * @return {Promise<String>} The value associated with the key; undefined if not found
+   */
+  public get(key: string): Promise<string> {
     return new Promise((resolve) => {
       this.storage.get(key, (item) => {
         resolve(item[key]);
@@ -46,14 +57,30 @@ class StorageService {
     });
   }
 
-  public set(key, value) {
+  /**
+   * Sets the key-value in the storage
+   * @param key The key
+   * @param value The value
+   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
+   */
+  public set(key: string, value: string): Promise<{}> {
     const data = {};
     data[key] = value;
-    this.storage.set(data);
+
+    return new Promise((resolve) => {
+      this.storage.set(data, resolve);
+    });
   }
 
-  public remove(key) {
-    this.storage.remove(key);
+  /**
+   * Removes the key (and its associated value) from the storage
+   * @param key The key to remove
+   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
+   */
+  public remove(key): Promise<{}> {
+    return new Promise((resolve) => {
+      this.storage.remove(key, resolve);
+    });
   }
 }
 
