@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Col, Grid, ListGroupItem, Row} from "react-bootstrap";
-import {ContextMenu, MenuItem, ContextMenuTrigger} from "react-contextmenu";
+import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 
 interface IMessageProps {
   user: string;
