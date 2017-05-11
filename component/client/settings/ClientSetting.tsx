@@ -91,7 +91,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
   public handleUsernameChange(event) {
     event.preventDefault();
-    if (event.target.valuethis.state.username.original !== event.target.value) {
+    if (event.target.value && this.state.username.original !== event.target.value) {
       this.setState({
         dirty: true,
         username: {
