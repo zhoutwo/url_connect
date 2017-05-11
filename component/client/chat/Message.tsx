@@ -1,9 +1,12 @@
 import * as React from "react";
 import {Col, Grid, ListGroupItem, Row} from "react-bootstrap";
+import {ContextMenu, MenuItem, ContextMenuTrigger} from "react-contextmenu";
 
 interface IMessageProps {
+  user: string;
   username: string;
   message: string;
+  index: number;
 }
 
 class Message extends React.Component<IMessageProps, any> {
@@ -18,25 +21,46 @@ class Message extends React.Component<IMessageProps, any> {
       backgroundColor: `${backgroundColor}`, // FIXME: I should not need to do this to the linter.
       color: fontColor
     };
+    const contextIdentifier = this.props.index + this.props.username;
 
     return (
-      <ListGroupItem bsStyle="info" style={messageStyle}>
-        <Grid>
-          <Row>
-            <Col sm={4} md={4}>
-              {this.props.username}
-            </Col>
-            <Col sm={8} md={8}>
-              {this.props.message}
-            </Col>
-          </Row>
-        </Grid>
-      </ListGroupItem>
+      <div>
+        <ContextMenuTrigger id={contextIdentifier} disable={this.props.user === this.props.username}>
+          <div>
+            <ListGroupItem bsStyle="info" style={messageStyle}>
+              <Grid>
+                <Row>
+                  <Col sm={4} md={4}>
+                    {this.props.username}
+                  </Col>
+                  <Col sm={8} md={8}>
+                    {this.props.message}
+                  </Col>
+                </Row>
+              </Grid>
+            </ListGroupItem>
+          </div>
+        </ContextMenuTrigger>
+
+        <ContextMenu id={contextIdentifier}>
+          <MenuItem data={{user: this.props.username}} onClick={this.startPrivateChat}>
+            Private Chat with {this.props.username}
+          </MenuItem>
+        </ContextMenu>
+      </div>
     );
   }
 
-  // Then we'll use the int and convert to hex.
-  // Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
+  private startPrivateChat(event, data) {
+    event.preventDefault();
+    console.log("[ INFO ] : Context Menu Click: ", data);
+  }
+
+  /**
+    Then we'll use the int and convert to hex.
+
+    Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
+  **/
   private hashCode(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -45,9 +69,10 @@ class Message extends React.Component<IMessageProps, any> {
     return hash;
   }
 
-  // Convert an int to hexadecimal with a max length
-  // of six characters.
-  // Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
+  /**
+     Convert an int to hexadecimal with a max length of six characters.
+     Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
+  **/
   private intToARGB(i: number): string {
     let hex = ((i >> 24) & 0xFF).toString(16) +
             ((i >> 16) & 0xFF).toString(16) +
@@ -60,7 +85,9 @@ class Message extends React.Component<IMessageProps, any> {
     return hex.substring(0, 6);
   }
 
-  // Source: https://stackoverflow.com/questions/9600295/automatically-change-text-color-to-assure-readability
+  /**
+   Source: https://stackoverflow.com/questions/9600295/automatically-change-text-color-to-assure-readability
+  **/
   private invertColor(hexColor: string): string {
     let color = hexColor.substring(1);           // remove #
     let colorHex = parseInt(color, 16);          // convert to integer
