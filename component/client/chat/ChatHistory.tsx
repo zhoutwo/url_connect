@@ -34,9 +34,8 @@ class ChatHistory extends React.Component<IHistoryProps, any> {
         </ListGroup> ));
     return (
       <div style={{overflow: "auto", height: "268px", minHeight: "268px", maxHeight: "268px"}} onScroll={this.handleScroll}>
-        { messages }
-        <div style={{float: "left", clear: "both"}}
-          ref={this.setHistoryEnd} />
+        {messages}
+        <div style={{float: "left", clear: "both"}} ref={this.setHistoryEnd} />
       </div>
     );
   }
