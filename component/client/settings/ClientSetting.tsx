@@ -36,21 +36,21 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    // this.handleValidation = this.handleValidation.bind(this);
     this.reloadSettings = this.reloadSettings.bind(this);
     this.reset = this.reset.bind(this);
   }
 
   public render(): JSX.Element {
+    // FIXME: Typescript wants some weird signature that I am not sure how to specifiy.
     return (
       <form id="settings" onSubmit={this.handleSubmit}>
-        <FormGroup controlId="setting" >
+        <FormGroup controlId="setting" validationState={this.handleValidation}>
           <FormControl type="text" value={this.state.username.updated} onChange={this.handleUsernameChange} placeholder={this.state.username.original} />
         </FormGroup>
 
         <FormGroup>
           <ButtonToolbar>
-            <Button bsStyle="primary" onClick={this.handleUsernameChange} disabled={!this.state.dirty}>
+            <Button bsStyle="primary" onClick={this.handleSubmit} disabled={!this.state.dirty}>
               Submit
             </Button>
             <Button bsStyle="danger" onClick={this.reset}>
