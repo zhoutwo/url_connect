@@ -56,11 +56,11 @@ class Message extends React.Component<IMessageProps, any> {
     console.log("[ INFO ] : Context Menu Click: ", data);
   }
 
-  /**
+  /*
     Then we'll use the int and convert to hex.
 
     Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
-  **/
+  */
   private hashCode(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -69,10 +69,10 @@ class Message extends React.Component<IMessageProps, any> {
     return hash;
   }
 
-  /**
+  /*
      Convert an int to hexadecimal with a max length of six characters.
      Source: https://www.designedbyaturtle.co.uk/2014/convert-string-to-hexidecimal-colour-with-javascript-vanilla/
-  **/
+  */
   private intToARGB(i: number): string {
     let hex = ((i >> 24) & 0xFF).toString(16) +
             ((i >> 16) & 0xFF).toString(16) +
@@ -85,9 +85,9 @@ class Message extends React.Component<IMessageProps, any> {
     return hex.substring(0, 6);
   }
 
-  /**
+  /*
    Source: https://stackoverflow.com/questions/9600295/automatically-change-text-color-to-assure-readability
-  **/
+  */
   private invertColor(hexColor: string): string {
     let color = hexColor.substring(1);           // remove #
     let colorHex = parseInt(color, 16);          // convert to integer
