@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Row} from "react-bootstrap";
+import {Button, ButtonToolbar, FormGroup, FormControl} from "react-bootstrap";
 
 import {storage} from "../backgroundContext";
 
@@ -36,30 +36,33 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    // this.handleValidation = this.handleValidation.bind(this);
     this.reloadSettings = this.reloadSettings.bind(this);
     this.reset = this.reset.bind(this);
   }
 
   public render(): JSX.Element {
-    return(
-      <Grid>
-        <form id="settings" onSubmit={this.handleSubmit}>
-          <Row className="input-group">
-            <label>
-              Username:
-              <input type="text" className="form-control" value={this.state.username.updated} onChange={this.handleUsernameChange}/>
-            </label>
-          </Row>
-          <Row className="input-group" style={{marginTop: "10px"}}>
-            <input type="submit" value="Submit" className="btn btn-info" disabled={!this.state.dirty}/>
-            <button className="btn btn-danger" style={{marginLeft: "50px"}} onClick={this.reset}>Reset</button>
-          </Row>
-        </form>
-      </Grid>
+    return (
+      <form id="settings" onSubmit={this.handleSubmit}>
+        <FormGroup controlId="setting" >
+          <FormControl type="text" value={this.state.username.updated} onChange={this.handleUsernameChange} placeholder={this.state.username.original} />
+        </FormGroup>
+
+        <FormGroup>
+          <ButtonToolbar>
+            <Button bsStyle="primary" onClick={this.handleUsernameChange} disabled={!this.state.dirty}>
+              Submit
+            </Button>
+            <Button bsStyle="danger" onClick={this.reset}>
+              Reset
+            </Button>
+          </ButtonToolbar>
+        </FormGroup>
+      </form>
     );
   }
 
-  public handleSubmit(event) {
+  private handleSubmit(event): void {
     event.preventDefault();
     let promise;
     for (const key in this.state) {
@@ -90,7 +93,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     }
   }
 
-  public handleUsernameChange(event) {
+  private handleUsernameChange(event): void {
     event.preventDefault();
     if (event.target.value !== undefined) {
       this.setState({
@@ -104,7 +107,19 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     }
   }
 
-  public reloadSettings() {
+  private handleValidation() {
+    const updated = this.state.username.updated;
+    const original = this.state.username.original;
+
+    // error if the new username is empty or is the same as the old
+    if (updated.length === 0 || updated === original) {
+      return "error";
+    }
+
+    return "success";
+  }
+
+  private reloadSettings() {
     this.setState({
       dirty: false
     });
@@ -123,7 +138,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     }
   }
 
-  public reset() {
+  private reset() {
     storage.reset().then(this.reloadSettings);
   }
 }
