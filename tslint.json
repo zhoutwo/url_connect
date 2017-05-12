@@ -25,7 +25,7 @@
     ],
     // "linebreak-style": [true, "LF"],
     "interface-name": false,
-    "jsdoc-format": false,
+    "jsdoc-format": true,
     "label-position": true,
     "max-line-length": [
       true,
