@@ -64,7 +64,8 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     let promise;
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key) && key !== "dirty") {
-        if (this.state[key].updated !== this.state[key].original) {
+        // Updated value shouldn't be empty
+        if (this.state[key].updated && this.state[key].updated !== this.state[key].original) {
           if (!promise) {
             promise = new Promise((resolve) => {
               storage.set(key, this.state[key].updated).then(resolve);
@@ -93,7 +94,8 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     event.preventDefault();
     if (event.target.value !== undefined) {
       this.setState({
-        dirty: this.state.username.original !== event.target.value,
+        // The field is only considered dirty if there is value and it's different from original
+        dirty: event.target.value && this.state.username.original !== event.target.value,
         username: {
           original: this.state.username.original,
           updated: event.target.value
