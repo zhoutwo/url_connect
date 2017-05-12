@@ -42,9 +42,7 @@ class Messenger extends React.Component<IMessengerProps, IMessengerState> {
       <form onSubmit={this.handleSend}>
         <FormGroup controlId="chatMessageBox" validationState="success">
           <InputGroup>
-            <FormControl type="text" value={this.state.message}
-            placeholder="message..." onChange={this.handleMessage}
-            autoComplete="off" />
+            <FormControl type="text" value={this.state.message} placeholder="message..." onChange={this.handleMessage} autoComplete="off" />
             <InputGroup.Button>
               <Button bsStyle="info" type="submit">
                 Send
