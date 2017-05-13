@@ -1,16 +1,14 @@
 import RoomService from "./RoomService";
 
-// if you checked "fancy-settings" in extensionizr.com, uncomment this lines
-
 // Code originally authored by broofa on StackOverflow
 // Please see: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#answer-2117523
-function generateUUID() {
+const generateUUID = (): string => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = Math.random() * 16 | 0;
     const v = c === "x" ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
-}
+};
 
 const id = generateUUID();
 
