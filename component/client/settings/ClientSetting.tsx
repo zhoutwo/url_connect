@@ -102,7 +102,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     const value = event.target.value;
     if (value !== undefined) {
       this.setState((prevState: IClientSettingState, props: any) => {
-        const dirtyField = {dirty: value && (value !== prevState.username.original || value.length !== 0)}
+        const dirtyField = {dirty: value && (value !== prevState.username.original || value.length !== 0)};
         const usernameField = {username: {original: prevState.username.original, updated: value}};
         return Object.assign({}, prevState, dirtyField, usernameField);
       });
