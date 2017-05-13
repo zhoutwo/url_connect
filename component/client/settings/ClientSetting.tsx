@@ -45,10 +45,12 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     return (
       <form id="settings" onSubmit={this.handleSubmit}>
         <FormGroup controlId="setting" validationState={this.handleValidation()}>
-          <FormControl type="text"
-                       value={this.state.username.updated}
-                       onChange={this.handleUsernameChange}
-                       placeholder={this.state.username.original}/>
+          <FormControl
+            type="text"
+            value={this.state.username.updated}
+            onChange={this.handleUsernameChange}
+            placeholder={this.state.username.original}
+          />
 
         </FormGroup>
 
