@@ -36,12 +36,14 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleValidation = this.handleValidation.bind(this);
     this.reloadSettings = this.reloadSettings.bind(this);
     this.reset = this.reset.bind(this);
   }
 
   public render(): JSX.Element {
-    // FIXME: Typescript wants some weird signature that I am not sure how to specifiy.
+    // FIXME: Typescript wants some weird signature that I am not sure how to specify.
+    console.log("[ INFO ] : ClientSetting state", this.state);
     return (
       <form id="settings" onSubmit={this.handleSubmit}>
         <FormGroup controlId="setting" validationState={this.handleValidation}>
@@ -65,25 +67,25 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   private handleSubmit(event): void {
     event.preventDefault();
     let promise;
-    for (const key in this.state) {
-      if (this.state.hasOwnProperty(key) && key !== "dirty") {
-        // Updated value shouldn't be empty
-        if (this.state[key].updated && this.state[key].updated !== this.state[key].original) {
-          if (!promise) {
-            promise = new Promise((resolve) => {
+
+    if (this.state.dirty) {
+      const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
+      for (const key in iterableKeys) {
+        if (!promise) {
+          promise = new Promise((resolve) => {
+            storage.set(key, this.state[key].updated).then(resolve);
+          });
+        } else {
+          const temp = promise;
+          promise = new Promise((resolve) => {
+            temp.then(() => {
               storage.set(key, this.state[key].updated).then(resolve);
             });
-          } else {
-            const temp = promise;
-            promise = new Promise((resolve) => {
-              temp.then(() => {
-                storage.set(key, this.state[key].updated).then(resolve);
-              });
-            });
-          }
+          });
         }
       }
     }
+
     if (promise) {
       promise.then(this.reloadSettings);
     } else {
@@ -95,14 +97,12 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
   private handleUsernameChange(event): void {
     event.preventDefault();
-    if (event.target.value !== undefined) {
-      this.setState({
-        // The field is only considered dirty if there is value and it's different from original
-        dirty: event.target.value && this.state.username.original !== event.target.value,
-        username: {
-          original: this.state.username.original,
-          updated: event.target.value
-        }
+    const value = event.target.value;
+    console.log("[ INFO ] : username value", value);
+    if (value !== undefined) {
+      this.setState((prevState: IClientSettingState, props: any) => {
+        const usernameField = {username: {original: prevState.username.original, updated: value}};
+        return Object.assign({}, prevState, usernameField);
       });
     }
   }
@@ -113,9 +113,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     // error if the new username is empty or is the same as the old
     if (updated.length === 0 || updated === original) {
+      this.setState({dirty: false});
       return "error";
     }
 
+    this.setState({dirty: true});
     return "success";
   }
 
@@ -124,17 +126,16 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       dirty: false
     });
     const temp = this.state;
-    for (const key in temp) {
-      if (temp.hasOwnProperty(key) && key !== "dirty") {
-        storage.get(key).then((value) => {
-          const data: any = {};
-          data[key] = {
-            original: value,
-            updated: value,
-          };
-          this.setState(data);
-        });
-      }
+    const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
+    for (const key in iterableKeys) {
+      storage.get(key).then((value) => {
+        const data: any = {};
+        data[key] = {
+          original: value,
+          updated: value,
+        };
+        this.setState(data);
+      });
     }
   }
 
