@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, ButtonToolbar, FormControl, FormGroup} from "react-bootstrap";
+import {Button, ButtonToolbar, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
 
 import {storage} from "../backgroundContext";
 
@@ -51,7 +51,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
             onChange={this.handleUsernameChange}
             placeholder={this.state.username.original}
           />
-
+          <ControlLabel> Username </ControlLabel>
+          <FormControl type="text"
+                       value={this.state.username.updated}
+                       onChange={this.handleUsernameChange}
+                       placeholder={this.state.username.original}/>
         </FormGroup>
 
         <FormGroup>
