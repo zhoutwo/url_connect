@@ -29,7 +29,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       this.setState({
         username: {
           original: username,
-          updated: username
+          updated: ""
         }
       });
     });
@@ -45,12 +45,6 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     return (
       <form id="settings" onSubmit={this.handleSubmit}>
         <FormGroup controlId="setting" validationState={this.handleValidation()}>
-          <FormControl
-            type="text"
-            value={this.state.username.updated}
-            onChange={this.handleUsernameChange}
-            placeholder={this.state.username.original}
-          />
           <ControlLabel> Username </ControlLabel>
           <FormControl type="text"
                        value={this.state.username.updated}
@@ -119,12 +113,12 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     const updated = this.state.username.updated;
     const original = this.state.username.original;
 
-    // error if the new username is empty or is the same as the old
-    if (updated.length === 0 || updated === original) {
+    // error if the new username is the same as the old
+    if (updated === original) {
       return "error";
+    } else if (updated.length > 0) {
+      return "success";
     }
-
-    return "success";
   }
 
   private reloadSettings() {
