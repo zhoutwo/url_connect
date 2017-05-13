@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, ButtonToolbar, FormGroup, FormControl} from "react-bootstrap";
+import {Button, ButtonToolbar, FormControl, FormGroup} from "react-bootstrap";
 
 import {storage} from "../backgroundContext";
 
@@ -128,17 +128,18 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     this.setState({
       dirty: false
     });
-    const temp = this.state;
     const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
     for (const key in iterableKeys) {
-      storage.get(key).then((value) => {
-        const data: any = {};
-        data[key] = {
-          original: value,
-          updated: value,
-        };
-        this.setState(data);
-      });
+      if (iterableKeys.hasOwnProperty(key)) {
+        storage.get(key).then((value) => {
+          const data: any = {};
+          data[key] = {
+            original: value,
+            updated: value,
+          };
+          this.setState(data);
+        });
+      }
     }
   }
 
