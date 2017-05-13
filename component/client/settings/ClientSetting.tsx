@@ -25,11 +25,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       }
     };
 
-    storage.get("username").then((username) => {
+    storage.get("username").then((username: string) => {
       this.setState({
         username: {
           original: username,
-          updated: username,
+          updated: username
         }
       });
     });
@@ -42,8 +42,6 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   public render(): JSX.Element {
-    // FIXME: Typescript wants some weird signature that I am not sure how to specify.
-    console.log("[ INFO ] : ClientSetting state", this.state);
     return (
       <form id="settings" onSubmit={this.handleSubmit}>
         <FormGroup controlId="setting" validationState={this.handleValidation()}>
@@ -51,6 +49,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
                        value={this.state.username.updated}
                        onChange={this.handleUsernameChange}
                        placeholder={this.state.username.original}/>
+
         </FormGroup>
 
         <FormGroup>
@@ -73,39 +72,39 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     if (this.state.dirty) {
       const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
-      for (const key in iterableKeys) {
+      iterableKeys.forEach((stateKey) => {
         if (!promise) {
           promise = new Promise((resolve) => {
-            storage.set(key, this.state[key].updated).then(resolve);
+            storage.set(stateKey, this.state[stateKey].updated).then(resolve);
           });
         } else {
           const temp = promise;
           promise = new Promise((resolve) => {
             temp.then(() => {
-              storage.set(key, this.state[key].updated).then(resolve);
+              storage.set(stateKey, this.state[stateKey].updated).then(resolve);
             });
           });
         }
-      }
-    }
-
-    if (promise) {
-      promise.then(this.reloadSettings);
-    } else {
-      this.setState({
-        dirty: false
       });
+
+      if (promise) {
+        promise.then(this.reloadSettings);
+      } else {
+        this.setState({
+          dirty: false
+        });
+      }
     }
   }
 
   private handleUsernameChange(event): void {
     event.preventDefault();
     const value = event.target.value;
-    console.log("[ INFO ] : username value", value);
     if (value !== undefined) {
       this.setState((prevState: IClientSettingState, props: any) => {
+        const dirtyField = {dirty: value && (value !== prevState.username.original || value.length !== 0)}
         const usernameField = {username: {original: prevState.username.original, updated: value}};
-        return Object.assign({}, prevState, usernameField);
+        return Object.assign({}, prevState, dirtyField, usernameField);
       });
     }
   }
@@ -116,11 +115,9 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     // error if the new username is empty or is the same as the old
     if (updated.length === 0 || updated === original) {
-      this.setState({dirty: false});
       return "error";
     }
 
-    this.setState({dirty: true});
     return "success";
   }
 
@@ -129,18 +126,16 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       dirty: false
     });
     const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
-    for (const key in iterableKeys) {
-      if (iterableKeys.hasOwnProperty(key)) {
-        storage.get(key).then((value) => {
-          const data: any = {};
-          data[key] = {
-            original: value,
-            updated: value,
-          };
-          this.setState(data);
-        });
-      }
-    }
+    iterableKeys.forEach((stateKey) => {
+      storage.get(stateKey).then((value) => {
+        const data: any = {};
+        data[stateKey] = {
+          original: value,
+          updated: value,
+        };
+        this.setState(data);
+      });
+    });
   }
 
   private reset() {
