@@ -29,7 +29,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     });
 
     storage.subscribe((data) => {
-      if (data.initialized) this.setState({initialized: data.initialized});
+      if (data.initialized) this.setState({initialized: data.initialized.newValue});
     });
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -42,6 +42,8 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     const coreStyle = {
       marginTop: "60px"
     };
+
+    console.log("[ INFO ] : core state", this.state);
 
     return (
       <div>
