@@ -25,7 +25,11 @@ class RoomService {
   public setUrl(url: string, onMessagePosted: (data: any, from: any) => void) {
     this.close();
 
-    const cleanUrl = url.replace(/[\\.]/g, ",");
+    const cleanUrl = url.replace(/[\\.]/g, ",")
+                        .replace(/[#]/g, "!")
+                        .replace(/[$]/g, "@")
+                        .replace(/[{]/g, "((")
+                        .replace(/[}]/g, "))");
     this.rootRef = firebase.database().ref(cleanUrl);
 
     // set up message reference
