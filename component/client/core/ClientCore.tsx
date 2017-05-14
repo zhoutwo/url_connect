@@ -29,7 +29,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     });
 
     storage.subscribe((data) => {
-      this.setState({initialized: data.initialized});
+      if (data.initialized) this.setState({initialized: data.initialized});
     });
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
