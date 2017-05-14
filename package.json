@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack --config webpack.config.js --colors --watch --progress",
     "lint": "tslint --config tslint.json --project ./component/tsconfig.json --type-check",
+    "lintfix": "tslint --config tslint.json --project ./component/tsconfig.json --type-check --fix",
     "test": "karma start --single-run"
   },
   "repository": {

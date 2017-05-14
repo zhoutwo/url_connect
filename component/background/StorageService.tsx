@@ -1,4 +1,4 @@
-import {STORAGE_KEY_ID, STORAGE_KEY_INITIALIZED} from "../client/Constants";
+import {STORAGE_KEY_ID} from "../client/Constants";
 
 class StorageService {
   private storage: chrome.storage.StorageArea;
@@ -65,9 +65,9 @@ class StorageService {
   }
 
   /**
-  * Subscribes a callback to an onChanged event.
-  * @param callback The function that takes one parameter of data.
-  **/
+   * Subscribes a callback to an onChanged event.
+   * @param callback The function that takes one parameter of data.
+   */
   public subscribe(callback): void {
     chrome.storage.onChanged.addListener((data, area: string) => {
       if (area === "sync") {

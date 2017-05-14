@@ -1,10 +1,9 @@
 import * as React from "react";
-import {Button, Grid, Modal, ModalTitle, ModalBody, ModalFooter, ModalHeader, FormGroup, FormControl, Row} from "react-bootstrap";
+import {Button, FormControl, FormGroup, Grid, Modal, Row} from "react-bootstrap";
 
 import {storage} from "../backgroundContext";
 import {STORAGE_KEY_INITIALIZED, STORAGE_KEY_USERNAME} from "../Constants";
 import ClientNavbar from "./ClientNavbar";
-import IActiveKeyState from "./IActiveKeyState";
 
 interface ClientCoreState {
   activeKey: string;
@@ -30,7 +29,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     });
 
     storage.subscribe((data) => {
-      this.setState({initialized: data.initialized})
+      this.setState({initialized: data.initialized});
     });
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -51,7 +50,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
           </Modal.Header>
 
           <Modal.Body>
-            <form onSubmit={(event) => event.preventDefault()}>
+            <form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <FormControl type="text"
                              value={this.state.username}
@@ -73,7 +72,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
 
         <Grid>
           <Row>
-            <ClientNavbar initialKey={this.state.activeKey}/>
+            <ClientNavbar initialKey={this.state.activeKey} />
           </Row>
 
           <Row style={coreStyle}>
@@ -82,6 +81,11 @@ class ClientCore extends React.Component<any, ClientCoreState> {
        </Grid>
      </div>
     );
+  }
+
+  private handleSubmit(event): void {
+    // Force users to click the save button.
+    event.preventDefault();
   }
 
   private handleUsernameChange(event): void {
