@@ -17,6 +17,7 @@
 .react-contextmenu.react-contextmenu--visible {
     opacity: 1;
     pointer-events: auto;
+    z-index: 100;
 }
 
 .react-contextmenu-item {
