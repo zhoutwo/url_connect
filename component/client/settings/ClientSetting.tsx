@@ -46,10 +46,12 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       <form id="settings" onSubmit={this.handleSubmit}>
         <FormGroup controlId="setting" validationState={this.handleValidation()}>
           <ControlLabel> Username </ControlLabel>
-          <FormControl type="text"
-                       value={this.state.username.updated}
-                       onChange={this.handleUsernameChange}
-                       placeholder={this.state.username.original}/>
+          <FormControl
+             type="text"
+             value={this.state.username.updated}
+             onChange={this.handleUsernameChange}
+             placeholder={this.state.username.original}
+          />
         </FormGroup>
 
         <FormGroup>
@@ -57,11 +59,16 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
             <Button bsStyle="primary" onClick={this.handleSubmit} disabled={!this.state.dirty}>
               Submit
             </Button>
-            <Button bsStyle="danger" onClick={this.reset}>
-              Reset
-            </Button>
           </ButtonToolbar>
         </FormGroup>
+
+        <FormGroup>
+          <ControlLabel> Clear Local Settings </ControlLabel>
+        </FormGroup>
+
+        <Button bsStyle="danger" onClick={this.reset}>
+          Reset
+        </Button>
       </form>
     );
   }
