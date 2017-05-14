@@ -88,16 +88,16 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     );
   }
 
-  private handleSubmit(event): void {
+  public handleSubmit(event): void {
     // Force users to click the save button.
     event.preventDefault();
   }
 
-  private handleUsernameChange(event): void {
+  public handleUsernameChange(event): void {
     this.setState({username: event.target.value});
   }
 
-  private handleSave(): void {
+  public handleSave(): void {
     storage.set(STORAGE_KEY_USERNAME, this.state.username)
       .then(storage.set(STORAGE_KEY_INITIALIZED, true)
         .then(this.setState({initialized: true, username: ""})));
