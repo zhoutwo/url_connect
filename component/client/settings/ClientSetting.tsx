@@ -129,19 +129,27 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   private reloadSettings() {
+    // this.setState({
+    //   dirty: false
+    // });
+    // const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
+    // iterableKeys.forEach((stateKey) => {
+    //   storage.get(stateKey).then((value) => {
+    //     const data: any = {};
+    //     data[stateKey] = {
+    //       original: value,
+    //       updated: value,
+    //     };
+    //     this.setState(data);
+    //   });
+    // });
+
     this.setState({
-      dirty: false
-    });
-    const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
-    iterableKeys.forEach((stateKey) => {
-      storage.get(stateKey).then((value) => {
-        const data: any = {};
-        data[stateKey] = {
-          original: value,
-          updated: value,
-        };
-        this.setState(data);
-      });
+      dirty: false,
+      username: {
+        original: "",
+        updated: ""
+      }
     });
   }
 
