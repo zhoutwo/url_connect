@@ -33,6 +33,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     });
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
 
@@ -52,19 +53,23 @@ class ClientCore extends React.Component<any, ClientCoreState> {
           <Modal.Body>
             <form onSubmit={this.handleSubmit}>
               <FormGroup>
-                <FormControl type="text"
-                             value={this.state.username}
-                             onChange={this.handleUsernameChange}
-                             placeholder="username" />
+                <FormControl
+                  type="text"
+                  value={this.state.username}
+                  onChange={this.handleUsernameChange}
+                  placeholder="username"
+                />
               </FormGroup>
             </form>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button bsStyle="success"
-                    block={true}
-                    disabled={this.state.username.length === 0}
-                    onClick={this.handleSave}>
+            <Button
+              bsStyle="success"
+              block={true}
+              disabled={this.state.username.length === 0}
+              onClick={this.handleSave}
+            >
               Save
             </Button>
           </Modal.Footer>
