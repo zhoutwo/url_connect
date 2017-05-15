@@ -29,13 +29,16 @@ class ClientCore extends React.Component<any, ClientCoreState> {
         if (hasInitalized) this.setState({initialized: hasInitalized});
       });
 
-    storage.subscribe((data) => {
-      if (data.initialized) this.setState({initialized: data.initialized.newValue});
-    });
+    this.handleInit = this.handleInit.bind(this);
+    storage.subscribe(this.handleInit);
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
+  }
+
+  public componentWillUnmount() {
+    storage.unsubscribe(this.handleInit);
   }
 
   public render(): JSX.Element {
@@ -91,19 +94,28 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     );
   }
 
-  public handleSubmit(event): void {
+  private handleSubmit(event): void {
     // Force users to click the save button.
     event.preventDefault();
   }
 
-  public handleUsernameChange(event): void {
+  private handleUsernameChange(event): void {
     this.setState({username: event.target.value});
   }
 
-  public handleSave(): void {
+  private handleSave(): void {
     storage.set(STORAGE_KEY_USERNAME, this.state.username)
       .then(storage.set(STORAGE_KEY_INITIALIZED, true)
         .then(this.setState({initialized: true, username: ""})));
+  }
+
+  private handleInit(data, area: string): void {
+    console.log("[ INFO ] : firing handleInit", data);
+    console.log("[ INFO ] : storage type", area);
+    if (area == "sync" && data.initialized) {
+      console.log("[ INFO ] : handleInit setting state", data.initialized.newValue);
+      this.setState({initialized: data.initialized.newValue});
+    }
   }
 }
 
