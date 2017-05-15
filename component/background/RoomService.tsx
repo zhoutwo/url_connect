@@ -44,10 +44,7 @@ class RoomService {
     this.messageRef.on("child_added", (data: any) => {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
-      this.getUser(val.fromID)
-        .then((userFrom) => {
-          onMessagePosted(val.data, userFrom);
-        });
+      onMessagePosted(val.data, val.fromID);
     });
     this.messageRef.on("child_changed", (data: any) => {
       throw new Error("Messages should never changed");
