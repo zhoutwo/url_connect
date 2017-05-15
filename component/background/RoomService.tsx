@@ -17,7 +17,6 @@ const allUsers = firebase.database().ref("users");
 const MESSAGE = "message";
 const USER = "user";
 
-
 class RoomService {
   private rootRef: firebase.database.Reference;
   private messageRef: firebase.database.Reference;
