@@ -37,9 +37,10 @@ class RoomService {
     this.messageRef.on("child_added", (data: any) => {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
-      this.getUser(val.fromID).then((userFrom) => {
-        onMessagePosted(val.data, userFrom);
-      });
+      this.getUser(val.fromID)
+        .then((userFrom) => {
+          onMessagePosted(val.data, userFrom);
+        });
     });
     this.messageRef.on("child_changed", (data: any) => {
       throw new Error("Messages should never changed");
@@ -59,13 +60,14 @@ class RoomService {
   public close(): void {
     if (this.active) {
       this.messageRef.off();
-      this.myConfRef.remove().then(() => {
-        this.userListRef.once("value", (data) => {
-          if (!data.val()) {
-            this.rootRef.remove();
-          }
+      this.myConfRef.remove()
+        .then(() => {
+          this.userListRef.once("value", (data) => {
+            if (!data.val()) {
+              this.rootRef.remove();
+            }
+          });
         });
-      });
       this.active = false;
     }
   }

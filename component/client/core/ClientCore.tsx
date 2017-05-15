@@ -24,9 +24,10 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     };
 
     // Only change initialize status if setting is found.
-    storage.get(STORAGE_KEY_INITIALIZED).then((hasInitalized) => {
-      if (hasInitalized) this.setState({initialized: hasInitalized});
-    });
+    storage.get(STORAGE_KEY_INITIALIZED)
+      .then((hasInitalized) => {
+        if (hasInitalized) this.setState({initialized: hasInitalized});
+      });
 
     storage.subscribe((data) => {
       if (data.initialized) this.setState({initialized: data.initialized.newValue});

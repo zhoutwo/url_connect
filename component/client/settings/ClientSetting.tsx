@@ -26,14 +26,15 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       }
     };
 
-    storage.get("username").then((username: string) => {
-      this.setState({
-        username: {
-          original: username,
-          updated: ""
-        }
+    storage.get("username")
+      .then((username: string) => {
+        this.setState({
+          username: {
+            original: username,
+            updated: ""
+          }
+        });
       });
-    });
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -83,20 +84,23 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       iterableKeys.forEach((stateKey) => {
         if (!promise) {
           promise = new Promise((resolve) => {
-            storage.set(stateKey, this.state[stateKey].updated).then(resolve);
+            storage.set(stateKey, this.state[stateKey].updated)
+              .then(resolve);
           });
         } else {
           const temp = promise;
           promise = new Promise((resolve) => {
             temp.then(() => {
-              storage.set(stateKey, this.state[stateKey].updated).then(resolve);
+              storage.set(stateKey, this.state[stateKey].updated)
+                .then(resolve);
             });
           });
         }
       });
 
       if (promise) {
-        promise.then(this.reloadSettings);
+        promise
+        .then(this.reloadSettings);
       } else {
         this.setState({
           dirty: false
@@ -155,10 +159,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   public reset() {
-    storage.reset().then(() => {
-      storage.set(STORAGE_KEY_INITIALIZED, false);
-      this.reloadSettings();
-    });
+    storage.reset()
+      .then(() => {
+        storage.set(STORAGE_KEY_INITIALIZED, false);
+        this.reloadSettings();
+      });
   }
 }
 
