@@ -2,7 +2,7 @@ import * as React from "react";
 import {Button, ButtonToolbar, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
 
 import {storage} from "../backgroundContext";
-import {STORAGE_KEY_INITIALIZED} from "../Constants";
+import {STORAGE_KEY_INITIALIZED, STORAGE_KEY_USERNAME} from "../Constants";
 
 interface ISettingProperty {
   original: string;
@@ -26,21 +26,29 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       }
     };
 
-    storage.get("username")
-      .then((username: string) => {
-        this.setState({
-          username: {
-            original: username,
-            updated: ""
-          }
-        });
-      });
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleValidation = this.handleValidation.bind(this);
     this.reloadSettings = this.reloadSettings.bind(this);
     this.reset = this.reset.bind(this);
+  }
+
+  public componentDidMount() {
+    storage.get("username").then((username: string) => {
+      this.setState({
+        username: {
+          original: username,
+          updated: ""
+        }
+      });
+    });
+
+    this.handleReload = this.handleReload.bind(this);
+    storage.subscribe(this.handleReload);
+  }
+
+  public componentWillUnmount() {
+    storage.unsubscribe(this.handleReload);
   }
 
   public render(): JSX.Element {
@@ -80,32 +88,10 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     let promise;
 
     if (this.state.dirty) {
-      const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
-      iterableKeys.forEach((stateKey) => {
-        if (!promise) {
-          promise = new Promise((resolve) => {
-            storage.set(stateKey, this.state[stateKey].updated)
-              .then(resolve);
-          });
-        } else {
-          const temp = promise;
-          promise = new Promise((resolve) => {
-            temp.then(() => {
-              storage.set(stateKey, this.state[stateKey].updated)
-                .then(resolve);
-            });
-          });
-        }
+      const updatedUsername = this.state.username.updated;
+      this.setState({username: {original: "", updated: ""}}, () => {
+        storage.set(STORAGE_KEY_USERNAME, updatedUsername);
       });
-
-      if (promise) {
-        promise
-        .then(this.reloadSettings);
-      } else {
-        this.setState({
-          dirty: false
-        });
-      }
     }
   }
 
@@ -133,22 +119,20 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     }
   }
 
-  private reloadSettings() {
-    // this.setState({
-    //   dirty: false
-    // });
-    // const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
-    // iterableKeys.forEach((stateKey) => {
-    //   storage.get(stateKey).then((value) => {
-    //     const data: any = {};
-    //     data[stateKey] = {
-    //       original: value,
-    //       updated: value,
-    //     };
-    //     this.setState(data);
-    //   });
-    // });
+  private handleReload(data, area: string): void {
+    if (area === "sync" && data.username) {
+      this.setState((prevState: IClientSettingState, props: any) => {
+        const usernameField = {username: {
+            original: data.username.newValue,
+            updated: prevState.username.updated
+          }
+        };
+        return Object.assign({}, prevState, usernameField);
+      });
+    }
+  }
 
+  private reloadSettings() {
     this.setState({
       dirty: false,
       username: {
@@ -159,11 +143,10 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   private reset() {
-    storage.reset()
-      .then(() => {
-        storage.set(STORAGE_KEY_INITIALIZED, false);
-        this.reloadSettings();
-      });
+    storage.reset().then(() => {
+      storage.set(STORAGE_KEY_INITIALIZED, false);
+      this.reloadSettings();
+    });
   }
 }
 
