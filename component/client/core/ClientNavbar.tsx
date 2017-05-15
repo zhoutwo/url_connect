@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {NavDropdown, MenuItem, Nav, Navbar, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
-import {CHAT_LINK, SETTING_LINK} from "../Constants";
+import {CHAT_LINK, PRIVATE_CHAT, SETTING_LINK} from "../Constants";
 import IActiveKeyState from "./IActiveKeyState";
 
 interface IClientNavbarProps {
@@ -24,17 +24,26 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
   }
 
   public render(): JSX.Element {
+    const dropMenu = ["link1", "room2"].map((data, index) =>
+        (
+          <LinkContainer to={`${PRIVATE_CHAT}/${data}`} key={data + index}>
+            <MenuItem eventKey="privateChat:${data}"> {data} </MenuItem>
+          </LinkContainer>
+        )
+    )
+
     return (
-      <Navbar fluid={true} fixedTop={true}>
-        <Nav bsStyle="pills" activeKey={this.state.activeKey} onSelect={this.handleNavigation}>
-          <LinkContainer to={CHAT_LINK}>
-            <NavItem eventKey="chat"> Chat </NavItem>
-          </LinkContainer>
-          <LinkContainer to={SETTING_LINK}>
-            <NavItem eventKey="setting"> Settings </NavItem>
-          </LinkContainer>
-        </Nav>
-      </Navbar>
+      <Nav bsStyle="pills" activeKey={this.state.activeKey} onSelect={this.handleNavigation}>
+        <LinkContainer to={CHAT_LINK}>
+          <NavItem eventKey="chat"> Chat </NavItem>
+        </LinkContainer>
+        <LinkContainer to={SETTING_LINK}>
+          <NavItem eventKey="setting"> Settings </NavItem>
+        </LinkContainer>
+        <NavDropdown title="PrivateChat" id="nav-dropdown">
+          {dropMenu}
+        </NavDropdown>
+      </Nav>
     );
   }
 }
