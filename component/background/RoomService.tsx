@@ -11,11 +11,17 @@ const config = {
 };
 firebase.initializeApp(config);
 
+const allRooms = firebase.database().ref("rooms");
+const allUsers = firebase.database().ref("users");
+
+const MESSAGE = "message";
+const USER = "user";
+
+
 class RoomService {
   private rootRef: firebase.database.Reference;
   private messageRef: firebase.database.Reference;
-  private userListRef: firebase.database.Reference;
-  private myConfRef: firebase.database.Reference;
+  private myself: firebase.database.Reference;
   private active: boolean;
 
   constructor(private id: string) {
@@ -30,10 +36,11 @@ class RoomService {
                         .replace(/[$]/g, "@")
                         .replace(/[{]/g, "((")
                         .replace(/[}]/g, "))");
-    this.rootRef = firebase.database().ref(cleanUrl);
+
+    this.rootRef = allRooms.child(cleanUrl);
 
     // set up message reference
-    this.messageRef = this.rootRef.child("message");
+    this.messageRef = this.rootRef.child(MESSAGE);
     this.messageRef.on("child_added", (data: any) => {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
@@ -50,19 +57,17 @@ class RoomService {
     });
 
     // set up configRef
-    this.userListRef = this.rootRef.child("user");
-    this.myConfRef = this.userListRef.child(this.id);
-    this.myConfRef.set(true);
-
+    this.rootRef.child(USER).child(this.id).set(true);
+    this.myself = allUsers.child(this.id);
     this.active = true;
   }
 
   public close(): void {
     if (this.active) {
       this.messageRef.off();
-      this.myConfRef.remove()
+      this.rootRef.child(USER).child(this.id).remove()
         .then(() => {
-          this.userListRef.once("value", (data) => {
+          this.rootRef.child(USER).once("value", (data) => {
             if (!data.val()) {
               this.rootRef.remove();
             }
@@ -76,29 +81,29 @@ class RoomService {
     if (!data) throw new Error(`data is {data}`);
     this.messageRef.push().set({
       data,
-      fromID: this.myConfRef.key
+      fromID: this.id
     });
   }
 
   public getUser(userID: string): Promise<any> {
-    return this.getDataAtReference(this.userListRef.child(userID));
+    return this.getDataAtReference(allUsers.child(userID));
   }
 
   public getMySelf(): Promise<any> {
-    return this.getDataAtReference(this.myConfRef);
+    return this.getDataAtReference(this.myself);
   }
 
   public updateConf(confData: any): void {
-    this.myConfRef.update(confData);
+    this.myself.update(confData);
   }
 
   public setConf(confData: any): void {
-    this.myConfRef.set(confData);
+    this.myself.set(confData);
   }
 
   public getDataAtReference(reference: firebase.database.Reference): Promise<any> {
     return new Promise<any>((resolve) => {
-      this.myConfRef.once("value", (data) => {
+      this.myself.once("value", (data) => {
         resolve(data.val());
       });
     });
