@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Grid, Row} from "react-bootstrap";
+import {Button, ButtonToolbar, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
 
 import {storage} from "../backgroundContext";
 
@@ -25,105 +25,127 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
       }
     };
 
-    storage.get("username").then((username) => {
+    storage.get("username").then((username: string) => {
       this.setState({
         username: {
           original: username,
-          updated: username,
+          updated: ""
         }
       });
     });
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleValidation = this.handleValidation.bind(this);
     this.reloadSettings = this.reloadSettings.bind(this);
     this.reset = this.reset.bind(this);
   }
 
   public render(): JSX.Element {
-    return(
-      <Grid>
-        <form id="settings" onSubmit={this.handleSubmit}>
-          <Row className="input-group">
-            <label>
-              Username:
-              <input type="text" className="form-control" value={this.state.username.updated} onChange={this.handleUsernameChange}/>
-            </label>
-          </Row>
-          <Row className="input-group" style={{marginTop: "10px"}}>
-            <input type="submit" value="Submit" className="btn btn-info" disabled={!this.state.dirty}/>
-            <button className="btn btn-danger" style={{marginLeft: "50px"}} onClick={this.reset}>Reset</button>
-          </Row>
-        </form>
-      </Grid>
+    return (
+      <form id="settings" onSubmit={this.handleSubmit}>
+        <FormGroup controlId="setting" validationState={this.handleValidation()}>
+          <ControlLabel> Username </ControlLabel>
+          <FormControl
+             type="text"
+             value={this.state.username.updated}
+             onChange={this.handleUsernameChange}
+             placeholder={this.state.username.original}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <ButtonToolbar>
+            <Button bsStyle="primary" onClick={this.handleSubmit} disabled={!this.state.dirty}>
+              Submit
+            </Button>
+          </ButtonToolbar>
+        </FormGroup>
+
+        <FormGroup>
+          <ControlLabel> Clear Local Settings </ControlLabel>
+        </FormGroup>
+
+        <Button bsStyle="danger" onClick={this.reset}>
+          Reset
+        </Button>
+      </form>
     );
   }
 
-  public handleSubmit(event) {
+  private handleSubmit(event): void {
     event.preventDefault();
     let promise;
-    for (const key in this.state) {
-      if (this.state.hasOwnProperty(key) && key !== "dirty") {
-        // Updated value shouldn't be empty
-        if (this.state[key].updated && this.state[key].updated !== this.state[key].original) {
-          if (!promise) {
-            promise = new Promise((resolve) => {
-              storage.set(key, this.state[key].updated).then(resolve);
-            });
-          } else {
-            const temp = promise;
-            promise = new Promise((resolve) => {
-              temp.then(() => {
-                storage.set(key, this.state[key].updated).then(resolve);
-              });
-            });
-          }
-        }
-      }
-    }
-    if (promise) {
-      promise.then(this.reloadSettings);
-    } else {
-      this.setState({
-        dirty: false
-      });
-    }
-  }
 
-  public handleUsernameChange(event) {
-    event.preventDefault();
-    if (event.target.value !== undefined) {
-      this.setState({
-        // The field is only considered dirty if there is value and it's different from original
-        dirty: event.target.value && this.state.username.original !== event.target.value,
-        username: {
-          original: this.state.username.original,
-          updated: event.target.value
+    if (this.state.dirty) {
+      const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
+      iterableKeys.forEach((stateKey) => {
+        if (!promise) {
+          promise = new Promise((resolve) => {
+            storage.set(stateKey, this.state[stateKey].updated).then(resolve);
+          });
+        } else {
+          const temp = promise;
+          promise = new Promise((resolve) => {
+            temp.then(() => {
+              storage.set(stateKey, this.state[stateKey].updated).then(resolve);
+            });
+          });
         }
       });
-    }
-  }
 
-  public reloadSettings() {
-    this.setState({
-      dirty: false
-    });
-    const temp = this.state;
-    for (const key in temp) {
-      if (temp.hasOwnProperty(key) && key !== "dirty") {
-        storage.get(key).then((value) => {
-          const data: any = {};
-          data[key] = {
-            original: value,
-            updated: value,
-          };
-          this.setState(data);
+      if (promise) {
+        promise.then(this.reloadSettings);
+      } else {
+        this.setState({
+          dirty: false
         });
       }
     }
   }
 
-  public reset() {
+  private handleUsernameChange(event): void {
+    event.preventDefault();
+    const value = event.target.value;
+    if (value !== undefined) {
+      this.setState((prevState: IClientSettingState, props: any) => {
+        const dirtyField = {dirty: value && (value !== prevState.username.original || value.length !== 0)};
+        const usernameField = {username: {original: prevState.username.original, updated: value}};
+        return Object.assign({}, prevState, dirtyField, usernameField);
+      });
+    }
+  }
+
+  private handleValidation() {
+    const updated = this.state.username.updated;
+    const original = this.state.username.original;
+
+    // error if the new username is the same as the old
+    if (updated === original) {
+      return "error";
+    } else if (updated.length > 0) {
+      return "success";
+    }
+  }
+
+  private reloadSettings() {
+    this.setState({
+      dirty: false
+    });
+    const iterableKeys = Object.keys(this.state).filter((key) => key !== "dirty");
+    iterableKeys.forEach((stateKey) => {
+      storage.get(stateKey).then((value) => {
+        const data: any = {};
+        data[stateKey] = {
+          original: value,
+          updated: value,
+        };
+        this.setState(data);
+      });
+    });
+  }
+
+  private reset() {
     storage.reset().then(this.reloadSettings);
   }
 }
