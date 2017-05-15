@@ -69,11 +69,15 @@ class StorageService {
    * @param callback The function that takes one parameter of data.
    */
   public subscribe(callback): void {
-    chrome.storage.onChanged.addListener((data, area: string) => {
-      if (area === "sync") {
-        callback(data);
-      }
-    });
+    chrome.storage.onChanged.addListener(callback);
+  }
+
+  /**
+   * Unsubscribes a callback from the onChanged event.
+   * @param callback The function that takes one parameter of data.
+   */
+  public unsubscribe(callback): void {
+    chrome.storage.onChanged.removeListener(callback);
   }
 
   /*
