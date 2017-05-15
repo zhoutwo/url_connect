@@ -26,10 +26,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public componentWillReceiveProps(nextProps: IClientChatProps): void {
-    if (nextProps.url !== this.props.url) {
-      console.log(`[ INFO ] : ChatHistory switching from ${this.props.url} to ${nextProps.url}`);
-      this.updateRoomService(nextProps.url);
-    }
+    if (nextProps.url !== this.props.url) this.updateRoomService(nextProps.url);
   }
 
   public componentWillUnmount(): void {
@@ -37,7 +34,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public render(): JSX.Element {
-    console.log("[ INFO ] : ClientChat render url and messages", this.props.url, this.state.messages);
     return (
       <div>
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>

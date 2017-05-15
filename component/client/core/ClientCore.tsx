@@ -15,19 +15,17 @@ class ClientCore extends React.Component<any, ClientCoreState> {
   constructor(props: any) {
     super(props);
 
-    // TODO: add lifecycle to go properly set state based on persistant use. (See below.)
     // initialize the activeKey.
     this.state = {
-      activeKey: "chat", // TODO: set based on redux store/persistant data?
+      activeKey: "chat",
       initialized: false,
       username: ""
     };
 
     // Only change initialize status if setting is found.
-    storage.get(STORAGE_KEY_INITIALIZED)
-      .then((hasInitalized) => {
-        if (hasInitalized) this.setState({initialized: hasInitalized});
-      });
+    storage.get(STORAGE_KEY_INITIALIZED).then((hasInitalized) => {
+      if (hasInitalized) this.setState({initialized: hasInitalized});
+    });
 
     this.handleInit = this.handleInit.bind(this);
     storage.subscribe(this.handleInit);
@@ -46,8 +44,6 @@ class ClientCore extends React.Component<any, ClientCoreState> {
     const coreStyle = {
       marginTop: "60px"
     };
-
-    console.log("[ INFO ] : core state", this.state);
 
     return (
       <div>
@@ -105,15 +101,12 @@ class ClientCore extends React.Component<any, ClientCoreState> {
 
   private handleSave(): void {
     storage.set(STORAGE_KEY_USERNAME, this.state.username)
-      .then(storage.set(STORAGE_KEY_INITIALIZED, true)
-        .then(this.setState({initialized: true, username: ""})));
+    .then(storage.set(STORAGE_KEY_INITIALIZED, true)
+      .then(this.setState({initialized: true, username: ""})));
   }
 
   private handleInit(data, area: string): void {
-    console.log("[ INFO ] : firing handleInit", data);
-    console.log("[ INFO ] : storage type", area);
     if (area == "sync" && data.initialized) {
-      console.log("[ INFO ] : handleInit setting state", data.initialized.newValue);
       this.setState({initialized: data.initialized.newValue});
     }
   }
