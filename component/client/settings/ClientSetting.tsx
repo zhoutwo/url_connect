@@ -85,7 +85,6 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
   private handleSubmit(event): void {
     event.preventDefault();
-    let promise;
 
     if (this.state.dirty) {
       const updatedUsername = this.state.username.updated;
@@ -97,6 +96,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
   private handleUsernameChange(event): void {
     event.preventDefault();
+
     const value = event.target.value;
     if (value !== undefined) {
       this.setState((prevState: IClientSettingState, props: any) => {

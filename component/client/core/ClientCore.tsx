@@ -106,7 +106,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
   }
 
   private handleInit(data, area: string): void {
-    if (area == "sync" && data.initialized) {
+    if (area === "sync" && data.initialized) {
       this.setState({initialized: data.initialized.newValue});
     }
   }
