@@ -3,10 +3,11 @@ import {Col, Grid, ListGroupItem, Row} from "react-bootstrap";
 import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 
 interface IMessageProps {
-  user: string;
   username: string;
   message: string;
   index: number;
+  userFromID: string;
+  userID: string;
 }
 
 class Message extends React.Component<IMessageProps, any> {
@@ -25,7 +26,7 @@ class Message extends React.Component<IMessageProps, any> {
 
     return (
       <div>
-        <ContextMenuTrigger id={contextIdentifier} disable={this.props.user === this.props.username}>
+        <ContextMenuTrigger id={contextIdentifier} disable={this.props.userFromID === this.props.userID}>
           <div>
             <ListGroupItem bsStyle="info" style={messageStyle}>
               <Grid>
