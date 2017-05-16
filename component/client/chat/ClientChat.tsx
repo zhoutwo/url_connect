@@ -37,10 +37,17 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     return (
       <div>
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
-          <ChatHistory user={this.props.username} messages={this.state.messages} />
+          <ChatHistory 
+            user={this.props.username} 
+            messages={this.state.messages}
+            startPrivateChatWith={this.startPrivateChatWith} />
         </Panel>
       </div>
     );
+  }
+
+  public startPrivateChatWith(user: string) {
+    console.log("start message with " + user);
   }
 
   private updateRoomService(url: string) {
