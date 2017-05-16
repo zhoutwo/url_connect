@@ -9,6 +9,7 @@ interface IClientNavbarProps {
 
 interface IActiveKeyState {
   activeKey: string;
+  privateRooms: string[];
 }
 
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
@@ -16,7 +17,8 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
     super(props);
 
     this.state = {
-      activeKey: this.props.initialKey
+      activeKey: this.props.initialKey,
+      privateRooms: ["link1", "link2"]
     };
 
     this.handleNavigation = this.handleNavigation.bind(this);
@@ -27,7 +29,7 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
   }
 
   public render(): JSX.Element {
-    const dropMenu = ["link1", "room2"].map((data, index) =>
+    const dropMenu = this.state.privateRooms.map((data, index) =>
         (
           <LinkContainer to={`${PRIVATE_CHAT}/${data}`} key={data + index}>
             <MenuItem eventKey="privateChat:${data}"> {data} </MenuItem>
