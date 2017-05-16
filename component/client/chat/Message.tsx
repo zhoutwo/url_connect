@@ -23,12 +23,11 @@ class Message extends React.Component<IMessageProps, any> {
       color: fontColor
     };
     const contextID = this.props.index + this.props.username;
-    const isSelf = this.props.userFromID === this.props.userID;
 
     return (
       <div>
-        <ContextMenuTrigger id={contextID} disable={isSelf}>
-          <div onContextMenu={(event) => {if (isSelf) event.preventDefault()}}>
+        <ContextMenuTrigger id={contextID} disable={this.props.userFromID === this.props.userID}>
+          <div onContextMenu={this.handleContextMenu}>
             <ListGroupItem bsStyle="info" style={messageStyle}>
               <Grid>
                 <Row>
@@ -56,6 +55,10 @@ class Message extends React.Component<IMessageProps, any> {
   private startPrivateChat(event, data) {
     event.preventDefault();
     console.log("[ INFO ] : Context Menu Click: ", data);
+  }
+
+  private handleContextMenu(event) {
+    if (this.props.userFromID === this.props.userID) event.preventDefault();
   }
 
   /*

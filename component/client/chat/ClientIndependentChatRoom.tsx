@@ -7,9 +7,9 @@ import * as Constants from "../Constants";
 import {storage} from "../backgroundContext";
 
 interface IClientIndependentChatRoomState {
-  username: string;
   currentUrl: string;
   userID: string;
+  username: string;
 }
 
 class ClientIndependentChatRoom extends React.Component<any, IClientIndependentChatRoomState> {
@@ -23,16 +23,16 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
     super();
     this.state = {
       currentUrl: Constants.NOOP_URL,
-      username: Constants.NOOP_USERNAME,
-      userID: Constants.NOOP_ID
+      userID: Constants.NOOP_ID,
+      username: Constants.NOOP_USERNAME
     };
     storage.get(Constants.STORAGE_KEY_USERNAME).then((username) => {
       storage.get(Constants.STORAGE_KEY_ID).then((userID) => {
         ClientIndependentChatRoom.getCurrentTabUrl((url) => {
           this.setState({
             currentUrl: (url) ? url : Constants.NOOP_URL,
-            username: (username) ? username : Constants.NOOP_USERNAME,
-            userID: (userID) ? userID : Constants.NOOP_ID
+            userID: (userID) ? userID : Constants.NOOP_ID,
+            username: (username) ? username : Constants.NOOP_USERNAME
           });
         });
       });
