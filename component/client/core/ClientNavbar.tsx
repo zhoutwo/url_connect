@@ -1,6 +1,7 @@
 import * as React from "react";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
+import {user} from "../backgroundContext";
 import {CHAT_LINK, PRIVATE_CHAT, SETTING_LINK} from "../Constants";
 
 interface IClientNavbarProps {
@@ -13,6 +14,8 @@ interface IActiveKeyState {
 }
 
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
+  private privateRoomsRef: firebase.database.Reference;
+
   constructor(props: IClientNavbarProps) {
     super(props);
 
@@ -22,10 +25,21 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
     };
 
     this.handleNavigation = this.handleNavigation.bind(this);
+    this.privateRoomsRef = user.getMySelf().child("privateRooms");
   }
 
   public handleNavigation(eventKey: any): void {
     this.setState({activeKey: eventKey});
+  }
+
+  public componentWillMount() {
+    this.privateRoomsRef.on("value", (data) => {
+      const privateRooms = data && data.val() ? data.val() : [];
+      console.log("rooms: ", privateRooms);
+      this.setState({
+        privateRooms: privateRooms
+      });
+    });
   }
 
   public render(): JSX.Element {
@@ -50,6 +64,10 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
         </NavDropdown>
       </Nav>
     );
+  }
+
+  public componentWillUnmount() {
+    this.privateRoomsRef.off();
   }
 }
 
