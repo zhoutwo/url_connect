@@ -60,7 +60,7 @@ class StorageService {
    * @param key The key to remove
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
    */
-  public remove(key): Promise<{}> {
+  public remove(key: string): Promise<{}> {
     return new Promise((resolve) => {
       this.storage.remove(key, resolve);
     });
@@ -69,10 +69,10 @@ class StorageService {
   /**
    * Subscribes a callback to an onChanged event.
    * @param callback function that takes one parameter of data.
-     @return zero argument function that will unsubscribe the callback.
+   * @return  zero argument function that will unsubscribe the callback.
    */
   public subscribe(callback) {
-    const syncListener = (data, area: string) => {
+    const syncListener = (data: object, area: string) => {
       if (area === this.STORAGE_TYPE) {
         callback(data);
       }
@@ -82,7 +82,7 @@ class StorageService {
 
     const unsubscriber = () => {
       chrome.storage.onChanged.removeListener(syncListener);
-    }
+    };
 
     return unsubscriber;
   }
