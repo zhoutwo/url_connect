@@ -3,6 +3,7 @@ import {STORAGE_KEY_ID} from "../client/Constants";
 
 class StorageService {
   private storage: chrome.storage.StorageArea;
+  private STORAGE_TYPE: string = "sync";
 
   constructor() {
     this.storage = chrome.storage.sync;
@@ -67,18 +68,23 @@ class StorageService {
 
   /**
    * Subscribes a callback to an onChanged event.
-   * @param callback The function that takes one parameter of data.
+   * @param callback function that takes one parameter of data.
+     @return zero argument function that will unsubscribe the callback.
    */
-  public subscribe(callback): void {
-    chrome.storage.onChanged.addListener(callback);
-  }
+  public subscribe(callback) {
+    const syncListener = (data, area: string) => {
+      if (area === this.STORAGE_TYPE) {
+        callback(data);
+      }
+    };
 
-  /**
-   * Unsubscribes a callback from the onChanged event.
-   * @param callback The function that takes one parameter of data.
-   */
-  public unsubscribe(callback): void {
-    chrome.storage.onChanged.removeListener(callback);
+    chrome.storage.onChanged.addListener(syncListener);
+
+    const unsubscriber = () => {
+      chrome.storage.onChanged.removeListener(syncListener);
+    }
+
+    return unsubscriber;
   }
 
   /*

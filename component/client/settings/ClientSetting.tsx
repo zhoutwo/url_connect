@@ -15,6 +15,8 @@ interface IClientSettingState {
 }
 
 class ClientSetting extends React.Component<any, IClientSettingState> {
+  private storageListenerUnsubscriber: () => void;
+
   constructor(props) {
     super(props);
 
@@ -34,7 +36,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   public componentDidMount() {
-    storage.get("username").then((username: string) => {
+    storage.get(STORAGE_KEY_USERNAME).then((username: string) => {
       this.setState({
         username: {
           original: username,
@@ -44,11 +46,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     });
 
     this.handleReload = this.handleReload.bind(this);
-    storage.subscribe(this.handleReload);
+    this.storageListenerUnsubscriber = storage.subscribe(this.handleReload);
   }
 
   public componentWillUnmount() {
-    storage.unsubscribe(this.handleReload);
+    this.storageListenerUnsubscriber();
   }
 
   public render(): JSX.Element {
@@ -88,7 +90,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
     if (this.state.dirty) {
       const updatedUsername = this.state.username.updated;
-      this.setState({username: {original: "", updated: ""}}, () => {
+      this.setState({dirty: false, username: {original: "", updated: ""}}, () => {
         storage.set(STORAGE_KEY_USERNAME, updatedUsername);
       });
     }
@@ -100,7 +102,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     const value = event.target.value;
     if (value !== undefined) {
       this.setState((prevState: IClientSettingState, props: any) => {
-        const dirtyField = {dirty: value && (value !== prevState.username.original || value.length !== 0)};
+        const dirtyField = {dirty: (value !== undefined) && (value !== prevState.username.original) && (value.length !== 0)};
         const usernameField = {username: {original: prevState.username.original, updated: value}};
         return Object.assign({}, prevState, dirtyField, usernameField);
       });
@@ -119,8 +121,9 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     }
   }
 
-  private handleReload(data, area: string): void {
-    if (area === "sync" && data.username) {
+  private handleReload(data): void {
+    console.log("[ INFO ] : handleReload data", data);
+    if (data.username) {
       this.setState((prevState: IClientSettingState, props: any) => {
         const usernameField = {username: {
             original: data.username.newValue,
