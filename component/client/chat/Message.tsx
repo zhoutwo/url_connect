@@ -22,12 +22,13 @@ class Message extends React.Component<IMessageProps, any> {
       backgroundColor: `${backgroundColor}`, // FIXME: I should not need to do this to the linter.
       color: fontColor
     };
-    const contextIdentifier = this.props.index + this.props.username;
+    const contextID = this.props.index + this.props.username;
+    const isSelf = this.props.userFromID === this.props.userID;
 
     return (
       <div>
-        <ContextMenuTrigger id={contextIdentifier} disable={this.props.userFromID === this.props.userID}>
-          <div>
+        <ContextMenuTrigger id={contextID} disable={isSelf}>
+          <div onContextMenu={(event) => {if (isSelf) event.preventDefault()}}>
             <ListGroupItem bsStyle="info" style={messageStyle}>
               <Grid>
                 <Row>
@@ -43,7 +44,7 @@ class Message extends React.Component<IMessageProps, any> {
           </div>
         </ContextMenuTrigger>
 
-        <ContextMenu id={contextIdentifier}>
+        <ContextMenu id={contextID}>
           <MenuItem data={{user: this.props.username}} onClick={this.startPrivateChat}>
             Private Chat with {this.props.username}
           </MenuItem>
