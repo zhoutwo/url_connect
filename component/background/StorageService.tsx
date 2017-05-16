@@ -1,9 +1,10 @@
 import {IStorageService} from "../client/backgroundContext";
 import {STORAGE_KEY_ID} from "../client/Constants";
 
+const STORAGE_TYPE = "sync";
+
 class StorageService {
   private storage: chrome.storage.StorageArea;
-  private STORAGE_TYPE: string = "sync";
 
   constructor() {
     this.storage = chrome.storage.sync;
@@ -73,7 +74,7 @@ class StorageService {
    */
   public subscribe(callback): () => void {
     const syncListener = (data: object, area: string) => {
-      if (area === this.STORAGE_TYPE) {
+      if (area === STORAGE_TYPE) {
         callback(data);
       }
     };
