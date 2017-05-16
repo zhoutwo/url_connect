@@ -29,7 +29,7 @@ class RoomService implements IRoomService {
     this.active = false;
   }
 
-  public setUrl(url: string, onMessagePosted: (data: any, from: any) => void) {
+  public setUrl(url: string, onMessagePosted: (data: any) => void) {
     this.close();
 
     const cleanUrl = url.replace(/[\\.]/g, ",")
@@ -45,7 +45,7 @@ class RoomService implements IRoomService {
     this.messageRef.on("child_added", (data: any) => {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
-      onMessagePosted(val.data, val.fromID);
+      onMessagePosted(val);
     });
     this.messageRef.on("child_changed", (data: any) => {
       throw new Error("Messages should never changed");
@@ -78,10 +78,7 @@ class RoomService implements IRoomService {
 
   public pushMessage(data: any): void {
     if (!data) throw new Error(`data is {data}`);
-    this.messageRef.push().set({
-      data,
-      fromID: this.id
-    });
+    this.messageRef.push().set(data);
   }
 
 }
