@@ -6,3 +6,7 @@ export const SETTING_LINK = "/setting";
 
 export const NOOP_USERNAME = "alphaUser";
 export const NOOP_URL = "https://www.google.com/";
+
+export const STORAGE_KEY_INITIALIZED = "initialized";
+export const STORAGE_KEY_USERNAME = "username";
+export const STORAGE_KEY_ID = "id";

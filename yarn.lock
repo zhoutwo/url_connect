@@ -70,7 +70,7 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^15.0.23":
+"@types/react@*", "@types/react@^15.0.24":
   version "15.0.24"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.24.tgz#8a75299dc37906df327c18ca918bf97a55e7123b"
 
@@ -551,13 +551,9 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-bytes@2.4.0:
+bytes@2.4.0, bytes@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.4.0.tgz#7d97196f9d5baf7f6935e25985549edd2a6c2339"
-
-bytes@^2.4.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.5.0.tgz#4c9423ea2d252c270c41b2bdefeff9bb6b62c06a"
 
 callsite@1.0.0:
   version "1.0.0"
@@ -895,7 +891,7 @@ debug@2.3.3:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.0, debug@^2.2.0:
+debug@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -907,7 +903,7 @@ debug@2.6.1:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.3:
+debug@2.6.3, debug@^2.2.0:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.3.tgz#0f7eb8c30965ec08c72accfa0130c8b79984141d"
   dependencies:
@@ -1004,7 +1000,7 @@ domain-browser@^1.1.1:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.1.7.tgz#867aa4b093faa05f1de08c06f4d7b21fdf8698bc"
 
-duplexify@^3.2.0:
+duplexify@^3.1.2, duplexify@^3.2.0, duplexify@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.5.0.tgz#1aa773002e1578457e9d9d4a50b0ccaaebcbd604"
   dependencies:
@@ -1511,7 +1507,7 @@ glob-watcher@^3.0.0:
     lodash.debounce "^4.0.6"
     object.defaults "^1.0.0"
 
-glob@7.1.1, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1:
+glob@7.1.1, glob@^7.0.5, glob@^7.1.1:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
   dependencies:
@@ -1613,6 +1609,17 @@ gulplog@^1.0.0:
   resolved "https://registry.yarnpkg.com/gulplog/-/gulplog-1.0.0.tgz#e28c4d45d05ecbbed818363ce8f9c5926229ffe5"
   dependencies:
     glogg "^1.0.0"
+
+gunzip-maybe@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/gunzip-maybe/-/gunzip-maybe-1.4.0.tgz#7d8316c8d0571e1d08a5a79e46fff0afe8172b19"
+  dependencies:
+    browserify-zlib "^0.1.4"
+    is-deflate "^1.0.0"
+    is-gzip "^1.0.0"
+    peek-stream "^1.1.0"
+    pumpify "^1.3.3"
+    through2 "^2.0.3"
 
 har-schema@^1.0.5:
   version "1.0.5"
@@ -1830,6 +1837,10 @@ is-ci@^1.0.10:
   dependencies:
     ci-info "^1.0.0"
 
+is-deflate@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-deflate/-/is-deflate-1.0.0.tgz#c862901c3c161fb09dac7cdc7e784f80e98f2f14"
+
 is-dotfile@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.2.tgz#2c132383f39199f8edc268ca01b9b007d205cc4d"
@@ -1873,6 +1884,10 @@ is-glob@^3.1.0:
   resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-3.1.0.tgz#7ba5ae24217804ac70707b96922567486cc3e84a"
   dependencies:
     is-extglob "^2.1.0"
+
+is-gzip@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-gzip/-/is-gzip-1.0.0.tgz#6ca8b07b99c77998025900e555ced8ed80879a83"
 
 is-number@^0.1.1:
   version "0.1.1"
@@ -2538,24 +2553,6 @@ node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-gyp@^3.2.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.6.1.tgz#19561067ff185464aded478212681f47fd578cbc"
-  dependencies:
-    fstream "^1.0.0"
-    glob "^7.0.3"
-    graceful-fs "^4.1.2"
-    minimatch "^3.0.2"
-    mkdirp "^0.5.0"
-    nopt "2 || 3"
-    npmlog "0 || 1 || 2 || 3 || 4"
-    osenv "0"
-    request "2"
-    rimraf "2"
-    semver "~5.3.0"
-    tar "^2.0.0"
-    which "1"
-
 node-libs-browser@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/node-libs-browser/-/node-libs-browser-2.0.0.tgz#a3a59ec97024985b46e958379646f96c4b616646"
@@ -2598,12 +2595,6 @@ node-pre-gyp@^0.6.29:
     tar "^2.2.1"
     tar-pack "^3.4.0"
 
-"nopt@2 || 3":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
-  dependencies:
-    abbrev "1"
-
 nopt@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-4.0.1.tgz#d0d4685afd5415193c8c7505602d0d17cd64474d"
@@ -2632,7 +2623,7 @@ now-and-later@^1.0.0:
   dependencies:
     once "^1.3.2"
 
-"npmlog@0 || 1 || 2 || 3 || 4", npmlog@^4.0.2:
+npmlog@^4.0.2:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/npmlog/-/npmlog-4.1.0.tgz#dc59bee85f64f00ed424efb2af0783df25d1c0b5"
   dependencies:
@@ -2760,7 +2751,7 @@ os-tmpdir@^1.0.0, os-tmpdir@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
 
-osenv@0, osenv@^0.1.4:
+osenv@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/osenv/-/osenv-0.1.4.tgz#42fe6d5953df06c8064be6f176c3d05aaaa34644"
   dependencies:
@@ -2886,6 +2877,13 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+peek-stream@^1.1.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/peek-stream/-/peek-stream-1.1.2.tgz#97eb76365bcfd8c89e287f55c8b69d4c3e9bcc52"
+  dependencies:
+    duplexify "^3.5.0"
+    through2 "^2.0.3"
+
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
@@ -2964,6 +2962,14 @@ pump@^1.0.0:
   dependencies:
     end-of-stream "^1.1.0"
     once "^1.3.1"
+
+pumpify@^1.3.3:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/pumpify/-/pumpify-1.3.5.tgz#1b671c619940abcaeac0ad0e3a3c164be760993b"
+  dependencies:
+    duplexify "^3.1.2"
+    inherits "^2.0.1"
+    pump "^1.0.0"
 
 punycode@1.3.2:
   version "1.3.2"
@@ -3196,7 +3202,7 @@ request-capture-har@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/request-capture-har/-/request-capture-har-1.2.2.tgz#cd692cfb2cc744fd84a3358aac6ee51528cf720d"
 
-request@2, request@^2.81.0:
+request@^2.81.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
   dependencies:
@@ -3286,10 +3292,6 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
-roadrunner@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/roadrunner/-/roadrunner-1.1.0.tgz#1180a30d64e1970d8f55dd8cb0da8ffccecad71e"
-
 run-async@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
@@ -3319,7 +3321,7 @@ semver-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/semver-regex/-/semver-regex-1.0.0.tgz#92a4969065f9c70c694753d55248fc68f8f652c9"
 
-"semver@2 || 3 || 4 || 5", semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
+"semver@2 || 3 || 4 || 5", semver@^5.1.0, semver@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
@@ -3619,7 +3621,7 @@ tar-stream@^1.1.2, tar-stream@^1.5.2:
     readable-stream "^2.0.0"
     xtend "^4.0.0"
 
-tar@^2.0.0, tar@^2.2.1:
+tar@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/tar/-/tar-2.2.1.tgz#8e4d2a256c0e2185c6b18ad694aec968b83cb1d1"
   dependencies:
@@ -3645,7 +3647,7 @@ through2@^0.6.0:
     readable-stream ">=1.0.33-1 <1.1.0-0"
     xtend ">=4.0.0 <4.1.0-0"
 
-through2@^2.0.0, through2@~2.0.0:
+through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
   dependencies:
@@ -3720,7 +3722,7 @@ tslint-react@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-3.0.0.tgz#00c48ab7f22e91533b62bdef2c162b49447af00a"
 
-tslint@^5.1.0:
+tslint@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.2.0.tgz#16a2addf20cb748385f544e9a0edab086bc34114"
   dependencies:
@@ -3772,7 +3774,7 @@ type-is@~1.6.14:
     media-typer "0.3.0"
     mime-types "~2.1.15"
 
-typescript@^2.2.2:
+typescript@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.2.tgz#f0f045e196f69a72f06b25fd3bd39d01c3ce9984"
 
@@ -3872,7 +3874,7 @@ utils-merge@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.0.tgz#0294fb922bb9375153541c4f7096231f287c8af8"
 
-uuid@^3.0.0:
+uuid@^3.0.0, uuid@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
@@ -4021,7 +4023,7 @@ which-module@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/which-module/-/which-module-1.0.0.tgz#bba63ca861948994ff307736089e3b96026c2a4f"
 
-which@1, which@^1.2.1, which@^1.2.12:
+which@^1.2.1, which@^1.2.12:
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/which/-/which-1.2.14.tgz#9a87c4378f03e827cecaf1acdf56c736c01c14e5"
   dependencies:
@@ -4139,9 +4141,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yarn@^0.23.4:
-  version "0.23.4"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-0.23.4.tgz#f428c75ca27ad4910bc822174f586187c790c5db"
+yarn@^0.24.4:
+  version "0.24.4"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-0.24.4.tgz#a4bfa3bb768192706771337f959721cfc0555093"
   dependencies:
     babel-runtime "^6.0.0"
     bytes "^2.4.0"
@@ -4152,6 +4154,7 @@ yarn@^0.23.4:
     death "^1.0.0"
     debug "^2.2.0"
     detect-indent "^5.0.0"
+    gunzip-maybe "^1.4.0"
     ini "^1.3.4"
     inquirer "^3.0.1"
     invariant "^2.2.0"
@@ -4162,18 +4165,17 @@ yarn@^0.23.4:
     minimatch "^3.0.3"
     mkdirp "^0.5.1"
     node-emoji "^1.0.4"
-    node-gyp "^3.2.1"
     object-path "^0.11.2"
     proper-lockfile "^2.0.0"
     read "^1.0.7"
     request "^2.81.0"
     request-capture-har "^1.2.2"
     rimraf "^2.5.0"
-    roadrunner "^1.1.0"
     semver "^5.1.0"
     strip-bom "^3.0.0"
     tar-fs "^1.15.1"
     tar-stream "^1.5.2"
+    uuid "^3.0.1"
     v8-compile-cache "^1.1.0"
     validate-npm-package-license "^3.0.1"
 
