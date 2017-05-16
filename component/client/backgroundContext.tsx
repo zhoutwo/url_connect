@@ -1,3 +1,5 @@
+import * as firebase from "firebase";
+
 const backgroundContext: any = chrome.extension.getBackgroundPage();
 
 export interface IRoomService {
@@ -62,26 +64,18 @@ export interface IStorageService {
 }
 
 export interface IUserService {
-  /**
-   * @param userID the userID of the user data to get
-   * @return the promise for the user config of this user
-   */
-  getUser(userID: string): Promise<any>;
 
   /**
-   * @return the promise for the user config of myself
+   * @param userID
+   * @return firebase reference for this user
    */
-  getMySelf(): Promise<any>;
+  getUser(userID: string): firebase.database.Reference;
 
   /**
-   * @param confData the part of configs to update
+   * @return firebase reference for myself
    */
-  updateConf(confData: any);
-
-  /**
-   * @param confData the new configs to override existing config
-   */
-  setConf(confData: any);
+  getMySelf(): firebase.database.Reference;
+  
 }
 
 export const storage: IStorageService = backgroundContext.backgroundStorageService;

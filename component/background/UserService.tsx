@@ -10,29 +10,14 @@ class UserService implements IUserService {
     this.myself = allUsers.child(this.id);
   }
 
-  public getUser(userID: string): Promise<any> {
-    return this.getDataAtReference(allUsers.child(userID));
+  public getUser(userID: string): firebase.database.Reference {
+    return allUsers.child(userID);
   }
 
-  public getMySelf(): Promise<any> {
-    return this.getDataAtReference(this.myself);
+  public getMySelf(): firebase.database.Reference {
+    return this.myself;
   }
 
-  public updateConf(confData: any): void {
-    this.myself.update(confData);
-  }
-
-  public setConf(confData: any): void {
-    this.myself.set(confData);
-  }
-
-  private getDataAtReference(reference: firebase.database.Reference): Promise<void> {
-    return new Promise<void>((resolve) => {
-      this.myself.once("value", (data) => {
-        resolve(data.val());
-      });
-    });
-  }
 }
 
 export default UserService;
