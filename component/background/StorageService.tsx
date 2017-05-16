@@ -14,9 +14,9 @@ class StorageService {
 
   /**
    * Clear the storage space and load with default settings
-   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after defaults are set
+   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after defaults are set
    */
-  public reset(): Promise<any> {
+  public reset(): Promise<{}> {
     return new Promise((resolve) => {
       this.storage.get(STORAGE_KEY_ID, (data) => {
         this.storage.clear(() => {
@@ -43,9 +43,9 @@ class StorageService {
    * Sets the key-value in the storage
    * @param key The key
    * @param value The value
-   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the value is set
+   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
    */
-  public set(key: string, value: string): Promise<any> {
+  public set(key: string, value: string): Promise<{}> {
     const data = {};
     data[key] = value;
 
@@ -57,9 +57,9 @@ class StorageService {
   /**
    * Removes the key (and its associated value) from the storage
    * @param key The key to remove
-   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the key is removed
+   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
    */
-  public remove(key): Promise<any> {
+  public remove(key): Promise<{}> {
     return new Promise((resolve) => {
       this.storage.remove(key, resolve);
     });
