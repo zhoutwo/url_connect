@@ -1,7 +1,7 @@
 import * as React from "react";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
-import {CHAT_LINK, SETTING_LINK, PRIVATE_CHAT} from "../Constants";
+import {CHAT_LINK, PRIVATE_CHAT, SETTING_LINK} from "../Constants";
 
 interface IClientNavbarProps {
   initialKey: string;
@@ -32,10 +32,10 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
     const dropMenu = this.state.privateRooms.map((data, index) =>
         (
           <LinkContainer to={`${PRIVATE_CHAT}/${data}`} key={data + index}>
-            <MenuItem eventKey="privateChat:${data}"> {data} </MenuItem>
+            <MenuItem eventKey={`privateChat:${data}`}> {data} </MenuItem>
           </LinkContainer>
         )
-    )
+    );
 
     return (
       <Nav bsStyle="pills" activeKey={this.state.activeKey} onSelect={this.handleNavigation}>
