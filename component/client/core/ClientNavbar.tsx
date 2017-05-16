@@ -1,11 +1,14 @@
 import * as React from "react";
-import {NavDropdown, MenuItem, Nav, Navbar, NavItem} from "react-bootstrap";
+import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
-import {CHAT_LINK, PRIVATE_CHAT, SETTING_LINK} from "../Constants";
-import IActiveKeyState from "./IActiveKeyState";
+import {CHAT_LINK, SETTING_LINK, PRIVATE_CHAT} from "../Constants";
 
 interface IClientNavbarProps {
   initialKey: string;
+}
+
+interface IActiveKeyState {
+  activeKey: string;
 }
 
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
