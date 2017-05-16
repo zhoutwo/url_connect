@@ -31,9 +31,9 @@ export interface IStorageService {
   /**
    * Retrieves the stored value for the specified key
    * @param key The key to look up
-   * @return {Promise<String>} The value associated with the key; undefined if not found
+   * @return {Promise<any>} The value associated with the key; undefined if not found
    */
-  get(key: string): Promise<string>;
+  get(key: string): Promise<any>;
 
   /**
    * Sets the key-value in the storage
@@ -41,7 +41,7 @@ export interface IStorageService {
    * @param value The value
    * @return {Promise<void>} A promise whose resolve takes no argument, which runs after the value is set
    */
-  set(key: string, value: string): Promise<void>;
+  set(key: string, value: any): Promise<void>;
 
   /**
    * Removes the key (and its associated value) from the storage
