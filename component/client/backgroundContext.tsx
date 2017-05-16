@@ -10,13 +10,12 @@ export interface IRoomService {
   setConf(confData: any);
 }
 
-
 export interface IStorageService {
   /**
    * Clear the storage space and load with default settings
    * @return {Promise<void>} A promise whose resolve takes no argument, which runs after defaults are set
    */
-  reset(): Promise<void>
+  reset(): Promise<void>;
 
   /**
    * Retrieves the stored value for the specified key
@@ -51,11 +50,10 @@ export interface IStorageService {
    * @param callback The function that takes one parameter of data.
    */
   unsubscribe(callback);
-};
+}
 
-
-export const storage:IStorageService = backgroundContext.backgroundStorageService;
-export const room:IRoomService = backgroundContext.room;
+export const storage: IStorageService = backgroundContext.backgroundStorageService;
+export const room: IRoomService = backgroundContext.room;
 
 addEventListener("unload", (event) => {
   room.close();
