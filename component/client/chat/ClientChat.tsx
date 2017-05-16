@@ -12,6 +12,7 @@ interface IClientChatState {
 interface IClientChatProps {
   username: string;
   url: string;
+  userID: string;
 }
 
 class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
@@ -37,7 +38,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     return (
       <div>
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
-          <ChatHistory user={this.props.username} messages={this.state.messages} />
+          <ChatHistory messages={this.state.messages} userID={this.props.userID} />
         </Panel>
       </div>
     );
@@ -48,7 +49,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
       messages : []
     };
     room.setUrl(url, (data: IData) => {
-      this.setState((prevState, props) => {
+      this.setState((prevState: IClientChatState, props: IClientChatProps) => {
         const updatedMessages = prevState.messages.concat(data);
         return Object.assign({}, prevState, {messages: updatedMessages});
       });
@@ -56,7 +57,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private handleSend(message: string): void {
-    room.pushMessage({userFrom: this.props.username, message});
+    room.pushMessage({userFrom: this.props.username, userFromID: this.props.userID, message});
   }
 }
 
