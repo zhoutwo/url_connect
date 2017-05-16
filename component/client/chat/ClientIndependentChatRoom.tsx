@@ -26,19 +26,13 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
     };
     storage.get("username")
       .then((username) => {
-        if (username) {
+        ClientIndependentChatRoom.getCurrentTabUrl((url) => {
           this.setState({
-            username
+            currentUrl: (url) ? url : Constants.NOOP_URL,
+            username: (username) ? username : Constants.NOOP_USERNAME
           });
-        }
-      });
-    ClientIndependentChatRoom.getCurrentTabUrl((url) => {
-      if (url) {
-        this.setState({
-          currentUrl: url
         });
-      }
-    });
+      });
   }
 
   public render() {
