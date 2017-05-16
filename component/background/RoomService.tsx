@@ -82,11 +82,11 @@ class RoomService implements IRoomService {
     });
   }
 
-  public getUser(userID: string): Promise<any> {
+  public getUser(userID: string): Promise<void> {
     return this.getDataAtReference(allUsers.child(userID));
   }
 
-  public getMySelf(): Promise<any> {
+  public getMySelf(): Promise<void> {
     return this.getDataAtReference(this.myself);
   }
 
@@ -98,8 +98,8 @@ class RoomService implements IRoomService {
     this.myself.set(confData);
   }
 
-  private getDataAtReference(reference: firebase.database.Reference): Promise<any> {
-    return new Promise<any>((resolve) => {
+  private getDataAtReference(reference: firebase.database.Reference): Promise<void> {
+    return new Promise<void>((resolve) => {
       this.myself.once("value", (data) => {
         resolve(data.val());
       });

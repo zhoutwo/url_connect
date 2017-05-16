@@ -14,9 +14,9 @@ export interface IRoomService {
 export interface IStorageService {
   /**
    * Clear the storage space and load with default settings
-   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after defaults are set
+   * @return {Promise<void>} A promise whose resolve takes no argument, which runs after defaults are set
    */
-  reset(): Promise<any>
+  reset(): Promise<void>
 
   /**
    * Retrieves the stored value for the specified key
@@ -29,16 +29,16 @@ export interface IStorageService {
    * Sets the key-value in the storage
    * @param key The key
    * @param value The value
-   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the value is set
+   * @return {Promise<void>} A promise whose resolve takes no argument, which runs after the value is set
    */
-  set(key: string, value: string): Promise<any>;
+  set(key: string, value: string): Promise<void>;
 
   /**
    * Removes the key (and its associated value) from the storage
    * @param key The key to remove
-   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the key is removed
+   * @return {Promise<void>} A promise whose resolve takes no argument, which runs after the key is removed
    */
-  remove(key): Promise<any>;
+  remove(key): Promise<void>;
 
   /**
    * Subscribes a callback to an onChanged event.
