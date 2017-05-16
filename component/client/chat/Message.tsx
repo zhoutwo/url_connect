@@ -7,11 +7,14 @@ interface IMessageProps {
   username: string;
   message: string;
   index: number;
+  startPrivateChatWith: (user: string) => void;
 }
 
 class Message extends React.Component<IMessageProps, any> {
   constructor(props: IMessageProps) {
     super(props);
+
+    this.startPrivateChat = this.startPrivateChat.bind(this);
   }
 
   public render(): JSX.Element {
@@ -54,6 +57,7 @@ class Message extends React.Component<IMessageProps, any> {
   private startPrivateChat(event, data) {
     event.preventDefault();
     console.log("[ INFO ] : Context Menu Click: ", data);
+    this.props.startPrivateChatWith(data.user);
   }
 
   /*
