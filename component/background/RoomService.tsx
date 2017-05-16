@@ -1,4 +1,5 @@
 import * as firebase from "firebase";
+import {IRoomService} from "../client/backgroundContext";
 
 // Initialize Firebase
 const config = {
@@ -17,7 +18,7 @@ const allUsers = firebase.database().ref("users");
 const MESSAGE = "message";
 const USER = "user";
 
-class RoomService {
+class RoomService implements IRoomService {
   private rootRef: firebase.database.Reference;
   private messageRef: firebase.database.Reference;
   private myself: firebase.database.Reference;
@@ -97,7 +98,7 @@ class RoomService {
     this.myself.set(confData);
   }
 
-  public getDataAtReference(reference: firebase.database.Reference): Promise<any> {
+  private getDataAtReference(reference: firebase.database.Reference): Promise<any> {
     return new Promise<any>((resolve) => {
       this.myself.once("value", (data) => {
         resolve(data.val());

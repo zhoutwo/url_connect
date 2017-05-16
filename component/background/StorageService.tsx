@@ -1,4 +1,5 @@
 import {STORAGE_KEY_ID} from "../client/Constants";
+import {IStorageService} from "../client/backgroundContext";
 
 class StorageService {
   private storage: chrome.storage.StorageArea;
@@ -13,9 +14,9 @@ class StorageService {
 
   /**
    * Clear the storage space and load with default settings
-   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after defaults are set
+   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after defaults are set
    */
-  public reset(): Promise<{}> {
+  public reset(): Promise<any> {
     return new Promise((resolve) => {
       this.storage.get(STORAGE_KEY_ID, (data) => {
         this.storage.clear(() => {
@@ -42,9 +43,9 @@ class StorageService {
    * Sets the key-value in the storage
    * @param key The key
    * @param value The value
-   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
+   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the value is set
    */
-  public set(key: string, value: string): Promise<{}> {
+  public set(key: string, value: string): Promise<any> {
     const data = {};
     data[key] = value;
 
@@ -56,9 +57,9 @@ class StorageService {
   /**
    * Removes the key (and its associated value) from the storage
    * @param key The key to remove
-   * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
+   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the key is removed
    */
-  public remove(key): Promise<{}> {
+  public remove(key): Promise<any> {
     return new Promise((resolve) => {
       this.storage.remove(key, resolve);
     });
