@@ -21,6 +21,7 @@ const USER = "user";
 class RoomService implements IRoomService {
   private rootRef: firebase.database.Reference;
   private messageRef: firebase.database.Reference;
+  private userListRef: firebase.database.Reference;
   private myself: firebase.database.Reference;
   private active: boolean;
 
@@ -54,7 +55,8 @@ class RoomService implements IRoomService {
     });
 
     // set up configRef
-    this.rootRef.child(USER).child(this.id).set(true);
+    this.userListRef = this.rootRef.child(USER);
+    this.userListRef.child(this.id).set(true);
     this.myself = allUsers.child(this.id);
     this.active = true;
   }
@@ -62,9 +64,9 @@ class RoomService implements IRoomService {
   public close(): void {
     if (this.active) {
       this.messageRef.off();
-      this.rootRef.child(USER).child(this.id).remove()
+      this.userListRef.child(this.id).remove()
         .then(() => {
-          this.rootRef.child(USER).once("value", (data) => {
+          this.userListRef.once("value", (data) => {
             if (!data.val()) {
               this.rootRef.remove();
             }
