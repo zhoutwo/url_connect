@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Panel} from "react-bootstrap";
-import {room} from "../backgroundContext";
+import {Button, FormControl, FormGroup, Grid, Modal, Panel, Row} from "react-bootstrap";
+import {room, user} from "../backgroundContext";
 import ChatHistory from "./ChatHistory";
 import IData from "./IData";
 import Messenger from "./Messenger";
@@ -47,8 +47,11 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     );
   }
 
-  public startPrivateChatWith(user: string) {
+  public startPrivateChatWith(userID: string) {
     console.log("start message with " + user);
+    const newRoom = user.getMySelf().child("privateRooms").push();
+    newRoom.set(newRoom.key);
+    user.getUser(userID).child("privateRooms").push().set(newRoom.key);
   }
 
   private updateRoomService(url: string) {
