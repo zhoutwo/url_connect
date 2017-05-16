@@ -25,7 +25,7 @@ class Message extends React.Component<IMessageProps, any> {
 
     return (
       <div>
-        <ContextMenuTrigger id={contextIdentifier} disable={this.props.user === this.props.username}>
+        <ContextMenuTrigger id={contextIdentifier} disable={false && this.props.user === this.props.username}>
           <div>
             <ListGroupItem bsStyle="info" style={messageStyle}>
               <Grid>
