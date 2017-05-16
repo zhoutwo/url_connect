@@ -71,7 +71,7 @@ class StorageService {
    * @param callback function that takes one parameter of data.
    * @return  zero argument function that will unsubscribe the callback.
    */
-  public subscribe(callback) {
+  public subscribe(callback): () => void {
     const syncListener = (data: object, area: string) => {
       if (area === this.STORAGE_TYPE) {
         callback(data);
