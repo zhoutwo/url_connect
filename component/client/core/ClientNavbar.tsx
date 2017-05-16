@@ -37,7 +37,7 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
       const privateRooms = data && data.val() ? data.val() : [];
       console.log("rooms: ", privateRooms);
       this.setState({
-        privateRooms: privateRooms
+        privateRooms
       });
     });
   }
