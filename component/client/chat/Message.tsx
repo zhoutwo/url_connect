@@ -13,6 +13,8 @@ interface IMessageProps {
 class Message extends React.Component<IMessageProps, any> {
   constructor(props: IMessageProps) {
     super(props);
+
+    this.handleContextMenu = this.handleContextMenu.bind(this);
   }
 
   public render(): JSX.Element {
