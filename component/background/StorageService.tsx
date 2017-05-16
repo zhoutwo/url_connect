@@ -1,5 +1,5 @@
-import {STORAGE_KEY_ID} from "../client/Constants";
 import {IStorageService} from "../client/backgroundContext";
+import {STORAGE_KEY_ID} from "../client/Constants";
 
 class StorageService {
   private storage: chrome.storage.StorageArea;
