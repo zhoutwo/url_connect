@@ -42,7 +42,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
   public render(): JSX.Element {
     // offset from the top to avoid Navbar hangovers.
     const coreStyle = {
-      marginTop: "60px"
+      marginTop: "10px"
     };
 
     return (
