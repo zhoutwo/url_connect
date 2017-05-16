@@ -1,7 +1,7 @@
 import {STORAGE_KEY_ID} from "../client/Constants";
 import RoomService from "./RoomService";
-import UserService from "./UserService";
 import StorageService from "./StorageService";
+import UserService from "./UserService";
 
 const backgroundService = new StorageService();
 (window as any).backgroundStorageService = backgroundService;
