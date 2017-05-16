@@ -4,10 +4,6 @@ export interface IRoomService {
   setUrl(url: string, onMessagePosted: (data: any, from: any) => void);
   close();
   pushMessage(data: any);
-  getUser(userID: string);
-  getMySelf();
-  updateConf(confData: any);
-  setConf(confData: any);
 }
 
 export interface IStorageService {
@@ -50,6 +46,16 @@ export interface IStorageService {
    * @param callback The function that takes one parameter of data.
    */
   unsubscribe(callback);
+}
+
+export interface IUserService {
+  getUser(userID: string): Promise<any>;
+
+  getMySelf(): Promise<any>;
+
+  updateConf(confData: any);
+
+  setConf(confData: any);
 }
 
 export const storage: IStorageService = backgroundContext.backgroundStorageService;

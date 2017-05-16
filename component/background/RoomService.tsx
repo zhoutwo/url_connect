@@ -82,29 +82,6 @@ class RoomService implements IRoomService {
     });
   }
 
-  public getUser(userID: string): Promise<void> {
-    return this.getDataAtReference(allUsers.child(userID));
-  }
-
-  public getMySelf(): Promise<void> {
-    return this.getDataAtReference(this.myself);
-  }
-
-  public updateConf(confData: any): void {
-    this.myself.update(confData);
-  }
-
-  public setConf(confData: any): void {
-    this.myself.set(confData);
-  }
-
-  private getDataAtReference(reference: firebase.database.Reference): Promise<void> {
-    return new Promise<void>((resolve) => {
-      this.myself.once("value", (data) => {
-        resolve(data.val());
-      });
-    });
-  }
 }
 
 export default RoomService;
