@@ -75,7 +75,7 @@ export interface IUserService {
    * @return firebase reference for myself
    */
   getMySelf(): firebase.database.Reference;
-  
+
 }
 
 export const storage: IStorageService = backgroundContext.backgroundStorageService;
