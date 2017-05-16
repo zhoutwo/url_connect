@@ -1,8 +1,21 @@
 const backgroundContext: any = chrome.extension.getBackgroundPage();
 
 export interface IRoomService {
+  /**
+   * set the url and callback listener.
+   * @param url the url of chat room to listen for
+   * @param onMessagePosted callback listener
+   */
   setUrl(url: string, onMessagePosted: (data: any, from: any) => void);
+
+  /**
+   * close the room, and release the listener
+   */
   close();
+
+  /**
+   * @param data the data to be sent in this room
+   */
   pushMessage(data: any);
 }
 
@@ -49,17 +62,31 @@ export interface IStorageService {
 }
 
 export interface IUserService {
+  /**
+   * @param userID the userID of the user data to get
+   * @return the promise for the user config of this user
+   */
   getUser(userID: string): Promise<any>;
 
+  /**
+   * @return the promise for the user config of myself
+   */
   getMySelf(): Promise<any>;
 
+  /**
+   * @param confData the part of configs to update
+   */
   updateConf(confData: any);
 
+  /**
+   * @param confData the new configs to override existing config
+   */
   setConf(confData: any);
 }
 
 export const storage: IStorageService = backgroundContext.backgroundStorageService;
 export const room: IRoomService = backgroundContext.room;
+export const user: IUserService = backgroundContext.user;
 
 addEventListener("unload", (event) => {
   room.close();
