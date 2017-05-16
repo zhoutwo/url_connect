@@ -122,7 +122,6 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   private handleReload(data): void {
-    console.log("[ INFO ] : handleReload data", data);
     if (data.username) {
       this.setState((prevState: IClientSettingState, props: any) => {
         const usernameField = {username: {
