@@ -10,6 +10,7 @@ interface IClientChatState {
 }
 
 interface IClientChatProps {
+  userId: string;
   username: string;
   url: string;
 }
@@ -38,7 +39,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
       <div>
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
           <ChatHistory
-            user={this.props.username}
+            userId={this.props.userId}
             messages={this.state.messages}
             startPrivateChatWith={this.startPrivateChatWith}
           />

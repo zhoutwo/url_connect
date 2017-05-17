@@ -1,24 +1,32 @@
 import * as React from "react";
-
 import ClientChat from "./ClientChat";
-
-import * as Constants from "../Constants";
-
+import {NOOP_URL, NOOP_USERNAME, STORAGE_KEY_ID, STORAGE_KEY_USERNAME} from "../Constants";
 import {storage} from "../backgroundContext";
 
-interface IClientIndependentChatRoomState {
+interface IClientPrivateChatRoomState {
+  userId: string;
   username: string;
   currentUrl: string;
 }
 
-class ClientPrivateChatRoom extends React.Component<any, IClientIndependentChatRoomState> {
-  constructor(props) {
-    super(props);
+class ClientPrivateChatRoom extends React.Component<any, IClientPrivateChatRoomState> {
+
+  constructor() {
+    super();
     this.state = {
-      currentUrl: "www.google.com",
-      username: Constants.NOOP_USERNAME
+      currentUrl: NOOP_URL,
+      userId: NOOP_USERNAME,
+      username: NOOP_USERNAME
     };
-    storage.get("username")
+    storage.get(STORAGE_KEY_ID)
+      .then((userId) => {
+        if (userId) {
+          this.setState({
+            userId
+          });
+        }
+      });
+    storage.get(STORAGE_KEY_USERNAME)
       .then((username) => {
         if (username) {
           this.setState({
@@ -26,13 +34,13 @@ class ClientPrivateChatRoom extends React.Component<any, IClientIndependentChatR
           });
         }
       });
-
-    console.log("Props", this.props);
   }
 
   public render() {
-    return <ClientChat url={this.props.match.params.url} username={this.state.username}/>;
+    return <ClientChat url={this.props.match.params.url} userId={this.state.userId}  username={this.state.username}/>;
   }
 }
 
 export default ClientPrivateChatRoom;
+
+
