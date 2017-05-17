@@ -47,7 +47,7 @@ class Message extends React.Component<IMessageProps, any> {
 
         <ContextMenu id={contextIdentifier}>
           <MenuItem onClick={this.startPrivateChat}>
-            Private Chat with {this.props.username} 
+            Private Chat with {this.props.username}
           </MenuItem>
         </ContextMenu>
       </div>
@@ -56,7 +56,6 @@ class Message extends React.Component<IMessageProps, any> {
 
   private startPrivateChat(event) {
     event.preventDefault();
-    console.log("[ INFO ] : Context Menu Click: ", this.props.userId, this.props);
     this.props.startPrivateChatWith(this.props.userId);
   }
 

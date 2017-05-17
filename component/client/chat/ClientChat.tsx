@@ -51,7 +51,6 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public startPrivateChatWith(userId: string) {
-    console.log("start message with ", userId, this.props.userId);
     const newRoom = user.getMySelf().child("privateRooms").push();
     newRoom.set(newRoom.key);
     user.getUser(userId).child("privateRooms").push().set(newRoom.key);
