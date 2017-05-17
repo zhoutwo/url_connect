@@ -1,5 +1,6 @@
 interface IData {
   userFrom: string;
+  userFromID: string;
   message: string;
 }
 
