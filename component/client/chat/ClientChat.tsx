@@ -22,6 +22,8 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     super(props);
 
     this.handleSend = this.handleSend.bind(this);
+    this.startPrivateChatWith = this.startPrivateChatWith.bind(this);
+
     this.messenger = <Messenger handleSend={this.handleSend}/>;
     this.updateRoomService(this.props.url);
   }
@@ -48,11 +50,11 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     );
   }
 
-  public startPrivateChatWith(userID: string) {
-    console.log("start message with " + user);
+  public startPrivateChatWith(userId: string) {
+    console.log("start message with ", userId, this.props.userId);
     const newRoom = user.getMySelf().child("privateRooms").push();
     newRoom.set(newRoom.key);
-    user.getUser(userID).child("privateRooms").push().set(newRoom.key);
+    user.getUser(userId).child("privateRooms").push().set(newRoom.key);
   }
 
   private updateRoomService(url: string) {
@@ -68,7 +70,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private handleSend(message: string): void {
-    room.pushMessage({userFrom: this.props.username, message});
+    room.pushMessage({userFromId: this.props.userId, userFrom: this.props.username, message});
   }
 }
 
