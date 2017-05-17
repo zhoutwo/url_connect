@@ -1,7 +1,7 @@
 import * as React from "react";
-import ClientChat from "./ClientChat";
-import {NOOP_URL, NOOP_USERNAME, STORAGE_KEY_ID, STORAGE_KEY_USERNAME} from "../Constants";
 import {storage} from "../backgroundContext";
+import {NOOP_URL, NOOP_USERNAME, STORAGE_KEY_ID, STORAGE_KEY_USERNAME} from "../Constants";
+import ClientChat from "./ClientChat";
 
 interface IClientPrivateChatRoomState {
   userId: string;
@@ -42,5 +42,3 @@ class ClientPrivateChatRoom extends React.Component<any, IClientPrivateChatRoomS
 }
 
 export default ClientPrivateChatRoom;
-
-
