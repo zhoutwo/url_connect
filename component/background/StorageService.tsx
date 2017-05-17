@@ -1,3 +1,4 @@
+import {IStorageService} from "../client/backgroundContext";
 import {STORAGE_KEY_ID} from "../client/Constants";
 
 class StorageService {
@@ -30,7 +31,7 @@ class StorageService {
    * @param key The key to look up
    * @return {Promise<String>} The value associated with the key; undefined if not found
    */
-  public get(key: string): Promise<string> {
+  public get(key: string): Promise<any> {
     return new Promise((resolve) => {
       this.storage.get(key, (item) => {
         resolve(item[key]);
@@ -44,7 +45,7 @@ class StorageService {
    * @param value The value
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
    */
-  public set(key: string, value: string): Promise<{}> {
+  public set(key: string, value: any): Promise<{}> {
     const data = {};
     data[key] = value;
 
