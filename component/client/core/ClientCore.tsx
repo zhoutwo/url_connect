@@ -12,6 +12,8 @@ interface ClientCoreState {
 }
 
 class ClientCore extends React.Component<any, ClientCoreState> {
+  private storageListenerUnsubscriber: () => void;
+
   constructor(props: any) {
     super(props);
 
@@ -27,16 +29,18 @@ class ClientCore extends React.Component<any, ClientCoreState> {
       if (hasInitalized) this.setState({initialized: hasInitalized});
     });
 
-    this.handleInit = this.handleInit.bind(this);
-    storage.subscribe(this.handleInit);
-
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
 
+  public componentDidMount() {
+    this.handleInit = this.handleInit.bind(this);
+    this.storageListenerUnsubscriber = storage.subscribe(this.handleInit);
+  }
+
   public componentWillUnmount() {
-    storage.unsubscribe(this.handleInit);
+    this.storageListenerUnsubscriber();
   }
 
   public render(): JSX.Element {
@@ -105,8 +109,8 @@ class ClientCore extends React.Component<any, ClientCoreState> {
         .then(() => this.setState({initialized: true, username: ""})));
   }
 
-  private handleInit(data, area: string): void {
-    if (area === "sync" && data.initialized) {
+  private handleInit(data): void {
+    if (data.initialized) {
       this.setState({initialized: data.initialized.newValue});
     }
   }
