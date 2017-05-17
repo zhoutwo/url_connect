@@ -1,12 +1,10 @@
 import * as React from "react";
-
 import ClientChat from "./ClientChat";
-
-import * as Constants from "../Constants";
-
+import {NOOP_URL, NOOP_USERNAME, STORAGE_KEY_ID, STORAGE_KEY_USERNAME} from "../Constants";
 import {storage} from "../backgroundContext";
 
 interface IClientIndependentChatRoomState {
+  userId: string;
   username: string;
   currentUrl: string;
 }
@@ -21,10 +19,19 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
   constructor() {
     super();
     this.state = {
-      currentUrl: Constants.NOOP_URL,
-      username: Constants.NOOP_USERNAME
+      currentUrl: NOOP_URL,
+      userId: NOOP_USERNAME,
+      username: NOOP_USERNAME
     };
-    storage.get("username")
+    storage.get(STORAGE_KEY_ID)
+      .then((userId) => {
+        if (userId) {
+          this.setState({
+            userId
+          });
+        }
+      });
+    storage.get(STORAGE_KEY_USERNAME)
       .then((username) => {
         if (username) {
           this.setState({
@@ -42,7 +49,7 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
   }
 
   public render() {
-    return <ClientChat url={this.state.currentUrl} username={this.state.username}/>;
+    return <ClientChat url={this.state.currentUrl} userId={this.state.userId} username={this.state.username}/>;
   }
 }
 
