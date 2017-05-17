@@ -31,7 +31,6 @@
     "@types/react-router-dom": "^4.0.4",
     "@types/sinon": "^2.1.2",
     "@types/sinon-chai": "^2.7.27",
-    "@types/webrtc": "0.0.21",
     "awesome-typescript-loader": "^3.1.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
@@ -62,6 +61,6 @@
     "tslint-react": "^3.0.0",
     "typescript": "^2.3.2",
     "webpack": "^2.4.1",
-    "yarn": "^0.24.4"
+    "yarn": "latest"
   }
 }
