@@ -101,8 +101,8 @@ class ClientCore extends React.Component<any, ClientCoreState> {
 
   private handleSave(): void {
     storage.set(STORAGE_KEY_USERNAME, this.state.username)
-    .then(storage.set(STORAGE_KEY_INITIALIZED, true)
-      .then(this.setState({initialized: true, username: ""})));
+      .then(() => storage.set(STORAGE_KEY_INITIALIZED, true)
+        .then(() => this.setState({initialized: true, username: ""})));
   }
 
   private handleInit(data, area: string): void {
