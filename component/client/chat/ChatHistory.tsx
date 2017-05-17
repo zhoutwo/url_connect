@@ -32,7 +32,7 @@ class ChatHistory extends React.Component<IHistoryProps, any> {
     const messages = this.props.messages.map((data, index) => (
         <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle} >
           <Message
-            userId={this.props.userId}
+            userId={data.userFromId}
             username={data.userFrom}
             message={data.message}
             index={index}
