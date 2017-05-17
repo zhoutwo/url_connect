@@ -4,6 +4,7 @@ export const UNDEFINED_STATUS = "UNDEFINED_STATUS";
 export const CHAT_LINK = "/chat";
 export const SETTING_LINK = "/setting";
 export const PRIVATE_CHAT_LINK = "/privateChat";
+export const VIDEO_CHAT_LINK = "/video-chat";
 
 export const NOOP_USERNAME = "alphaUser";
 export const NOOP_URL = "https://www.google.com/";

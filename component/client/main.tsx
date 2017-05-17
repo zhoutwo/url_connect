@@ -6,6 +6,7 @@ import ClientPrivateChatRoom from "./chat/ClientPrivateChatRoom";
 import * as Constants from "./Constants";
 import ClientCore from "./core/ClientCore";
 import ClientSetting from "./settings/ClientSetting";
+import VideoChatContainer from "./video-chat/VideoChatContainer";
 
 ReactDOM.render((
   <Router>
@@ -14,5 +15,6 @@ ReactDOM.render((
       <Route path={Constants.CHAT_LINK} component={ClientIndependentChatRoom} />
       <Route path={`${Constants.PRIVATE_CHAT_LINK}/:url`} component={ClientPrivateChatRoom} />
       <Route path={Constants.SETTING_LINK} component={ClientSetting} />
+      <Route path={Constants.VIDEO_CHAT_LINK} component={VideoChatContainer} />
     </ClientCore>
   </Router>),   document.getElementById("root"));
