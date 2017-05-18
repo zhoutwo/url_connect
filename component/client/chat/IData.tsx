@@ -1,7 +1,7 @@
 interface IData {
+  message: string;
   userFrom: string;
   userFromID: string;
-  message: string;
 }
 
 export default IData;
