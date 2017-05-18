@@ -1,5 +1,6 @@
 import * as firebase from "firebase";
 import {IRoomService} from "../client/backgroundContext";
+import {FIREBASE_EVENT_VALUE} from "../client/Constants";
 
 // Initialize Firebase
 const config = {
@@ -66,7 +67,7 @@ class RoomService implements IRoomService {
       this.messageRef.off();
       this.userListRef.child(this.id).remove()
         .then(() => {
-          this.userListRef.once("value", (data) => {
+          this.userListRef.once(FIREBASE_EVENT_VALUE, (data) => {
             if (!data.val()) {
               this.rootRef.remove();
             }

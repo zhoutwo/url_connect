@@ -12,7 +12,7 @@ interface ClientCoreState {
 }
 
 class ClientCore extends React.Component<any, ClientCoreState> {
-  private storageListenerUnsubscriber: () => void;
+  private unsubscribe: () => void;
 
   constructor(props: any) {
     super(props);
@@ -36,11 +36,11 @@ class ClientCore extends React.Component<any, ClientCoreState> {
 
   public componentDidMount() {
     this.handleInit = this.handleInit.bind(this);
-    this.storageListenerUnsubscriber = storage.subscribe(this.handleInit);
+    this.unsubscribe = storage.subscribe(this.handleInit);
   }
 
   public componentWillUnmount() {
-    this.storageListenerUnsubscriber();
+    this.unsubscribe();
   }
 
   public render(): JSX.Element {
@@ -110,7 +110,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
   }
 
   private handleInit(data): void {
-    if (data.initialized) {
+    if (data.initialized && data.initialized.newValue !== undefined) {
       this.setState({initialized: data.initialized.newValue});
     }
   }
