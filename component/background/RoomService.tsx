@@ -1,5 +1,6 @@
 import * as firebase from "firebase";
 import {IRoomService} from "../client/backgroundContext";
+import {FIREBASE_EVENT_VALUE} from "../client/Constants";
 
 // Initialize Firebase
 const config = {
@@ -24,20 +25,13 @@ class RoomService implements IRoomService {
   private userListRef: firebase.database.Reference;
   private myself: firebase.database.Reference;
   private active: boolean;
-  private listeners: Array<(data: any) => void>;
 
   constructor(private id: string) {
     this.active = false;
-    this.listeners = [];
-    this.addMessageListener = this.addMessageListener.bind(this);
-    this.runListeners = this.runListeners.bind(this);
   }
 
   public setUrl(url: string, onMessagePosted: (data: any) => void) {
     this.close();
-    if (this.listeners.indexOf(onMessagePosted) < 0) {
-      this.listeners.push(onMessagePosted);
-    }
 
     const cleanUrl = url.replace(/[\\.]/g, ",")
                         .replace(/[#]/g, "!")
@@ -52,7 +46,7 @@ class RoomService implements IRoomService {
     this.messageRef.on("child_added", (data: any) => {
       if (!data) throw new Error("Messages should never be null");
       const val = data.val();
-      this.runListeners(val, this.listeners.slice()); // Use a copy of the listeners array
+      onMessagePosted(val);
     });
     this.messageRef.on("child_changed", (data: any) => {
       throw new Error("Messages should never changed");
@@ -73,7 +67,7 @@ class RoomService implements IRoomService {
       this.messageRef.off();
       this.userListRef.child(this.id).remove()
         .then(() => {
-          this.userListRef.once("value", (data) => {
+          this.userListRef.once(FIREBASE_EVENT_VALUE, (data) => {
             if (!data.val()) {
               this.rootRef.remove();
             }
@@ -88,31 +82,6 @@ class RoomService implements IRoomService {
     this.messageRef.push().set(data);
   }
 
-  public addMessageListener(listener: (message: any) => void) {
-    if (this.listeners.indexOf(listener) < 0) {
-      this.listeners.push(listener);
-    }
-  }
-
-  public removeMessageListener(listener: (message: any) => void) {
-    for (const l of this.listeners) {
-      console.log(l);
-      if (l === listener) {
-        this.listeners.splice(this.listeners.indexOf(l), 1);
-      }
-    }
-  }
-
-  private runListeners(data: any, listeners: Array<(data: any) => void>): void {
-    if (!data || data.stopPropagation || !listeners || !listeners.length) {
-      return;
-    } else {
-      console.log(listeners[0]);
-      listeners[0](data);
-      listeners.shift();
-      return this.runListeners(data, listeners);
-    }
-  }
 }
 
 export default RoomService;

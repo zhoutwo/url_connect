@@ -3,7 +3,7 @@ import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 
 import {user} from "../backgroundContext";
-import {CHAT_LINK, PRIVATE_CHAT_LINK, SETTING_LINK} from "../Constants";
+import {CHAT_LINK, FIREBASE_EVENT_VALUE, FIREBASE_REFERENCE_PRIVATE_ROOM, PRIVATE_CHAT_LINK, SETTING_LINK} from "../Constants";
 
 interface IClientNavbarProps {
   initialKey: string;
@@ -22,11 +22,11 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
 
     this.state = {
       activeKey: this.props.initialKey,
-      privateRooms: ["link1", "link2"]
+      privateRooms: []
     };
 
     this.handleNavigation = this.handleNavigation.bind(this);
-    this.privateRoomsRef = user.getMySelf().child("privateRooms");
+    this.privateRoomsRef = user.getMySelf().child(FIREBASE_REFERENCE_PRIVATE_ROOM);
   }
 
   public handleNavigation(eventKey: any): void {
@@ -34,7 +34,7 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
   }
 
   public componentDidMount() {
-    this.privateRoomsRef.on("value", (data) => {
+    this.privateRoomsRef.on(FIREBASE_EVENT_VALUE, (data) => {
       const privateRooms: string[] = [];
       if (data && data.val()) {
         const val = data.val();
@@ -63,7 +63,7 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
         <LinkContainer to={SETTING_LINK}>
           <NavItem eventKey="setting"> Settings </NavItem>
         </LinkContainer>
-        <NavDropdown title="PrivateChat" id="nav-dropdown">
+        <NavDropdown title="Private Chat" id="nav-dropdown" disabled={this.state.privateRooms.length === 0}>
           {dropMenu}
         </NavDropdown>
       </Nav>

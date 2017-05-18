@@ -68,19 +68,16 @@ class VideoChatContainer extends React.Component<any, any> {
            to configure Naomi’s WebRTC layer to know how Priya’s end of the connection is configured
            */
           this.listener = (data: IVideoChatControl) => {
-            if (data.video) {
+            if (!this.listener.disabled && data.video) {
               storage.get(STORAGE_KEY_ID).then((selfId) => {
                 if (data.toId === selfId) {
                   if (data.type === "close") {
-                    closeVideoCall(self);
-                    return room.removeMessageListener(this.listener);
+                    this.listener.disabled = true;
+                    return closeVideoCall(self);
                   } else if (data.type === "video-answer") {
                     // Set up the connection
                     const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
-                    self.setRemoteDescription(desc)
-                    .then(() => {
-                      room.removeMessageListener(this.listener);
-                    });
+                    return self.setRemoteDescription(desc);
                   } else if (data.type === "new-ice-candidate") {
                     const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
                     return self.addIceCandidate(candidate);
@@ -139,12 +136,12 @@ class VideoChatContainer extends React.Component<any, any> {
          8.Promise fulfilled: send the SDP answer through the signaling server to Naomi in a message of type “video-answer”
          */
         this.listener = (data: IVideoChatControl) => {
-          if (data.video) {
+          if (!this.listener.disabled && data.video) {
             storage.get(STORAGE_KEY_ID).then((selfId) => {
               if (data.toId === selfId) {
                 if (data.type === "close") {
-                  closeVideoCall(self);
-                  return room.removeMessageListener(this.listener);
+                  this.listener.disabled = true;
+                  return closeVideoCall(self);
                 } else if (data.type === "video-offer") {
                   // Set up the connection
                   this.peerId = data.fromId;
@@ -216,6 +213,7 @@ class VideoChatContainer extends React.Component<any, any> {
               video: true
             };
             room.pushMessage(data);
+            this.listener.disabled = true;
             closeVideoCall(self);
           });
           break;
@@ -231,6 +229,7 @@ class VideoChatContainer extends React.Component<any, any> {
     self.onsignalingstatechange = (event) => {
       switch (self.signalingState) {
         case "closed":
+          this.listener.disabled = true;
           closeVideoCall(self);
           break;
         default:

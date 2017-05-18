@@ -1739,13 +1739,9 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
-iconv-lite@0.4.15:
+iconv-lite@0.4.15, iconv-lite@~0.4.13:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
-
-iconv-lite@~0.4.13:
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.17.tgz#4fdaa3b38acbc2c031b045d0edcdfe1ecab18c8d"
 
 ieee754@^1.1.4:
   version "1.1.8"
@@ -3045,8 +3041,8 @@ react-bootstrap@^0.31.0:
     warning "^3.0.0"
 
 react-contextmenu@^2.5.1:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.5.2.tgz#a43f6f0ba7ae28dc75deec6530a85a4fafa20054"
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.6.0.tgz#bbdfb41fd63ca4bab5a2b1a9fc6f1b1fe4e0484b"
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"

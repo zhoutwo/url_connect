@@ -1,9 +1,11 @@
+import * as uuid from "uuid/v4";
+
 import {IStorageService} from "../client/backgroundContext";
 import {STORAGE_KEY_ID} from "../client/Constants";
 
 const STORAGE_TYPE = "sync";
 
-class StorageService {
+class StorageService implements IStorageService {
   private storage: chrome.storage.StorageArea;
   private status: boolean;
 
@@ -25,12 +27,12 @@ class StorageService {
           // If user id is not locally stored, generate a new one.
           if (!response[STORAGE_KEY_ID]) {
             const data: any = {};
-            data[STORAGE_KEY_ID] = this.generateUUID();
+            data[STORAGE_KEY_ID] = uuid();
             this.storage.set(data, () => {
               this.status = true;
-              resolve();
             });
           }
+          resolve();
         });
       });
     }
@@ -40,7 +42,7 @@ class StorageService {
    * Clear the storage space and load with default settings
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after defaults are set
    */
-  public reset(): Promise<{}> {
+  public reset(): Promise<void> {
     return new Promise((resolve) => {
       this.initialize().then(() => {
         this.storage.get(STORAGE_KEY_ID, (data) => {
@@ -49,7 +51,7 @@ class StorageService {
           });
         });
       });
-    });
+    }) as Promise<void>;
   }
 
   /**
@@ -73,7 +75,7 @@ class StorageService {
    * @param value The value
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
    */
-  public set(key: string, value: any): Promise<{}> {
+  public set(key: string, value: any): Promise<void> {
     const data = {};
     data[key] = value;
 
@@ -81,7 +83,7 @@ class StorageService {
       this.initialize().then(() => {
         this.storage.set(data, resolve);
       });
-    });
+    }) as Promise<void>;
   }
 
   /**
@@ -89,12 +91,12 @@ class StorageService {
    * @param key The key to remove
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
    */
-  public remove(key: string): Promise<{}> {
+  public remove(key: string): Promise<void> {
     return new Promise((resolve) => {
       this.initialize().then(() => {
         this.storage.remove(key, resolve);
       });
-    });
+    }) as Promise<void>;
   }
 
   /**
@@ -116,18 +118,6 @@ class StorageService {
     };
 
     return unsubscriber;
-  }
-
-  /*
-    Code originally authored by broofa on StackOverflow
-    Please see: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#answer-2117523
-  */
-  private generateUUID(): string {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-      const r = Math.random() * 16 | 0;
-      const v = c === "x" ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
   }
 }
 
