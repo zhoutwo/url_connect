@@ -37,7 +37,9 @@ class VideoChatContainer extends React.Component<any, any> {
     super(props);
     this.gotStream = this.gotStream.bind(this);
     room.setUrl("videoChat", (data) => {
-      this.listener(data);
+      if (this.listener) {
+        this.listener(data);
+      }
     });
     const self = new RTCPeerConnection({
       iceServers: [
