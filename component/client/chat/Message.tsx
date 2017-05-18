@@ -62,7 +62,7 @@ class Message extends React.Component<IMessageProps, any> {
   }
 
   private handleContextMenu(event) {
-    if (this.props.userFromID === this.props.userFromID) 
+    if (this.props.userFromID === this.props.userFromID)
       event.preventDefault();
   }
 
