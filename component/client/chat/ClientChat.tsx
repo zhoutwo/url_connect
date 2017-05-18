@@ -67,12 +67,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
 
   private updateRoomService(url: string) {
     room.setUrl(url, (data: IData) => {
-      console.log("more messages");
       this.setState({incomingMessage: data});
-      // this.setState((prevState: IClientChatState, props: IClientChatProps) => {
-      //   const updatedMessages = prevState.messages.concat(data);
-      //   return Object.assign({}, prevState, {messages: updatedMessages});
-      // });
     });
   }
 
