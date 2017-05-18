@@ -23,7 +23,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
 
     this.handleSend = this.handleSend.bind(this);
     this.startPrivateChatWith = this.startPrivateChatWith.bind(this);
-
+    this.listener = this.listener.bind(this);
     this.messenger = <Messenger handleSend={this.handleSend}/>;
     this.updateRoomService(this.props.url);
   }
@@ -34,6 +34,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
 
   public componentWillUnmount(): void {
     room.close();
+    room.removeMessageListener(this.listener);
   }
 
   public render(): JSX.Element {
@@ -60,16 +61,22 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     this.state = {
       messages : []
     };
-    room.setUrl(url, (data: IData) => {
-      this.setState((prevState: IClientChatState, props: IClientChatProps) => {
-        const updatedMessages = prevState.messages.concat(data);
-        return Object.assign({}, prevState, {messages: updatedMessages});
-      });
-    });
+
+    room.setUrl(url, this.listener);
   }
 
   private handleSend(message: string): void {
     room.pushMessage({userFrom: this.props.username, userFromID: this.props.userID, message});
+  }
+
+  private listener(data: any): void {
+    if (!data.video) {
+      data = data as IData;
+      this.setState((prevState: IClientChatState, props: IClientChatProps) => {
+        const updatedMessages = prevState.messages.concat(data);
+        return Object.assign({}, prevState, {messages: updatedMessages});
+      });
+    }
   }
 }
 

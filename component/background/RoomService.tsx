@@ -35,7 +35,9 @@ class RoomService implements IRoomService {
 
   public setUrl(url: string, onMessagePosted: (data: any) => void) {
     this.close();
-    this.listeners.push(onMessagePosted);
+    if (this.listeners.indexOf(onMessagePosted) < 0) {
+      this.listeners.push(onMessagePosted);
+    }
 
     const cleanUrl = url.replace(/[\\.]/g, ",")
                         .replace(/[#]/g, "!")
