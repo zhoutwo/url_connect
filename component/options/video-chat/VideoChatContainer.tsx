@@ -51,7 +51,6 @@ class VideoChatContainer extends React.Component<any, any> {
     };
 
     storage.get("peerId").then((peerId) => {
-      debugger;
       if (peerId) {
         // Caller
         this.peerId = peerId;
@@ -134,7 +133,6 @@ class VideoChatContainer extends React.Component<any, any> {
          8.Promise fulfilled: send the SDP answer through the signaling server to Naomi in a message of type “video-answer”
          */
         this.listener = (data: IVideoChatControl) => {
-          debugger;
           if (data.video) {
             storage.get(STORAGE_KEY_ID).then((selfId) => {
               if (data.toId === selfId) {
