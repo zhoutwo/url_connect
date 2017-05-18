@@ -15,7 +15,7 @@ interface IClientSettingState {
 }
 
 class ClientSetting extends React.Component<any, IClientSettingState> {
-  private storageListenerUnsubscriber: () => void;
+  private unsubscribe: () => void;
 
   constructor(props) {
     super(props);
@@ -46,11 +46,11 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
     });
 
     this.handleReload = this.handleReload.bind(this);
-    this.storageListenerUnsubscriber = storage.subscribe(this.handleReload);
+    this.unsubscribe = storage.subscribe(this.handleReload);
   }
 
   public componentWillUnmount() {
-    this.storageListenerUnsubscriber();
+    this.unsubscribe();
   }
 
   public render(): JSX.Element {
@@ -122,7 +122,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
   }
 
   private handleReload(data): void {
-    if (data.username) {
+    if (data.username && data.username.newValue !== undefined) {
       this.setState((prevState: IClientSettingState, props: any) => {
         const usernameField = {username: {
             original: data.username.newValue,

@@ -1,6 +1,6 @@
 {
   "name": "url_connect",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "A Google Chrome extension that enables users to talk to others who are viewing the same web page",
   "scripts": {
     "start": "webpack --config webpack.config.js --colors --watch --progress",
@@ -60,6 +60,7 @@
     "tslint-eslint-rules": "^4.0.0",
     "tslint-react": "^3.0.0",
     "typescript": "^2.3.2",
+    "uuid": "^3.0.1",
     "webpack": "^2.4.1",
     "yarn": "latest"
   }
