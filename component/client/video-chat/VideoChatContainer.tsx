@@ -33,13 +33,7 @@ class VideoChatContainer extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
-    this.setState({
-      localVideo: <video id="localVideo" autoPlay={true} muted={true}/>,
-      remoteVideo: <video id="remoteVideo" autoPlay={true}/>
-    });
-
     this.gotStream = this.gotStream.bind(this);
-
     const self = new RTCPeerConnection({
       iceServers: [
         {urls: "stun:stun.l.google.com:19302"},
@@ -50,9 +44,11 @@ class VideoChatContainer extends React.Component<any, any> {
       ]
     });
 
-    this.setState({
-      connection: self
-    });
+    this.state = {
+      connection: self,
+      localVideo: <video id="localVideo" autoPlay={true} muted={true}/>,
+      remoteVideo: <video id="remoteVideo" autoPlay={true}/>
+    };
 
     storage.get("peerId").then((peerId) => {
       if (peerId) {
@@ -248,8 +244,12 @@ class VideoChatContainer extends React.Component<any, any> {
     return (
       <Grid>
         <Row>
-          {this.state.localVideo}
-          {this.state.remoteVideo}
+          <div>
+            {this.state.localVideo}
+          </div>
+          <div>
+            {this.state.remoteVideo}
+          </div>
         </Row>
       </Grid>
     );
