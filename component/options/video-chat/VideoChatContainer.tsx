@@ -28,6 +28,7 @@ const closeVideoCall = (con: RTCPeerConnection) => {
   delete con.onsignalingstatechange;
   delete con.onicegatheringstatechange;
   delete con.onnegotiationneeded;
+  storage.remove("peerId");
 };
 
 class VideoChatContainer extends React.Component<any, any> {
