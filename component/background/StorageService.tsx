@@ -5,17 +5,35 @@ const STORAGE_TYPE = "sync";
 
 class StorageService {
   private storage: chrome.storage.StorageArea;
+  private status: boolean;
 
   constructor() {
     this.storage = chrome.storage.sync;
-    this.storage.get(STORAGE_KEY_ID, (response) => {
-      // If user id is not locally stored, generate a new one.
-      if (!response[STORAGE_KEY_ID]) {
-        const data: any = {};
-        data[STORAGE_KEY_ID] = this.generateUUID();
-        this.storage.set(data);
-      }
-    });
+    this.status = false;
+  }
+
+  /**
+   * Initialize the IStorageService
+   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the service is fully initialized.
+   */
+  public initialize(): Promise<any> {
+    if (this.status) {
+      return Promise.resolve();
+    } else {
+      return new Promise((resolve) => {
+        this.storage.get(STORAGE_KEY_ID, (response) => {
+          // If user id is not locally stored, generate a new one.
+          if (!response[STORAGE_KEY_ID]) {
+            const data: any = {};
+            data[STORAGE_KEY_ID] = this.generateUUID();
+            this.storage.set(data);
+
+            this.status = true;
+            resolve();
+          }
+        });
+      });
+    }
   }
 
   /**
@@ -23,6 +41,10 @@ class StorageService {
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after defaults are set
    */
   public reset(): Promise<{}> {
+    if (!this.status) {
+      this.initialize();
+    }
+
     return new Promise((resolve) => {
       this.storage.get(STORAGE_KEY_ID, (data) => {
         this.storage.clear(() => {
@@ -38,6 +60,10 @@ class StorageService {
    * @return {Promise<String>} The value associated with the key; undefined if not found
    */
   public get(key: string): Promise<any> {
+    if (!this.status) {
+      this.initialize();
+    }
+
     return new Promise((resolve) => {
       this.storage.get(key, (item) => {
         resolve(item[key]);
@@ -52,6 +78,10 @@ class StorageService {
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
    */
   public set(key: string, value: any): Promise<{}> {
+    if (!this.status) {
+      this.initialize();
+    }
+
     const data = {};
     data[key] = value;
 
@@ -66,6 +96,10 @@ class StorageService {
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
    */
   public remove(key: string): Promise<{}> {
+    if (!this.status) {
+      this.initialize();
+    }
+
     return new Promise((resolve) => {
       this.storage.remove(key, resolve);
     });
@@ -77,6 +111,10 @@ class StorageService {
    * @return  zero argument function that will unsubscribe the callback.
    */
   public subscribe(callback): () => void {
+    if (!this.status) {
+      this.initialize();
+    }
+
     const syncListener = (data: object, area: string) => {
       if (area === STORAGE_TYPE) {
         callback(data);

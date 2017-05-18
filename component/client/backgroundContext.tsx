@@ -28,6 +28,7 @@ export interface IStorageService {
    */
   reset(): Promise<void>;
 
+
   /**
    * Retrieves the stored value for the specified key
    * @param key The key to look up
@@ -55,12 +56,6 @@ export interface IStorageService {
    * @param callback The function that takes one parameter of data.
    */
   subscribe(callback);
-
-  /**
-   * Unsubscribes a callback from the onChanged event.
-   * @param callback The function that takes one parameter of data.
-   */
-  unsubscribe(callback);
 }
 
 export interface IUserService {
