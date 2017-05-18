@@ -10,9 +10,11 @@ interface IClientIndependentChatRoomState {
 }
 
 class ClientIndependentChatRoom extends React.Component<any, IClientIndependentChatRoomState> {
-  private static getCurrentTabUrl(callback) {
+  private unsubscribe: () => void;
+
+  private static getCurrentTabUrl(current: string, callback) {
     chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
-      callback(tabs[0] ? tabs[0].url : undefined);
+      callback(tabs[0] ? tabs[0].url : current);
     });
   }
 
@@ -23,6 +25,9 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
       userID: NOOP_USERNAME,
       username: NOOP_USERNAME
     };
+  }
+
+  public componentDidMount() {
     storage.get(STORAGE_KEY_ID)
       .then((userID) => {
         if (userID) {
@@ -39,17 +44,30 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
           });
         }
       });
-    ClientIndependentChatRoom.getCurrentTabUrl((url) => {
+    ClientIndependentChatRoom.getCurrentTabUrl(this.state.currentUrl, (url) => {
       if (url) {
         this.setState({
           currentUrl: url
         });
       }
     });
+
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.unsubscribe = storage.subscribe(this.handleUpdate);
+  }
+
+  public componentWillUnmount() {
+    this.unsubscribe();
   }
 
   public render() {
     return <ClientChat url={this.state.currentUrl} username={this.state.username} userID={this.state.userID}/>;
+  }
+
+  private handleUpdate(data) {
+    this.setState((prevState, props) => {
+      return {username: (data.username && data.username.newValue) ? data.username.newValue : prevState.username};
+    })
   }
 }
 
