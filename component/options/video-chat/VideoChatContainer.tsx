@@ -33,6 +33,9 @@ class VideoChatContainer extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.gotStream = this.gotStream.bind(this);
+    room.setUrl("videoChat", (data) => {
+      this.listener(data);
+    });
     const self = new RTCPeerConnection({
       iceServers: [
         {urls: "stun:stun.l.google.com:19302"},
@@ -60,28 +63,29 @@ class VideoChatContainer extends React.Component<any, any> {
            to configure Naomi’s WebRTC layer to know how Priya’s end of the connection is configured
            */
           this.listener = (data: IVideoChatControl) => {
-            storage.get(STORAGE_KEY_ID).then((selfId) => {
-              if (data.toId === selfId) {
-                if (data.type === "close") {
-                  closeVideoCall(self);
-                  return room.removeMessageListener(this.listener);
-                } else if (data.type === "video-answer") {
-                  // Set up the connection
-                  const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
-                  self.setRemoteDescription(desc)
-                  .then(() => {
-                    room.removeMessageListener(this.listener);
-                  });
-                } else if (data.type === "new-ice-candidate") {
-                  const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
-                  return self.addIceCandidate(candidate);
+            if (data.video) {
+              storage.get(STORAGE_KEY_ID).then((selfId) => {
+                if (data.toId === selfId) {
+                  if (data.type === "close") {
+                    closeVideoCall(self);
+                    return room.removeMessageListener(this.listener);
+                  } else if (data.type === "video-answer") {
+                    // Set up the connection
+                    const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
+                    self.setRemoteDescription(desc)
+                    .then(() => {
+                      room.removeMessageListener(this.listener);
+                    });
+                  } else if (data.type === "new-ice-candidate") {
+                    const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
+                    return self.addIceCandidate(candidate);
+                  }
                 }
-              }
-            }).catch((err) => {
-              console.error(err);
-            });
+              }).catch((err) => {
+                console.error(err);
+              });
+            }
           };
-          room.addMessageListener(this.listener);
 
           /*
           * 1.Create an SDP offer by calling RTCPeerConnection.createOffer()
@@ -130,47 +134,49 @@ class VideoChatContainer extends React.Component<any, any> {
          8.Promise fulfilled: send the SDP answer through the signaling server to Naomi in a message of type “video-answer”
          */
         this.listener = (data: IVideoChatControl) => {
-          storage.get(STORAGE_KEY_ID).then((selfId) => {
-            if (data.toId === selfId) {
-              if (data.type === "close") {
-                closeVideoCall(self);
-                return room.removeMessageListener(this.listener);
-              } else if (data.type === "video-offer") {
-                // Set up the connection
-                this.peerId = data.fromId;
-                const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
-                return self.setRemoteDescription(desc).then(() => {
-                  return navigator.mediaDevices.getUserMedia(mediaConstraints);
-                })
-                .then(this.gotStream)
-                .then(() => {
-                  return self.createAnswer();
-                }).then((answer) => {
-                  return self.setLocalDescription(answer);
-                }).then(() => {
-                  const payload: IVideoChatControl = {
-                    fromId: selfId,
-                    sdp: (self.localDescription as RTCSessionDescription).toJSON(),
-                    toId: data.fromId,
-                    type: "video-answer",
-                    video: true
-                  };
-                  room.pushMessage(payload);
-                });
-              } else if (data.type === "new-ice-candidate") {
-                /*
-                 1.Create an RTCIceCandidate object using the SDP provided in the candidate.
-                 2.Deliver the candidate to Priya’s ICE layer by passing it to RTCPeerConnection.addIceCandidate()
-                 */
-                const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
-                return self.addIceCandidate(candidate);
+          debugger;
+          if (data.video) {
+            storage.get(STORAGE_KEY_ID).then((selfId) => {
+              if (data.toId === selfId) {
+                if (data.type === "close") {
+                  closeVideoCall(self);
+                  return room.removeMessageListener(this.listener);
+                } else if (data.type === "video-offer") {
+                  // Set up the connection
+                  this.peerId = data.fromId;
+                  const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
+                  return self.setRemoteDescription(desc).then(() => {
+                    return navigator.mediaDevices.getUserMedia(mediaConstraints);
+                  })
+                  .then(this.gotStream)
+                  .then(() => {
+                    return self.createAnswer();
+                  }).then((answer) => {
+                    return self.setLocalDescription(answer);
+                  }).then(() => {
+                    const payload: IVideoChatControl = {
+                      fromId: selfId,
+                      sdp: (self.localDescription as RTCSessionDescription).toJSON(),
+                      toId: data.fromId,
+                      type: "video-answer",
+                      video: true
+                    };
+                    room.pushMessage(payload);
+                  });
+                } else if (data.type === "new-ice-candidate") {
+                  /*
+                   1.Create an RTCIceCandidate object using the SDP provided in the candidate.
+                   2.Deliver the candidate to Priya’s ICE layer by passing it to RTCPeerConnection.addIceCandidate()
+                   */
+                  const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
+                  return self.addIceCandidate(candidate);
+                }
               }
-            }
-          }).catch((err) => {
-            console.error(err);
-          });
+            }).catch((err) => {
+              console.error(err);
+            });
+          }
         };
-        room.addMessageListener(this.listener);
       }
     });
 
