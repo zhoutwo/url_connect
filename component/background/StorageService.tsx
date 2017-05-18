@@ -26,10 +26,10 @@ class StorageService {
           if (!response[STORAGE_KEY_ID]) {
             const data: any = {};
             data[STORAGE_KEY_ID] = this.generateUUID();
-            this.storage.set(data);
-
-            this.status = true;
-            resolve();
+            this.storage.set(data, () => {
+              this.status = true;
+              resolve();
+            });
           }
         });
       });
@@ -41,14 +41,12 @@ class StorageService {
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after defaults are set
    */
   public reset(): Promise<{}> {
-    if (!this.status) {
-      this.initialize();
-    }
-
     return new Promise((resolve) => {
-      this.storage.get(STORAGE_KEY_ID, (data) => {
-        this.storage.clear(() => {
-          this.storage.set(data, resolve);
+      this.initialize().then(() => {
+        this.storage.get(STORAGE_KEY_ID, (data) => {
+          this.storage.clear(() => {
+            this.storage.set(data, resolve);
+          });
         });
       });
     });
@@ -60,13 +58,11 @@ class StorageService {
    * @return {Promise<String>} The value associated with the key; undefined if not found
    */
   public get(key: string): Promise<any> {
-    if (!this.status) {
-      this.initialize();
-    }
-
     return new Promise((resolve) => {
-      this.storage.get(key, (item) => {
-        resolve(item[key]);
+      this.initialize().then(() => {
+        this.storage.get(key, (item) => {
+          resolve(item[key]);
+        });
       });
     });
   }
@@ -78,15 +74,13 @@ class StorageService {
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the value is set
    */
   public set(key: string, value: any): Promise<{}> {
-    if (!this.status) {
-      this.initialize();
-    }
-
     const data = {};
     data[key] = value;
 
     return new Promise((resolve) => {
-      this.storage.set(data, resolve);
+      this.initialize().then(() => {
+        this.storage.set(data, resolve);
+      });
     });
   }
 
@@ -96,12 +90,10 @@ class StorageService {
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
    */
   public remove(key: string): Promise<{}> {
-    if (!this.status) {
-      this.initialize();
-    }
-
     return new Promise((resolve) => {
-      this.storage.remove(key, resolve);
+      this.initialize().then(() => {
+        this.storage.remove(key, resolve);
+      });
     });
   }
 
@@ -111,10 +103,6 @@ class StorageService {
    * @return  zero argument function that will unsubscribe the callback.
    */
   public subscribe(callback): () => void {
-    if (!this.status) {
-      this.initialize();
-    }
-
     const syncListener = (data: object, area: string) => {
       if (area === STORAGE_TYPE) {
         callback(data);
