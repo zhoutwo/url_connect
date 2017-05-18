@@ -55,12 +55,6 @@ export interface IStorageService {
    * @param callback The function that takes one parameter of data.
    */
   subscribe(callback);
-
-  /**
-   * Unsubscribes a callback from the onChanged event.
-   * @param callback The function that takes one parameter of data.
-   */
-  unsubscribe(callback);
 }
 
 export interface IUserService {
