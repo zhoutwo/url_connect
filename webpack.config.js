@@ -3,7 +3,8 @@ const path = require("path");
 module.exports = {
   entry: {
     "client/src/browser_action/popup": "./component/client/main.tsx",
-    "client/src/bg/background": "./component/background/background.tsx"
+    "client/src/bg/background": "./component/background/background.tsx",
+    "client/src/options/options": "./component/options/options.tsx"
   },
   output: {
     path: __dirname,

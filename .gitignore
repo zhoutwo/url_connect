@@ -39,4 +39,5 @@ jspm_packages
 # Project specific files
 client/src/browser_action/*.js
 client/src/browser_action/*.js.map
-client/src/bg/background.js
+client/src/bg/*.js
+client/src/options/*.js

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Grid, Row} from "react-bootstrap";
-import {room, storage} from "../backgroundContext";
-import {STORAGE_KEY_ID} from "../Constants";
+import {room, storage} from "../../client/backgroundContext";
+import {STORAGE_KEY_ID} from "../../client/Constants";
 
 interface IVideoChatControl {
   fromId: string;
@@ -32,7 +32,7 @@ class VideoChatContainer extends React.Component<any, any> {
   private peerId: string;
   constructor(props) {
     super(props);
-
+    debugger;
     this.gotStream = this.gotStream.bind(this);
     const self = new RTCPeerConnection({
       iceServers: [
@@ -45,9 +45,7 @@ class VideoChatContainer extends React.Component<any, any> {
     });
 
     this.state = {
-      connection: self,
-      localVideo: <video id="localVideo" autoPlay={true} muted={true}/>,
-      remoteVideo: <video id="remoteVideo" autoPlay={true}/>
+      connection: self
     };
 
     storage.get("peerId").then((peerId) => {
@@ -236,7 +234,7 @@ class VideoChatContainer extends React.Component<any, any> {
 
     // Add track event is not yet available
     self.onaddstream = (event) => {
-      this.state.remoteVideo.srcObject = event.stream;
+      (document.getElementById("remoteVideo") as HTMLVideoElement).srcObject = event.stream;
     };
   }
 
@@ -244,19 +242,15 @@ class VideoChatContainer extends React.Component<any, any> {
     return (
       <Grid>
         <Row>
-          <div>
-            {this.state.localVideo}
-          </div>
-          <div>
-            {this.state.remoteVideo}
-          </div>
+          <video id="localVideo" autoPlay={true} muted={true}/>
+          <video id="remoteVideo" autoPlay={true}/>
         </Row>
       </Grid>
     );
   }
 
   public gotStream(stream) {
-    this.state.localVideo.srcObject = stream;
+    (document.getElementById("localVideo") as HTMLVideoElement).srcObject = stream;
     this.state.connection.addStream(stream);
   }
 }
