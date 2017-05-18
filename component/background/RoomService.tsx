@@ -89,7 +89,9 @@ class RoomService implements IRoomService {
   }
 
   public addMessageListener(listener: (message: any) => void) {
-    this.listeners.push(listener);
+    if (this.listeners.indexOf(listener) < 0) {
+      this.listeners.push(listener);
+    }
   }
 
   public removeMessageListener(listener: (message: any) => void) {
@@ -105,6 +107,7 @@ class RoomService implements IRoomService {
     if (!data || data.stopPropagation || !listeners || !listeners.length) {
       return;
     } else {
+      console.log(listeners[0]);
       listeners[0](data);
       listeners.shift();
       return this.runListeners(data, listeners);
