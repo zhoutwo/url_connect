@@ -21,4 +21,4 @@ To run the linter:
 ```
   yarn lint
 ```
- The linter settings are defined in `.eslintrc.json`.
+ The linter settings are defined in `tslint.json`.
