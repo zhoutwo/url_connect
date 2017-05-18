@@ -110,6 +110,7 @@ class ClientCore extends React.Component<any, ClientCoreState> {
   }
 
   private handleInit(data): void {
+    console.log("[ INFO ] : handleInit data", data);
     if (data.initialized) {
       this.setState({initialized: data.initialized.newValue});
     }
