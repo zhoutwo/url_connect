@@ -177,11 +177,7 @@ class VideoChatContainer extends React.Component<any, any> {
     self.onicecandidate = (event) => {
       const candidate = event.candidate;
       if (candidate) {
-        self.addIceCandidate(candidate)
-        .then(() => {
-          return storage.get(STORAGE_KEY_ID);
-        })
-        .then((selfId) => {
+        storage.get(STORAGE_KEY_ID).then((selfId) => {
           const data: IVideoChatControl = {
             candidate,
             fromId: selfId,
