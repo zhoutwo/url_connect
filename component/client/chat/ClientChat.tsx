@@ -61,7 +61,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
       messages : []
     };
     room.setUrl(url, (data: IData) => {
-      this.setState((prevState, props) => {
+      this.setState((prevState: IClientChatState, props: IClientChatProps) => {
         const updatedMessages = prevState.messages.concat(data);
         return Object.assign({}, prevState, {messages: updatedMessages});
       });
@@ -69,7 +69,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private handleSend(message: string): void {
-    room.pushMessage({userFromId: this.props.userID, userFrom: this.props.username, message});
+    room.pushMessage({userFrom: this.props.username, userFromID: this.props.userID, message});
   }
 }
 

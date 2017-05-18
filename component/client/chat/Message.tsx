@@ -7,6 +7,7 @@ interface IMessageProps {
   username: string;
   message: string;
   index: number;
+  userFromID: string;
   startPrivateChatWith: (userID: string) => void;
 }
 
@@ -15,6 +16,7 @@ class Message extends React.Component<IMessageProps, any> {
     super(props);
 
     this.startPrivateChat = this.startPrivateChat.bind(this);
+    this.handleContextMenu = this.handleContextMenu.bind(this);
   }
 
   public render(): JSX.Element {
@@ -24,12 +26,12 @@ class Message extends React.Component<IMessageProps, any> {
       backgroundColor: `${backgroundColor}`, // FIXME: I should not need to do this to the linter.
       color: fontColor
     };
-    const contextIdentifier = this.props.index + this.props.username;
+    const contextID = this.props.index + this.props.username;
 
     return (
       <div>
-        <ContextMenuTrigger id={contextIdentifier} disable={false && this.props.userID === this.props.username}>
-          <div>
+        <ContextMenuTrigger id={contextID} disable={false && this.props.userFromID === this.props.userID}>
+          <div onContextMenu={this.handleContextMenu}>
             <ListGroupItem bsStyle="info" style={messageStyle}>
               <Grid>
                 <Row>
@@ -45,8 +47,8 @@ class Message extends React.Component<IMessageProps, any> {
           </div>
         </ContextMenuTrigger>
 
-        <ContextMenu id={contextIdentifier}>
-          <MenuItem onClick={this.startPrivateChat}>
+        <ContextMenu id={contextID}>
+          <MenuItem data={{user: this.props.username}} onClick={this.startPrivateChat}>
             Private Chat with {this.props.username}
           </MenuItem>
         </ContextMenu>
@@ -57,6 +59,10 @@ class Message extends React.Component<IMessageProps, any> {
   private startPrivateChat(event) {
     event.preventDefault();
     this.props.startPrivateChatWith(this.props.userID);
+  }
+
+  private handleContextMenu(event) {
+    if (this.props.userFromID === this.props.userID) event.preventDefault();
   }
 
   /*

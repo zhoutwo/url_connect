@@ -1,14 +1,20 @@
 import {IStorageService} from "../client/backgroundContext";
 import {STORAGE_KEY_ID} from "../client/Constants";
 
+const STORAGE_TYPE = "sync";
+
 class StorageService {
   private storage: chrome.storage.StorageArea;
 
   constructor() {
     this.storage = chrome.storage.sync;
-    this.storage.get(STORAGE_KEY_ID, (id) => {
+    this.storage.get(STORAGE_KEY_ID, (response) => {
       // If user id is not locally stored, generate a new one.
-      if (!id) this.storage.set({STORAGE_KEY_ID: this.generateUUID()});
+      if (!response[STORAGE_KEY_ID]) {
+        const data: any = {};
+        data[STORAGE_KEY_ID] = this.generateUUID();
+        this.storage.set(data);
+      }
     });
   }
 
@@ -59,7 +65,7 @@ class StorageService {
    * @param key The key to remove
    * @return {Promise<{}>} A promise whose resolve takes no argument, which runs after the key is removed
    */
-  public remove(key): Promise<{}> {
+  public remove(key: string): Promise<{}> {
     return new Promise((resolve) => {
       this.storage.remove(key, resolve);
     });
@@ -67,18 +73,23 @@ class StorageService {
 
   /**
    * Subscribes a callback to an onChanged event.
-   * @param callback The function that takes one parameter of data.
+   * @param callback function that takes one parameter of data.
+   * @return  zero argument function that will unsubscribe the callback.
    */
-  public subscribe(callback): void {
-    chrome.storage.onChanged.addListener(callback);
-  }
+  public subscribe(callback): () => void {
+    const syncListener = (data: object, area: string) => {
+      if (area === STORAGE_TYPE) {
+        callback(data);
+      }
+    };
 
-  /**
-   * Unsubscribes a callback from the onChanged event.
-   * @param callback The function that takes one parameter of data.
-   */
-  public unsubscribe(callback): void {
-    chrome.storage.onChanged.removeListener(callback);
+    chrome.storage.onChanged.addListener(syncListener);
+
+    const unsubscriber = () => {
+      chrome.storage.onChanged.removeListener(syncListener);
+    };
+
+    return unsubscriber;
   }
 
   /*

@@ -49,7 +49,7 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
   }
 
   public render() {
-    return <ClientChat url={this.state.currentUrl} userID={this.state.userID} username={this.state.username}/>;
+    return <ClientChat url={this.state.currentUrl} username={this.state.username} userID={this.state.userID}/>;
   }
 }
 
