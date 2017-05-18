@@ -1,12 +1,13 @@
 import * as React from "react";
 import {Button, FormControl, FormGroup, Grid, Modal, Panel, Row} from "react-bootstrap";
 import {room, user} from "../backgroundContext";
+import {FIREBASE_REFERENCE_PRIVATE_ROOM, NOOP_ID, NOOP_USERNAME} from "../Constants";
 import ChatHistory from "./ChatHistory";
 import IData from "./IData";
 import Messenger from "./Messenger";
 
 interface IClientChatState {
-  messages: IData[];
+  incomingMessage: IData;
 }
 
 interface IClientChatProps {
@@ -20,6 +21,14 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
 
   constructor(props: IClientChatProps) {
     super(props);
+
+    this.state = {
+      incomingMessage: {
+        message: "",
+        userFrom: NOOP_USERNAME,
+        userFromID: NOOP_ID
+      }
+    };
 
     this.handleSend = this.handleSend.bind(this);
     this.startPrivateChatWith = this.startPrivateChatWith.bind(this);
@@ -42,7 +51,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
           <ChatHistory
             userID={this.props.userID}
-            messages={this.state.messages}
+            incomingMessage={this.state.incomingMessage}
             startPrivateChatWith={this.startPrivateChatWith}
           />
         </Panel>
@@ -51,20 +60,14 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public startPrivateChatWith(userID: string) {
-    const newRoom = user.getMySelf().child("privateRooms").push();
+    const newRoom = user.getMySelf().child(FIREBASE_REFERENCE_PRIVATE_ROOM).push();
     newRoom.set(newRoom.key);
-    user.getUser(userID).child("privateRooms").push().set(newRoom.key);
+    user.getUser(userID).child(FIREBASE_REFERENCE_PRIVATE_ROOM).push().set(newRoom.key);
   }
 
   private updateRoomService(url: string) {
-    this.state = {
-      messages : []
-    };
     room.setUrl(url, (data: IData) => {
-      this.setState((prevState: IClientChatState, props: IClientChatProps) => {
-        const updatedMessages = prevState.messages.concat(data);
-        return Object.assign({}, prevState, {messages: updatedMessages});
-      });
+      this.setState({incomingMessage: data});
     });
   }
 
