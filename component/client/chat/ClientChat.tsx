@@ -1,10 +1,10 @@
 import * as React from "react";
 import {Button, FormControl, FormGroup, Grid, Modal, Panel, Row} from "react-bootstrap";
 import {room, user} from "../backgroundContext";
+import {NOOP_ID, NOOP_USERNAME} from "../Constants";
 import ChatHistory from "./ChatHistory";
 import IData from "./IData";
 import Messenger from "./Messenger";
-import * as Constants from "../Constants";
 
 interface IClientChatState {
   incomingMessage: IData;
@@ -24,9 +24,9 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
 
     this.state = {
       incomingMessage: {
-        userFrom: Constants.NOOP_USERNAME,
-        userFromID: Constants.NOOP_ID,
-        message: ""
+        message: "",
+        userFrom: NOOP_USERNAME,
+        userFromID: NOOP_ID
       }
     };
 
@@ -42,7 +42,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public componentWillUnmount(): void {
-    // room.close();
+    room.close();
   }
 
   public render(): JSX.Element {

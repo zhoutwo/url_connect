@@ -67,7 +67,7 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
   private handleUpdate(data) {
     this.setState((prevState, props) => {
       return {username: (data.username && data.username.newValue) ? data.username.newValue : prevState.username};
-    })
+    });
   }
 }
 
