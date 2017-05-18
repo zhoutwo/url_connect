@@ -86,16 +86,6 @@ class VideoChatContainer extends React.Component<any, any> {
           room.addMessageListener(this.listener);
 
           /*
-           * 2.Call getUserMedia() to access the webcam and microphone
-           * 3.Promise fulfilled:add the local stream by calling RTCPeerConnection.addStream()
-           */
-          navigator.mediaDevices.getUserMedia(mediaConstraints)
-          .then(this.gotStream)
-          .catch((err) => {
-            console.error(err);
-          });
-
-          /*
           * 1.Create an SDP offer by calling RTCPeerConnection.createOffer()
           * 3.Promise fulfilled: set the description of Naomi’s end of the call by calling RTCPeerConnection.setLocalDescription()
           * 4.Promise fulfilled: send the offer through the signaling server to Priya in a message of type “video-offer”
@@ -118,6 +108,16 @@ class VideoChatContainer extends React.Component<any, any> {
             console.error(err);
           });
         };
+
+        /*
+         * 2.Call getUserMedia() to access the webcam and microphone
+         * 3.Promise fulfilled:add the local stream by calling RTCPeerConnection.addStream()
+         */
+        navigator.mediaDevices.getUserMedia(mediaConstraints)
+        .then(this.gotStream)
+        .catch((err) => {
+          console.error(err);
+        });
       } else {
         // Receiver
         /*
