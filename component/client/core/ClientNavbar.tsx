@@ -2,7 +2,7 @@ import * as React from "react";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 import {user} from "../backgroundContext";
-import {CHAT_LINK, PRIVATE_CHAT_LINK, SETTING_LINK} from "../Constants";
+import {CHAT_LINK, FIREBASE_EVENT_VALUE, PRIVATE_CHAT_LINK, SETTING_LINK} from "../Constants";
 
 interface IClientNavbarProps {
   initialKey: string;
@@ -13,6 +13,8 @@ interface IActiveKeyState {
   privateRooms: string[];
 }
 
+const PRIVATE_ROOM_REFERENCE = "privateRooms";
+
 class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> {
   private privateRoomsRef: firebase.database.Reference;
 
@@ -21,11 +23,11 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
 
     this.state = {
       activeKey: this.props.initialKey,
-      privateRooms: ["link1", "link2"]
+      privateRooms: []
     };
 
     this.handleNavigation = this.handleNavigation.bind(this);
-    this.privateRoomsRef = user.getMySelf().child("privateRooms");
+    this.privateRoomsRef = user.getMySelf().child(PRIVATE_ROOM_REFERENCE);
   }
 
   public handleNavigation(eventKey: any): void {
@@ -33,7 +35,7 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
   }
 
   public componentDidMount() {
-    this.privateRoomsRef.on("value", (data) => {
+    this.privateRoomsRef.on(FIREBASE_EVENT_VALUE, (data) => {
       const privateRooms: string[] = [];
       if (data && data.val()) {
         const val = data.val();

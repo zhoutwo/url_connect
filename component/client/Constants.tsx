@@ -12,3 +12,5 @@ export const NOOP_ID = "noopID";
 export const STORAGE_KEY_INITIALIZED = "initialized";
 export const STORAGE_KEY_USERNAME = "username";
 export const STORAGE_KEY_ID = "id";
+
+export const FIREBASE_EVENT_VALUE = "value";
