@@ -18,6 +18,9 @@ const mediaConstraints = {
 };
 
 const closeVideoCall = (con: RTCPeerConnection) => {
+  (document.getElementById("remoteVideo") as HTMLVideoElement).srcObject = null;
+  (document.getElementById("localVideo") as HTMLVideoElement).srcObject = null;
+  alert("Call closed!");
   delete con.onaddstream;
   delete con.onremovestream;
   delete con.onicecandidate;
