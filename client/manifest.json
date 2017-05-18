@@ -20,6 +20,7 @@
     "default_title": "url_connect",
     "default_popup": "src/browser_action/browser_action.html"
   },
+  "options_page": "src/options/options.html",
   "permissions": [
     "background",
     "history",
