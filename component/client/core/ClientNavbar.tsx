@@ -2,7 +2,7 @@ import * as React from "react";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 import {user} from "../backgroundContext";
-import {CHAT_LINK, PRIVATE_CHAT_LINK, SETTING_LINK} from "../Constants";
+import {CHAT_LINK, PRIVATE_CHAT_LINK, SETTING_LINK, VIDEO_CHAT_LINK} from "../Constants";
 
 interface IClientNavbarProps {
   initialKey: string;
@@ -65,6 +65,9 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
         <NavDropdown title="PrivateChat" id="nav-dropdown">
           {dropMenu}
         </NavDropdown>
+        <LinkContainer to={VIDEO_CHAT_LINK}>
+          <NavItem eventKey="video-chat"> Video Chat </NavItem>
+        </LinkContainer>
       </Nav>
     );
   }
