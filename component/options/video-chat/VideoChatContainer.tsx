@@ -32,7 +32,6 @@ class VideoChatContainer extends React.Component<any, any> {
   private peerId: string;
   constructor(props) {
     super(props);
-    debugger;
     this.gotStream = this.gotStream.bind(this);
     const self = new RTCPeerConnection({
       iceServers: [
@@ -49,6 +48,7 @@ class VideoChatContainer extends React.Component<any, any> {
     };
 
     storage.get("peerId").then((peerId) => {
+      debugger;
       if (peerId) {
         // Caller
         this.peerId = peerId;
@@ -95,7 +95,7 @@ class VideoChatContainer extends React.Component<any, any> {
           }).then((selfId) => {
             const payload: IVideoChatControl = {
               fromId: selfId,
-              sdp: self.localDescription,
+              sdp: (self.localDescription as RTCSessionDescription).toJSON(),
               toId: peerId,
               type: "video-offer",
               video: true
@@ -150,7 +150,7 @@ class VideoChatContainer extends React.Component<any, any> {
                 }).then(() => {
                   const payload: IVideoChatControl = {
                     fromId: selfId,
-                    sdp: self.localDescription,
+                    sdp: (self.localDescription as RTCSessionDescription).toJSON(),
                     toId: data.fromId,
                     type: "video-answer",
                     video: true
@@ -179,7 +179,7 @@ class VideoChatContainer extends React.Component<any, any> {
       if (candidate) {
         storage.get(STORAGE_KEY_ID).then((selfId) => {
           const data: IVideoChatControl = {
-            candidate,
+            candidate: (candidate as RTCIceCandidate).toJSON(),
             fromId: selfId,
             toId: this.peerId,
             type: "new-ice-candidate",
