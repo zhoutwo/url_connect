@@ -28,9 +28,9 @@ class StorageService {
             data[STORAGE_KEY_ID] = this.generateUUID();
             this.storage.set(data, () => {
               this.status = true;
-              resolve();
             });
           }
+          resolve();
         });
       });
     }
