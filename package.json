@@ -60,6 +60,7 @@
     "tslint-eslint-rules": "^4.0.0",
     "tslint-react": "^3.0.0",
     "typescript": "^2.3.2",
+    "uuid": "^3.0.1",
     "webpack": "^2.4.1",
     "yarn": "^0.24.4"
   }
