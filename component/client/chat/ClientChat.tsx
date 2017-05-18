@@ -4,9 +4,10 @@ import {room, user} from "../backgroundContext";
 import ChatHistory from "./ChatHistory";
 import IData from "./IData";
 import Messenger from "./Messenger";
+import * as Constants from "../Constants";
 
 interface IClientChatState {
-  messages: IData[];
+  incomingMessage: IData;
 }
 
 interface IClientChatProps {
@@ -21,6 +22,14 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   constructor(props: IClientChatProps) {
     super(props);
 
+    this.state = {
+      incomingMessage: {
+        userFrom: Constants.NOOP_USERNAME,
+        userFromID: Constants.NOOP_ID,
+        message: ""
+      }
+    };
+
     this.handleSend = this.handleSend.bind(this);
     this.startPrivateChatWith = this.startPrivateChatWith.bind(this);
 
@@ -33,7 +42,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public componentWillUnmount(): void {
-    room.close();
+    // room.close();
   }
 
   public render(): JSX.Element {
@@ -42,7 +51,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
           <ChatHistory
             userID={this.props.userID}
-            messages={this.state.messages}
+            incomingMessage={this.state.incomingMessage}
             startPrivateChatWith={this.startPrivateChatWith}
           />
         </Panel>
@@ -57,14 +66,13 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private updateRoomService(url: string) {
-    this.state = {
-      messages : []
-    };
     room.setUrl(url, (data: IData) => {
-      this.setState((prevState: IClientChatState, props: IClientChatProps) => {
-        const updatedMessages = prevState.messages.concat(data);
-        return Object.assign({}, prevState, {messages: updatedMessages});
-      });
+      console.log("more messages");
+      this.setState({incomingMessage: data});
+      // this.setState((prevState: IClientChatState, props: IClientChatProps) => {
+      //   const updatedMessages = prevState.messages.concat(data);
+      //   return Object.assign({}, prevState, {messages: updatedMessages});
+      // });
     });
   }
 

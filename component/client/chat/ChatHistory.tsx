@@ -7,7 +7,7 @@ import Message from "./Message";
 
 interface IHistoryProps {
   userID: string;
-  messages: IData[];
+  incomingMessage: IData;
   startPrivateChatWith: (userID: string) => void;
 }
 
@@ -15,49 +15,59 @@ class ChatHistory extends React.Component<IHistoryProps, any> {
   private historyEnd: HTMLElement;
   private shouldScroll: boolean;
   private lastPosition: number;
+  private messages: JSX.Element[];
 
   constructor(props: any) {
     super(props);
     this.shouldScroll = true;
+    this.messages = [];
+
     this.handleScroll = this.handleScroll.bind(this);
     this.setHistoryEnd = this.setHistoryEnd.bind(this);
-  }
-
-  public render(): JSX.Element {
-    const listGroupStyle = {
-      marginBottom: "3px",
-      marginTop: "3px"
-    };
-
-    const messages = this.props.messages.map((data, index) => (
-        <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle} >
-          <Message
-            isMyself={this.props.userID === data.userFromID}
-            userFromID={data.userFromID}
-            username={data.userFrom}
-            message={data.message}
-            index={index}
-            startPrivateChatWith={this.props.startPrivateChatWith}
-          />
-        </ListGroup> ));
-    return (
-      <div style={{overflow: "auto", height: "268px", minHeight: "268px", maxHeight: "268px"}} onScroll={this.handleScroll}>
-        {messages}
-        <div style={{float: "left", clear: "both"}} ref={this.setHistoryEnd} />
-      </div>
-    );
   }
 
   public componentWillReceiveProps(nextProps: IHistoryProps): void {
     // History receives a new message. Send the message and flag to scroll
     // to the bottom of the component.
-    this.shouldScroll = true;
+    if (this.props.incomingMessage !== nextProps.incomingMessage) {
+      this.shouldScroll = true;
+      this.messages.push(this.makeMessage(nextProps.incomingMessage, this.messages.length));
+    }
   }
 
   public componentDidUpdate(prevProps: IHistoryProps, prevState: any): void {
     if (this.shouldScroll) {
       this.scrollToBottom();
     }
+  }
+
+  public render(): JSX.Element {
+    return (
+      <div style={{overflow: "auto", height: "277px", minHeight: "277px", maxHeight: "277px"}} onScroll={this.handleScroll}>
+        {this.messages}
+        <div style={{float: "left", clear: "both"}} ref={this.setHistoryEnd} />
+      </div>
+    );
+  }
+
+  private makeMessage(data, index) {
+    const listGroupStyle = {
+      marginBottom: "3px",
+      marginTop: "3px"
+    };
+
+    return (
+      <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle} >
+        <Message
+          isMyself={this.props.userID === data.userFromID}
+          userFromID={data.userFromID}
+          username={data.userFrom}
+          message={data.message}
+          index={index}
+          startPrivateChatWith={this.props.startPrivateChatWith}
+        />
+      </ListGroup>
+    );
   }
 
   private setHistoryEnd(historyEnd: HTMLElement): void {
