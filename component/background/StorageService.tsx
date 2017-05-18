@@ -5,17 +5,35 @@ const STORAGE_TYPE = "sync";
 
 class StorageService {
   private storage: chrome.storage.StorageArea;
+  private status: boolean;
 
   constructor() {
     this.storage = chrome.storage.sync;
-    this.storage.get(STORAGE_KEY_ID, (response) => {
-      // If user id is not locally stored, generate a new one.
-      if (!response[STORAGE_KEY_ID]) {
-        const data: any = {};
-        data[STORAGE_KEY_ID] = this.generateUUID();
-        this.storage.set(data);
-      }
-    });
+    this.status = false;
+  }
+
+  /**
+   * Initialize the IStorageService
+   * @return {Promise<any>} A promise whose resolve takes no argument, which runs after the service is fully initialized.
+   */
+  public initialize(): Promise<any> {
+    if (this.status) {
+      return Promise.resolve();
+    } else {
+      return new Promise((resolve) => {
+        this.storage.get(STORAGE_KEY_ID, (response) => {
+          // If user id is not locally stored, generate a new one.
+          if (!response[STORAGE_KEY_ID]) {
+            const data: any = {};
+            data[STORAGE_KEY_ID] = this.generateUUID();
+            this.storage.set(data, () => {
+              this.status = true;
+              resolve();
+            });
+          }
+        });
+      });
+    }
   }
 
   /**
@@ -24,9 +42,11 @@ class StorageService {
    */
   public reset(): Promise<{}> {
     return new Promise((resolve) => {
-      this.storage.get(STORAGE_KEY_ID, (data) => {
-        this.storage.clear(() => {
-          this.storage.set(data, resolve);
+      this.initialize().then(() => {
+        this.storage.get(STORAGE_KEY_ID, (data) => {
+          this.storage.clear(() => {
+            this.storage.set(data, resolve);
+          });
         });
       });
     });
@@ -39,8 +59,10 @@ class StorageService {
    */
   public get(key: string): Promise<any> {
     return new Promise((resolve) => {
-      this.storage.get(key, (item) => {
-        resolve(item[key]);
+      this.initialize().then(() => {
+        this.storage.get(key, (item) => {
+          resolve(item[key]);
+        });
       });
     });
   }
@@ -56,7 +78,9 @@ class StorageService {
     data[key] = value;
 
     return new Promise((resolve) => {
-      this.storage.set(data, resolve);
+      this.initialize().then(() => {
+        this.storage.set(data, resolve);
+      });
     });
   }
 
@@ -67,7 +91,9 @@ class StorageService {
    */
   public remove(key: string): Promise<{}> {
     return new Promise((resolve) => {
-      this.storage.remove(key, resolve);
+      this.initialize().then(() => {
+        this.storage.remove(key, resolve);
+      });
     });
   }
 
