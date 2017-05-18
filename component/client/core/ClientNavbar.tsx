@@ -62,7 +62,7 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
         <LinkContainer to={SETTING_LINK}>
           <NavItem eventKey="setting"> Settings </NavItem>
         </LinkContainer>
-        <NavDropdown title="PrivateChat" id="nav-dropdown">
+        <NavDropdown title="Private Chat" id="nav-dropdown" disabled={this.state.privateRooms.length === 0}>
           {dropMenu}
         </NavDropdown>
       </Nav>
