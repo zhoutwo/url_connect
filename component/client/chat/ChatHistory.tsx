@@ -24,6 +24,7 @@ class ChatHistory extends React.Component<IHistoryProps, any> {
 
     this.handleScroll = this.handleScroll.bind(this);
     this.setHistoryEnd = this.setHistoryEnd.bind(this);
+    this.makeMessage = this.makeMessage.bind(this);
   }
 
   public componentWillReceiveProps(nextProps: IHistoryProps): void {
