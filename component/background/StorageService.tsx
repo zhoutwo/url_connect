@@ -8,9 +8,13 @@ class StorageService {
 
   constructor() {
     this.storage = chrome.storage.sync;
-    this.storage.get(STORAGE_KEY_ID, (id) => {
+    this.storage.get(STORAGE_KEY_ID, (response) => {
       // If user id is not locally stored, generate a new one.
-      if (!id) this.storage.set({STORAGE_KEY_ID: this.generateUUID()});
+      if (!response[STORAGE_KEY_ID]) {
+        const data: any = {};
+        data[STORAGE_KEY_ID] = this.generateUUID();
+        this.storage.set(data);
+      }
     });
   }
 
