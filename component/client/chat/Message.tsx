@@ -3,12 +3,12 @@ import {Col, Grid, ListGroupItem, Row} from "react-bootstrap";
 import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 
 interface IMessageProps {
-  userID: string;
+  isMyself: boolean;
+  userFromID: string;
   username: string;
   message: string;
   index: number;
-  userFromID: string;
-  startPrivateChatWith: (userID: string) => void;
+  startPrivateChatWith: (userFromID: string) => void;
 }
 
 class Message extends React.Component<IMessageProps, any> {
@@ -30,7 +30,7 @@ class Message extends React.Component<IMessageProps, any> {
 
     return (
       <div>
-        <ContextMenuTrigger id={contextID} disable={false && this.props.userFromID === this.props.userID}>
+        <ContextMenuTrigger id={contextID} disable={this.props.isMyself}>
           <div onContextMenu={this.handleContextMenu}>
             <ListGroupItem bsStyle="info" style={messageStyle}>
               <Grid>
@@ -58,11 +58,12 @@ class Message extends React.Component<IMessageProps, any> {
 
   private startPrivateChat(event) {
     event.preventDefault();
-    this.props.startPrivateChatWith(this.props.userID);
+    this.props.startPrivateChatWith(this.props.userFromID);
   }
 
   private handleContextMenu(event) {
-    if (this.props.userFromID === this.props.userID) event.preventDefault();
+    if (this.props.userFromID === this.props.userFromID) 
+      event.preventDefault();
   }
 
   /*
