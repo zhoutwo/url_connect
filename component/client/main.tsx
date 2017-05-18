@@ -12,7 +12,7 @@ ReactDOM.render((
     <ClientCore>
       <Redirect exact={true} path="/" to={Constants.CHAT_LINK} />
       <Route path={Constants.CHAT_LINK} component={ClientIndependentChatRoom} />
-      <Route path={`${Constants.PRIVATE_CHAT}/:url`} component={ClientPrivateChatRoom} />
+      <Route path={`${Constants.PRIVATE_CHAT_LINK}/:url`} component={ClientPrivateChatRoom} />
       <Route path={Constants.SETTING_LINK} component={ClientSetting} />
     </ClientCore>
   </Router>),   document.getElementById("root"));
