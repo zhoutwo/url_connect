@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Button, FormControl, FormGroup, Grid, Modal, Panel, Row} from "react-bootstrap";
 import {room, user} from "../backgroundContext";
-import {NOOP_ID, NOOP_USERNAME} from "../Constants";
+import {FIREBASE_REFERENCE_PRIVATE_ROOM, NOOP_ID, NOOP_USERNAME} from "../Constants";
 import ChatHistory from "./ChatHistory";
 import IData from "./IData";
 import Messenger from "./Messenger";
@@ -60,9 +60,9 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   public startPrivateChatWith(userID: string) {
-    const newRoom = user.getMySelf().child("privateRooms").push();
+    const newRoom = user.getMySelf().child(FIREBASE_REFERENCE_PRIVATE_ROOM).push();
     newRoom.set(newRoom.key);
-    user.getUser(userID).child("privateRooms").push().set(newRoom.key);
+    user.getUser(userID).child(FIREBASE_REFERENCE_PRIVATE_ROOM).push().set(newRoom.key);
   }
 
   private updateRoomService(url: string) {
