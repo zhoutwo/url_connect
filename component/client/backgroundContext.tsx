@@ -28,7 +28,6 @@ export interface IStorageService {
    */
   reset(): Promise<void>;
 
-
   /**
    * Retrieves the stored value for the specified key
    * @param key The key to look up
