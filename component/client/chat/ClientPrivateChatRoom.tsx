@@ -3,18 +3,13 @@ import {storage} from "../backgroundContext";
 import {NOOP_URL, NOOP_USERNAME, STORAGE_KEY_ID, STORAGE_KEY_USERNAME} from "../Constants";
 import ClientChat from "./ClientChat";
 
-interface IClientIndependentChatRoomState {
+interface IClientPrivateChatRoomState {
   userID: string;
   username: string;
   currentUrl: string;
 }
 
-class ClientIndependentChatRoom extends React.Component<any, IClientIndependentChatRoomState> {
-  private static getCurrentTabUrl(callback) {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
-      callback(tabs[0] ? tabs[0].url : undefined);
-    });
-  }
+class ClientPrivateChatRoom extends React.Component<any, IClientPrivateChatRoomState> {
 
   constructor() {
     super();
@@ -39,18 +34,11 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
           });
         }
       });
-    ClientIndependentChatRoom.getCurrentTabUrl((url) => {
-      if (url) {
-        this.setState({
-          currentUrl: url
-        });
-      }
-    });
   }
 
   public render() {
-    return <ClientChat url={this.state.currentUrl} username={this.state.username} userID={this.state.userID}/>;
+    return <ClientChat url={this.props.match.params.url} userID={this.state.userID}  username={this.state.username}/>;
   }
 }
 
-export default ClientIndependentChatRoom;
+export default ClientPrivateChatRoom;
