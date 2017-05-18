@@ -10,7 +10,7 @@ interface IClientChatState {
 }
 
 interface IClientChatProps {
-  userId: string;
+  userID: string;
   username: string;
   url: string;
 }
@@ -41,7 +41,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
       <div>
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
           <ChatHistory
-            userId={this.props.userId}
+            userID={this.props.userID}
             messages={this.state.messages}
             startPrivateChatWith={this.startPrivateChatWith}
           />
@@ -50,10 +50,10 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     );
   }
 
-  public startPrivateChatWith(userId: string) {
+  public startPrivateChatWith(userID: string) {
     const newRoom = user.getMySelf().child("privateRooms").push();
     newRoom.set(newRoom.key);
-    user.getUser(userId).child("privateRooms").push().set(newRoom.key);
+    user.getUser(userID).child("privateRooms").push().set(newRoom.key);
   }
 
   private updateRoomService(url: string) {
@@ -69,7 +69,7 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
   }
 
   private handleSend(message: string): void {
-    room.pushMessage({userFromId: this.props.userId, userFrom: this.props.username, message});
+    room.pushMessage({userFromId: this.props.userID, userFrom: this.props.username, message});
   }
 }
 

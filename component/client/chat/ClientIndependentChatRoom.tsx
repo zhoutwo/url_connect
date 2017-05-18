@@ -4,7 +4,7 @@ import {NOOP_URL, NOOP_USERNAME, STORAGE_KEY_ID, STORAGE_KEY_USERNAME} from "../
 import ClientChat from "./ClientChat";
 
 interface IClientIndependentChatRoomState {
-  userId: string;
+  userID: string;
   username: string;
   currentUrl: string;
 }
@@ -20,14 +20,14 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
     super();
     this.state = {
       currentUrl: NOOP_URL,
-      userId: NOOP_USERNAME,
+      userID: NOOP_USERNAME,
       username: NOOP_USERNAME
     };
     storage.get(STORAGE_KEY_ID)
-      .then((userId) => {
-        if (userId) {
+      .then((userID) => {
+        if (userID) {
           this.setState({
-            userId
+            userID
           });
         }
       });
@@ -49,7 +49,7 @@ class ClientIndependentChatRoom extends React.Component<any, IClientIndependentC
   }
 
   public render() {
-    return <ClientChat url={this.state.currentUrl} userId={this.state.userId} username={this.state.username}/>;
+    return <ClientChat url={this.state.currentUrl} userID={this.state.userID} username={this.state.username}/>;
   }
 }
 
