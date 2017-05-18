@@ -39,7 +39,6 @@ class ClientNavbar extends React.Component<IClientNavbarProps, IActiveKeyState> 
         const val = data.val();
         Object.keys(val).forEach((key) => privateRooms.push(val[key]));
       }
-      console.log("rooms: ", privateRooms);
       this.setState({
         privateRooms
       });
