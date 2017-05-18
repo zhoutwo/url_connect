@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Panel} from "react-bootstrap";
-import {room} from "../backgroundContext";
+import {Button, FormControl, FormGroup, Grid, Modal, Panel, Row} from "react-bootstrap";
+import {room, user} from "../backgroundContext";
 import ChatHistory from "./ChatHistory";
 import IData from "./IData";
 import Messenger from "./Messenger";
@@ -10,9 +10,9 @@ interface IClientChatState {
 }
 
 interface IClientChatProps {
+  userID: string;
   username: string;
   url: string;
-  userID: string;
 }
 
 class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
@@ -22,6 +22,8 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     super(props);
 
     this.handleSend = this.handleSend.bind(this);
+    this.startPrivateChatWith = this.startPrivateChatWith.bind(this);
+
     this.messenger = <Messenger handleSend={this.handleSend}/>;
     this.updateRoomService(this.props.url);
   }
@@ -38,10 +40,20 @@ class ClientChat extends React.Component<IClientChatProps, IClientChatState> {
     return (
       <div>
         <Panel header={`Chat at  ${this.props.url}`} bsStyle="primary" footer={this.messenger}>
-          <ChatHistory messages={this.state.messages} userID={this.props.userID} />
+          <ChatHistory
+            userID={this.props.userID}
+            messages={this.state.messages}
+            startPrivateChatWith={this.startPrivateChatWith}
+          />
         </Panel>
       </div>
     );
+  }
+
+  public startPrivateChatWith(userID: string) {
+    const newRoom = user.getMySelf().child("privateRooms").push();
+    newRoom.set(newRoom.key);
+    user.getUser(userID).child("privateRooms").push().set(newRoom.key);
   }
 
   private updateRoomService(url: string) {
