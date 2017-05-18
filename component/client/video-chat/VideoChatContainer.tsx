@@ -1,13 +1,15 @@
 import * as React from "react";
 import {Grid, Row} from "react-bootstrap";
-import {storage} from "../backgroundContext";
+import {room, storage} from "../backgroundContext";
 import {STORAGE_KEY_ID} from "../Constants";
 
 interface IVideoChatControl {
   fromId: string;
   toId: string;
   video: true;
-  type: "video-offer" | "video-answer";
+  type: "video-offer" | "video-answer" | "new-ice-candidate" | "close";
+  sdp?: RTCSessionDescription | null;
+  candidate?: RTCIceCandidate | null;
 }
 
 const mediaConstraints = {
@@ -26,6 +28,8 @@ const closeVideoCall = (con: RTCPeerConnection) => {
 };
 
 class VideoChatContainer extends React.Component<any, any> {
+  private listener;
+  private peerId: string;
   constructor(props) {
     super(props);
 
@@ -53,7 +57,48 @@ class VideoChatContainer extends React.Component<any, any> {
     storage.get("peerId").then((peerId) => {
       if (peerId) {
         // Caller
+        this.peerId = peerId;
         self.onnegotiationneeded = () => {
+          /*
+           Wait for answer....
+           1.Create an RTCSessionDescription using the received SDP answer
+           2.Pass the session description to RTCPeerConnection.setRemoteDescription()
+           to configure Naomi’s WebRTC layer to know how Priya’s end of the connection is configured
+           */
+          this.listener = (data: IVideoChatControl) => {
+            storage.get(STORAGE_KEY_ID).then((selfId) => {
+              if (data.toId === selfId) {
+                if (data.type === "close") {
+                  closeVideoCall(self);
+                  return room.removeMessageListener(this.listener);
+                } else if (data.type === "video-answer") {
+                  // Set up the connection
+                  const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
+                  self.setRemoteDescription(desc)
+                  .then(() => {
+                    room.removeMessageListener(this.listener);
+                  });
+                } else if (data.type === "new-ice-candidate") {
+                  const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
+                  return self.addIceCandidate(candidate);
+                }
+              }
+            }).catch((err) => {
+              console.error(err);
+            });
+          };
+          room.addMessageListener(this.listener);
+
+          /*
+           * 2.Call getUserMedia() to access the webcam and microphone
+           * 3.Promise fulfilled:add the local stream by calling RTCPeerConnection.addStream()
+           */
+          navigator.mediaDevices.getUserMedia(mediaConstraints)
+          .then(this.gotStream)
+          .catch((err) => {
+            console.error(err);
+          });
+
           /*
           * 1.Create an SDP offer by calling RTCPeerConnection.createOffer()
           * 3.Promise fulfilled: set the description of Naomi’s end of the call by calling RTCPeerConnection.setLocalDescription()
@@ -64,42 +109,23 @@ class VideoChatContainer extends React.Component<any, any> {
           }).then(() => {
             return storage.get(STORAGE_KEY_ID);
           }).then((selfId) => {
-            // TODO: Send it somehow
             const payload: IVideoChatControl = {
               fromId: selfId,
+              sdp: self.localDescription,
               toId: peerId,
               type: "video-offer",
               video: true
             };
+            room.pushMessage(payload);
           })
           .catch((err) => {
             console.error(err);
           });
         };
-
-        /*
-        * 2.Call getUserMedia() to access the webcam and microphone
-        * 3.Promise fulfilled:add the local stream by calling RTCPeerConnection.addStream()
-        */
-        navigator.mediaDevices.getUserMedia(mediaConstraints)
-        .then(this.gotStream)
-        .catch((err) => {
-          console.error(err);
-        });
-
-        /*
-         TODO: Wait for answer....
-         1.Create an RTCSessionDescription using the received SDP answer
-         2.Pass the session description to RTCPeerConnection.setRemoteDescription()
-         to configure Naomi’s WebRTC layer to know how Priya’s end of the connection is configured
-         */
-
       } else {
         // Receiver
-        const remoteSdp = 1;
-        const actualPeerId = "asdbsad";
         /*
-         TODO: Wait for offer...
+         Wait for offer...
          2.Create an RTCSessionDescription using the received SDP offer
          3.Call RTCPeerConnection.setRemoteDescription() to tell WebRTC about Naomi’s configuration.
          4.Call getUserMedia() to access the webcam and microphone
@@ -109,50 +135,89 @@ class VideoChatContainer extends React.Component<any, any> {
           by calling RTCPeerConnection.setLocalDescription()
          8.Promise fulfilled: send the SDP answer through the signaling server to Naomi in a message of type “video-answer”
          */
-        const desc = new RTCSessionDescription(remoteSdp);
-        self.setRemoteDescription(desc).then(() => {
-          return navigator.mediaDevices.getUserMedia(mediaConstraints);
-        }).then(this.gotStream)
+        this.listener = (data: IVideoChatControl) => {
+          storage.get(STORAGE_KEY_ID).then((selfId) => {
+            if (data.toId === selfId) {
+              if (data.type === "close") {
+                closeVideoCall(self);
+                return room.removeMessageListener(this.listener);
+              } else if (data.type === "video-offer") {
+                // Set up the connection
+                this.peerId = data.fromId;
+                const desc = new RTCSessionDescription(data.sdp as RTCSessionDescriptionInit);
+                return self.setRemoteDescription(desc).then(() => {
+                  return navigator.mediaDevices.getUserMedia(mediaConstraints);
+                })
+                .then(this.gotStream)
+                .then(() => {
+                  return self.createAnswer();
+                }).then((answer) => {
+                  return self.setLocalDescription(answer);
+                }).then(() => {
+                  const payload: IVideoChatControl = {
+                    fromId: selfId,
+                    sdp: self.localDescription,
+                    toId: data.fromId,
+                    type: "video-answer",
+                    video: true
+                  };
+                  room.pushMessage(payload);
+                });
+              } else if (data.type === "new-ice-candidate") {
+                /*
+                 1.Create an RTCIceCandidate object using the SDP provided in the candidate.
+                 2.Deliver the candidate to Priya’s ICE layer by passing it to RTCPeerConnection.addIceCandidate()
+                 */
+                const candidate = new RTCIceCandidate(data.candidate as RTCIceCandidateInit);
+                return self.addIceCandidate(candidate);
+              }
+            }
+          }).catch((err) => {
+            console.error(err);
+          });
+        };
+        room.addMessageListener(this.listener);
+      }
+    });
+
+    self.onicecandidate = (event) => {
+      const candidate = event.candidate;
+      if (candidate) {
+        self.addIceCandidate(candidate)
         .then(() => {
-          return self.createAnswer();
-        }).then((answer) => {
-          return self.setLocalDescription(answer);
-        }).then(() => {
           return storage.get(STORAGE_KEY_ID);
-        }).then((selfId) => {
-          // TODO: Send it somehow
-          const payload: IVideoChatControl = {
+        })
+        .then((selfId) => {
+          const data: IVideoChatControl = {
+            candidate,
             fromId: selfId,
-            toId: actualPeerId,
-            type: "video-offer",
+            toId: this.peerId,
+            type: "new-ice-candidate",
             video: true
           };
+          room.pushMessage(data);
         })
         .catch((err) => {
           console.error(err);
         });
       }
-    });
-
-    self.onicecandidate = (event) => {
-      self.addIceCandidate(event.candidate)
-      .catch((err) => {
-        console.error(err);
-      });
     };
-
-    // self.onicecandidate = (event) => {
-    //   if (event.candidate) {
-    //     // Somehow send the candidate to the other peer
-    //   }
-    // };
 
     self.oniceconnectionstatechange = (event) => {
       switch (self.iceConnectionState) {
         case "closed":
         case "failed":
         case "disconnected":
-          closeVideoCall(self);
+          storage.get(STORAGE_KEY_ID).then((selfId) => {
+            const data: IVideoChatControl = {
+              fromId: selfId,
+              toId: this.peerId,
+              type: "close",
+              video: true
+            };
+            room.pushMessage(data);
+            closeVideoCall(self);
+          });
           break;
         default:
         // Do nothing otherwise

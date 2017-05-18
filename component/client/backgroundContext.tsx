@@ -19,6 +19,18 @@ export interface IRoomService {
    * @param data the data to be sent in this room
    */
   pushMessage(data: any);
+
+  /**
+   * Adds a listener of the messages
+   * @param listener
+   */
+  addMessageListener(listener: (message: any) => void): void;
+
+  /**
+   * Removes a listener of the messages
+   * @param listener
+   */
+  removeMessageListener(listener: (message: any) => void): void;
 }
 
 export interface IStorageService {
