@@ -146,7 +146,7 @@ class ClientSetting extends React.Component<any, IClientSettingState> {
 
   private reset() {
     storage.reset().then(() => {
-      storage.set(STORAGE_KEY_INITIALIZED, "false");
+      storage.set(STORAGE_KEY_INITIALIZED, false);
       this.reloadSettings();
     });
   }
