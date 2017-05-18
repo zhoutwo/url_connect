@@ -6,9 +6,9 @@ import IData from "./IData";
 import Message from "./Message";
 
 interface IHistoryProps {
-  userId: string;
+  userID: string;
   messages: IData[];
-  startPrivateChatWith: (userId: string) => void;
+  startPrivateChatWith: (userID: string) => void;
 }
 
 class ChatHistory extends React.Component<IHistoryProps, any> {
@@ -32,7 +32,7 @@ class ChatHistory extends React.Component<IHistoryProps, any> {
     const messages = this.props.messages.map((data, index) => (
         <ListGroup key={index + data.userFrom + data.message} style={listGroupStyle} >
           <Message
-            userId={data.userFromId}
+            userID={data.userFromId}
             username={data.userFrom}
             message={data.message}
             index={index}
