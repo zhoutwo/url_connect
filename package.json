@@ -1,6 +1,6 @@
 {
   "name": "url_connect",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A Google Chrome extension that enables users to talk to others who are viewing the same web page",
   "scripts": {
     "start": "webpack --config webpack.config.js --colors --watch --progress",
