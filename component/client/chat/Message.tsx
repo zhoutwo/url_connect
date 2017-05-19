@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Col, Grid, ListGroupItem, Row} from "react-bootstrap";
 import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
+import {storage} from "../backgroundContext";
 
 interface IMessageProps {
   isMyself: boolean;
@@ -51,6 +52,9 @@ class Message extends React.Component<IMessageProps, any> {
           <MenuItem data={{user: this.props.username}} onClick={this.startPrivateChat}>
             Private Chat with {this.props.username}
           </MenuItem>
+          <MenuItem data={{peer: this.props.userFromID}} onClick={this.startVideoChat}>
+            Video Chat with {this.props.username}
+          </MenuItem>
         </ContextMenu>
       </div>
     );
@@ -59,6 +63,12 @@ class Message extends React.Component<IMessageProps, any> {
   private startPrivateChat(event) {
     event.preventDefault();
     this.props.startPrivateChatWith(this.props.userFromID);
+  }
+
+  private startVideoChat(event, data) {
+    event.preventDefault();
+    storage.set("peerId", data.peer);
+    // TODO: Maybe switch to video chat tab
   }
 
   private handleContextMenu(event) {

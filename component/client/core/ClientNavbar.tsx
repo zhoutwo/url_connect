@@ -1,6 +1,7 @@
 import * as React from "react";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
+
 import {user} from "../backgroundContext";
 import {CHAT_LINK, FIREBASE_EVENT_VALUE, FIREBASE_REFERENCE_PRIVATE_ROOM, PRIVATE_CHAT_LINK, SETTING_LINK} from "../Constants";
 

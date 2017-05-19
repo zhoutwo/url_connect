@@ -1,6 +1,7 @@
 export const CHAT_LINK = "/chat";
 export const SETTING_LINK = "/setting";
 export const PRIVATE_CHAT_LINK = "/privateChat";
+export const VIDEO_CHAT_LINK = "/video-chat";
 
 export const NOOP_ID = "noopID";
 export const NOOP_USERNAME = "noopUser";
