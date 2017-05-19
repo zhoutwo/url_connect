@@ -1,6 +1,8 @@
 # url_connect [![Build Status](https://travis-ci.org/zhoutwo/url_connect.svg?branch=master)](https://travis-ci.org/zhoutwo/url_connect)
 A Google Chrome extension that enables users to talk to others who are viewing the same web page
 
+The github repository is at https://github.com/zhoutwo/url_connect
+
 ## Development Setup
 Install the latest `yarn` package manager.
 ```
